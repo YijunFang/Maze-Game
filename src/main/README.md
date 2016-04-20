@@ -1,4 +1,4 @@
-## /src/java/
+## /src/main/
 
 Group classes into packages based on the greater requirement/feature they implement.
 

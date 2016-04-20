@@ -2,5 +2,5 @@
 
 Source files for JUnit tests
 
-Mirror the directory structure in `/src/java/`.
+Mirror the directory structure in `/src/main/`.
 

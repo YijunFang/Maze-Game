@@ -32,5 +32,6 @@ local.properties
 # IntelliJ
 .idea/*
 *.iws
+*.iml
 /out/
 
