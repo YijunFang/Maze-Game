@@ -1,6 +1,8 @@
 # SCOPE:
 * Generate mazes of varying difficulty level
 * Present an interactive GUI to the user
+* Save and load game(s) in progress
+* Calculate and display score for a game
 
 # USE CASES:
 * User launches the application
