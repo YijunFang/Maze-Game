@@ -35,6 +35,15 @@ public interface Maze<T> extends Graph<T> {
     Node<T> getEnd();
 
     /**
+     * Returns the {@link MazeRep.Node} in this Maze representing the square at the given coordinates.
+     *
+     * @param x the x-coordinate of the {@link MazeRep.Node}
+     * @param y the y-coordinate of the {@link MazeRep.Node}
+     * @return the {@link MazeRep} in this Maze representing the square at the given coordinates
+     */
+    Node<T> getNodeAt(int x, int y);
+
+    /**
      * Returns a string representation of this Maze.
      *
      * @return a string representation of this Maze
