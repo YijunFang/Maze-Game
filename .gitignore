@@ -35,3 +35,6 @@ local.properties
 *.iml
 /out/
 
+# Javadocs
+/doc/javadoc/*
+!/doc/javadoc/README.md
