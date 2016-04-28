@@ -7,6 +7,7 @@ Storyboards for the Main Menu screen
  * Splash text with title
  * Buttons:
     * New Game Button
+    * Continue Game Button
     * Quit Game
     
 ### Nice extra features
