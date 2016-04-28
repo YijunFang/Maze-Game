@@ -1,4 +1,0 @@
-## /doc/notes/
-
-Various notes
-
