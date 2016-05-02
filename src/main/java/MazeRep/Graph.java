@@ -60,6 +60,14 @@ public interface Graph<T> {
     boolean removeEdge(Node<T> node1, Node<T> node2);
 
     /**
+     * Returns a list of {@link MazeRep.Node}s that are adjacent to the specified node in this Graph.
+     *
+     * @param node the node to check for {@link MazeRep.Node}s adjacent to
+     * @return a list of {@link MazeRep.Node}s adjacent to the specified node
+     */
+    List<Node<T>> getNeighboursOf(Node<T> node);
+
+    /**
      * Finds the shortest path from a given starting {@link MazeRep.Node} and a given ending {@link MazeRep.Node}.
      *
      * @param from the starting {@link MazeRep.Node} of the path

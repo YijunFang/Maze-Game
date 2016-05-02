@@ -1,7 +1,5 @@
 package MazeRep;
 
-import java.util.List;
-
 /**
  * An interface for a generic data structure node.
  *
@@ -24,13 +22,6 @@ public interface Node<T> {
     boolean setValue(T t);
 
     /**
-     * Returns a list of Nodes that are adjacent to this Node.
-     *
-     * @return a list of adjacent Nodes
-     */
-    List<Node<T>> getNeighbours();
-
-    /**
      * Returns a string representation of this Node.
      *
      * @return a string representation of this Node
@@ -38,9 +29,9 @@ public interface Node<T> {
     String toString();
 
     /**
-     * Creates and returns a deep copy of this Node.
+     * Creates and returns a copy of this Node.
      *
-     * @return a deep copy of this Node
+     * @return a copy of this Node
      */
     Node<T> clone();
 }

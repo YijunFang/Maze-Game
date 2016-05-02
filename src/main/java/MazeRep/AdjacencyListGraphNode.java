@@ -1,44 +1,52 @@
 package MazeRep;
 
-import java.util.List;
-
 /**
+ * An implementation of a generic graph node.
+ *
  * @author john
  */
 public class AdjacencyListGraphNode<T> implements Node<T> {
 
     private T value;
-    private List<Node<T>> adjacentNodes;
 
+    /**
+     * Construct a new AdjacencyListGraphNode.
+     *
+     * @param value the value to be stored in this AdjacencyListGraphNode
+     */
     public AdjacencyListGraphNode(T value) {
         this.value = value;
     }
 
-    public AdjacencyListGraphNode(T value, List<Node<T>> adjacentNodes) {
-        if (adjacentNodes == null) {
-            throw new IllegalArgumentException("AdjacencyListGraphNode cannot be initialised with a null adjacency list.");
-        }
-        this.value = value;
-        this.adjacentNodes = adjacentNodes;
-    }
-
+    /**
+     * Returns the value stored in this AdjacencyListGraphNode.
+     *
+     * @return the value stored in this AdjacencyListGraphNode
+     */
     @Override
     public T getValue() {
-        return null;
+        return this.value;
     }
 
+    /**
+     * Changes the value stored in this AdjacencyListGraphNode
+     *
+     * @param t the value to be stored in this AdjacencyListGraphNode
+     * @return true if the specified value was successfully stored in this AdjacencyListGraphNode
+     */
     @Override
     public boolean setValue(T t) {
-        return false;
+        this.value = t;
+        return true;
     }
 
-    @Override
-    public List<Node<T>> getNeighbours() {
-        return null;
-    }
-
+    /**
+     * Creates and returns a copy of this AdjacencyListGraphNode
+     *
+     * @return a copy of this AdjacencyListGraphNode
+     */
     @Override
     public Node<T> clone() {
-        return null;
+        return new AdjacencyListGraphNode<>(this.value);
     }
 }
