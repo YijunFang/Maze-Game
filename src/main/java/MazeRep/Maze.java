@@ -1,11 +1,13 @@
 package MazeRep;
 
+import java.util.List;
+
 /**
  * An interface for an orthogonal maze implemented using a {@link MazeRep.Graph}.
  *
  * @author john
  */
-public interface Maze<T> extends Graph<T> {
+public interface Maze<T>/* extends Graph<T>*/ {
     /**
      * Returns the horizontal length of this Maze, with each square being 1 unit.
      *
@@ -42,6 +44,15 @@ public interface Maze<T> extends Graph<T> {
      * @return the {@link MazeRep} in this Maze representing the square at the given coordinates
      */
     Node<T> getNodeAt(int x, int y);
+
+    /**
+     * Finds the shortest path from a given starting {@link MazeRep.Node} and a given ending {@link MazeRep.Node}.
+     *
+     * @param from the starting {@link MazeRep.Node} of the path
+     * @param to the ending {@link MazeRep.Node} of the path
+     * @return an ordered list of {@link MazeRep.Node}s representing the shortest path if it exists, otherwise null
+     */
+    List<Node<T>> getShortestPath(Node<T> from, Node<T> to);
 
     /**
      * Returns a string representation of this Maze.
