@@ -10,10 +10,10 @@ import java.util.List;
  */
 public class GraphMaze<T> implements Maze<T> {
 
-    Graph<T> graph;
-    Node<T> start;
-    Node<T> end;
-    List<List<Node<T>>> grid;
+    private Graph<T> graph;
+    private Node<T> start;
+    private Node<T> end;
+    private List<List<Node<T>>> grid;
 
     public GraphMaze(int height, int length, int numCoins) {
         this.graph = null;
