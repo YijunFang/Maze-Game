@@ -89,9 +89,10 @@ public class GraphMaze<T> implements Maze<T> {
     /**
      * Returns the {@link MazeRep.Node} in this GraphMaze representing the square at the given coordinates.
      *
-     * @param down the x-coordinate of the {@link MazeRep.Node}
+     * @param down   the x-coordinate of the {@link MazeRep.Node}
      * @param across the y-coordinate of the {@link MazeRep.Node}
      * @return the {@link MazeRep.Node} in this GraphMaze representing the square at the given coordinates
+     * @throws IndexOutOfBoundsException if the given coordinates are out of the range of this GraphMaze
      */
     @Override
     public Node<T> getNodeAt(int down, int across) {
@@ -108,7 +109,7 @@ public class GraphMaze<T> implements Maze<T> {
      * Finds the shortest path from a given starting {@link MazeRep.Node} and a given ending {@link MazeRep.Node}.
      *
      * @param from the starting {@link MazeRep.Node} of the path
-     * @param to the ending {@link MazeRep.Node} of the path
+     * @param to   the ending {@link MazeRep.Node} of the path
      * @return an ordered list of {@link MazeRep.Node}s representing the shortest path if it exists, otherwise null
      */
     @Override

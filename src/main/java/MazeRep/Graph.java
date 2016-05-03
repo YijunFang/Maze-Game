@@ -71,7 +71,7 @@ public interface Graph<T> {
      * Finds the shortest path from a given starting {@link MazeRep.Node} and a given ending {@link MazeRep.Node}.
      *
      * @param from the starting {@link MazeRep.Node} of the path
-     * @param to the ending {@link MazeRep.Node} of the path
+     * @param to   the ending {@link MazeRep.Node} of the path
      * @return an ordered list of {@link MazeRep.Node}s representing the shortest path if it exists, otherwise null
      */
     List<Node<T>> getShortestPath(Node<T> from, Node<T> to);
