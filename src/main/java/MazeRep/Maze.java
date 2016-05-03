@@ -42,6 +42,7 @@ public interface Maze<T> {
      * @param down the x-coordinate of the {@link MazeRep.Node}
      * @param across the y-coordinate of the {@link MazeRep.Node}
      * @return the {@link MazeRep.Node} in this Maze representing the square at the given coordinates
+     * @throws IndexOutOfBoundsException if the given coordinates are out of the range of this Maze
      */
     Node<T> getNodeAt(int down, int across);
 

@@ -37,7 +37,9 @@ public interface Graph<T> {
      *
      * @param node1 one end {@link MazeRep.Node} of the edge to be added
      * @param node2 the other end {@link MazeRep.Node} of the edge to be added
-     * @return true if an edge was successfully added between the two given {@link MazeRep.Node}s to the Graph
+     * @return true if an edge was successfully added between the two given {@link MazeRep.Node}s to this Graph
+     * @throws IllegalArgumentException if either of the given {@link MazeRep.Node}s do not exist in this Graph
+     * @throws IllegalStateException    if a fatal error occurs when adding the edge to this Graph
      */
     boolean addEdge(Node<T> node1, Node<T> node2);
 
@@ -47,6 +49,7 @@ public interface Graph<T> {
      * @param node1 one end {@link MazeRep.Node} of the edge to check for existence
      * @param node2 the other end {@link MazeRep.Node} of the edge to check for existence
      * @return true if an edge exists between the two given {@link MazeRep.Node}s in this Graph
+     * @throws IllegalArgumentException if either of the given {@link MazeRep.Node}s do not exist in this Graph
      */
     boolean hasEdge(Node<T> node1, Node<T> node2);
 
@@ -55,7 +58,9 @@ public interface Graph<T> {
      *
      * @param node1 one end {@link MazeRep.Node} of the edge to be removed
      * @param node2 the other end {@link MazeRep.Node} of the edge to be removed
-     * @return true if an edge between the two given {@link MazeRep.Node}s was successfully removed from the Graph
+     * @return true if an edge between the two given {@link MazeRep.Node}s was successfully removed from this Graph
+     * @throws IllegalArgumentException if either of the given {@link MazeRep.Node}s do not exist in this Graph
+     * @throws IllegalStateException    if a fatal error occurs when removing the edge from this Graph
      */
     boolean removeEdge(Node<T> node1, Node<T> node2);
 
@@ -64,6 +69,7 @@ public interface Graph<T> {
      *
      * @param node the node to check for {@link MazeRep.Node}s adjacent to
      * @return a list of {@link MazeRep.Node}s adjacent to the specified node
+     * @throws IllegalArgumentException if the given {@link MazeRep.Node} does not exist in this Graph
      */
     List<Node<T>> getNeighboursOf(Node<T> node);
 
