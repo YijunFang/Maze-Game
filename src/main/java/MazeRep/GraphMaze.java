@@ -41,7 +41,7 @@ public class GraphMaze<T> implements Maze<T> {
             }
         }
 
-        // TODO: insert maze validation method here
+        // TODO: generate maze here or in another method?
     }
 
     /**
