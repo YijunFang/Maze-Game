@@ -1,7 +1,8 @@
 package MazeRep;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * An implementation of a generic orthogonal maze using a graph.
@@ -13,32 +14,29 @@ public class GraphMaze<T> implements Maze<T> {
     private Graph<T> graph;
     private Node<T> start;
     private Node<T> end;
-    private List<List<Node<T>>> grid;
+    private int length;
+    private int height;
+    private Map<CoordinatePair, Node<T>> grid;
 
     public GraphMaze(int height, int length, int numCoins) {
         this.graph = null;
         this.start = null;
         this.end = null;
         this.grid = null;
-
-        /* Initialise grid with nulls */
-        this.grid = new ArrayList<>(height);
-        for (int i = 0; i < height; i++) {
-            List<Node<T>> row = new ArrayList<>(length);
-            for (int j = 0; j < length; j++) {
-                row.add(null);
-            }
-            this.grid.add(row);
-        }
+        this.height = height;
+        this.length = length;
 
         /* Initialise empty graph */
         this.graph = new AdjacencyListGraph<>();
+
+        /* Initialise empty grid */
+        this.grid = new HashMap<>();
 
         /* Initialise nodes with nulls and populate grid and graph */
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < length; j++) {
                 Node<T> node = new AdjacencyListGraphNode<>(null);
-                this.grid.get(i).set(j, node);
+                this.grid.put(new CoordinatePair(i, j), node);
                 this.graph.addNode(node);
             }
         }
@@ -53,7 +51,7 @@ public class GraphMaze<T> implements Maze<T> {
      */
     @Override
     public int getLength() {
-        return this.grid.get(0).size();
+        return this.length;
     }
 
     /**
@@ -63,7 +61,7 @@ public class GraphMaze<T> implements Maze<T> {
      */
     @Override
     public int getHeight() {
-        return this.grid.size();
+        return this.height;
     }
 
     /**
@@ -96,13 +94,13 @@ public class GraphMaze<T> implements Maze<T> {
      */
     @Override
     public Node<T> getNodeAt(int down, int across) {
-        if (this.grid.size() < down) {
+        if (this.height < down) {
             throw new IndexOutOfBoundsException("GraphMaze has fewer rows than specified row " + down + ".");
         }
-        if (this.grid.get(down).size() < across) {
+        if (this.length < across) {
             throw new IndexOutOfBoundsException("GraphMaze has fewer columns than specified column " + across + ".");
         }
-        return this.grid.get(down).get(across);
+        return this.grid.get(new CoordinatePair(down, across));
     }
 
     /**
@@ -138,5 +136,33 @@ public class GraphMaze<T> implements Maze<T> {
     public Maze<T> clone() {
         // TODO: deep copy
         return null;
+    }
+
+    private class CoordinatePair {
+        public final int down;
+        public final int across;
+
+        public CoordinatePair(int down, int across) {
+            this.down = down;
+            this.across = across;
+        }
+
+        @Override
+        public int hashCode() {
+            return this.down ^ this.across;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == null) {
+                return false;
+            }
+            if (this.getClass() != obj.getClass()) {
+                return false;
+            } else {
+                CoordinatePair castedObj = (CoordinatePair)obj;
+                return (castedObj.down == this.down && castedObj.across == this.across);
+            }
+        }
     }
 }
