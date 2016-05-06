@@ -3,8 +3,7 @@ package MazeRep.MazeGenStrategy;
 import MazeRep.CoordinatePair;
 import MazeRep.ExposedGraphMaze;
 
-import java.util.HashMap;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * An implementation of a maze generation strategy using randomised recursive depth-first search.
@@ -21,6 +20,7 @@ public class RandomisedRecursiveDFS<T> implements MazeGenStrategy<T> {
     @Override
     public void generate(ExposedGraphMaze<T> maze, T defaultValue) {
         /* Initialise maze generation data structures */
+        Random random = new Random();
         CoordinatePair currCoordinatePair;
         Stack<CoordinatePair> stack = new Stack<>();
         HashMap<CoordinatePair, Boolean> visited = new HashMap<>();
@@ -31,16 +31,54 @@ public class RandomisedRecursiveDFS<T> implements MazeGenStrategy<T> {
         }
 
         /* Choose random cell to start */
-        currCoordinatePair = null; // TODO random start position
+        int randomDown = random.nextInt(maze.getHeight());
+        int randomAcross = random.nextInt(maze.getLength());
+        currCoordinatePair = new CoordinatePair(randomDown, randomAcross);
         visited.put(currCoordinatePair, true);
         /* Push starting cell coordinates to stack */
         stack.push(currCoordinatePair);
-        /* While there are univisited cells */
+        /* While there are unvisited cells */
         while (visited.containsValue(false)) {
-            if (false) {
+            /* Check for unvisited cells neighbouring the current cell */
+            List<CoordinatePair> neighbours = new ArrayList<>(4);
+            /* Checking above */
+            try {
+                maze.getNodeAt(currCoordinatePair.down - 1, currCoordinatePair.across);
+                neighbours.add(new CoordinatePair(currCoordinatePair.down - 1, currCoordinatePair.across));
+            } catch (IndexOutOfBoundsException e) {
+                /* No cell above current cell */
+            }
+            /* Checking to the right */
+            try {
+                maze.getNodeAt(currCoordinatePair.down, currCoordinatePair.across - 1);
+                neighbours.add(new CoordinatePair(currCoordinatePair.down, currCoordinatePair.across - 1));
+            } catch (IndexOutOfBoundsException e) {
+                /* No cell to the right of current cell */
+            }
+            /* Checking below */
+            try {
+                maze.getNodeAt(currCoordinatePair.down + 1, currCoordinatePair.across);
+                neighbours.add(new CoordinatePair(currCoordinatePair.down + 1, currCoordinatePair.across));
+            } catch (IndexOutOfBoundsException e) {
+                /* No cell below current cell */
+            }
+            /* Checking to the left */
+            try {
+                maze.getNodeAt(currCoordinatePair.down, currCoordinatePair.across + 1);
+                neighbours.add(new CoordinatePair(currCoordinatePair.down, currCoordinatePair.across + 1));
+            } catch (IndexOutOfBoundsException e) {
+                /* No cell to the left of current cell */
+            }
+            List<CoordinatePair> unvisitedNeighbours = new ArrayList<>(4);
+            for (CoordinatePair neighbourCoordinatePair : neighbours) {
+                if (!visited.get(neighbourCoordinatePair)) {
+                    unvisitedNeighbours.add(neighbourCoordinatePair);
+                }
+            }
+            if (!unvisitedNeighbours.isEmpty()) {
                 /* If the current cell has any unvisited neighbours */
                 /* Randomly choose one of the unvisited neighbours */
-                CoordinatePair chosenCoordinatePair = null; // TODO choose neighbour
+                CoordinatePair chosenCoordinatePair = neighbours.get(random.nextInt(neighbours.size()));
                 /* Push the current cell to the stack */
                 stack.push(currCoordinatePair);
                 /* Connect the current cell to the chosen cell */
@@ -50,6 +88,7 @@ public class RandomisedRecursiveDFS<T> implements MazeGenStrategy<T> {
                 );
                 /* Make the chosen cell the current cell and mark it as visited */
                 currCoordinatePair = chosenCoordinatePair;
+                visited.put(chosenCoordinatePair, true);
             } else if (!stack.isEmpty()) {
                 /* Otherwise, if the stack is empty */
                 /* Pop a cell from the stack and make it the current cell */

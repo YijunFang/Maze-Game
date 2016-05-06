@@ -108,11 +108,15 @@ public class GraphMaze<T> implements ExposedGraphMaze<T> {
      */
     @Override
     public Node<T> getNodeAt(int down, int across) {
-        if (this.height < down) {
+        if (down >= this.height) {
             throw new IndexOutOfBoundsException("GraphMaze has fewer rows than specified row " + down + ".");
+        } else if (down < 0) {
+            throw new IndexOutOfBoundsException("Specified row number must be greater than 0.");
         }
-        if (this.length < across) {
+        if (across >= this.length) {
             throw new IndexOutOfBoundsException("GraphMaze has fewer columns than specified column " + across + ".");
+        } else if (across < 0) {
+            throw new IndexOutOfBoundsException("Specified column number must be greater than 0.");
         }
         return this.grid.get(new CoordinatePair(down, across));
     }
