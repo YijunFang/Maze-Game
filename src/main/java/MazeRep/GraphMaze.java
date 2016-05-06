@@ -10,7 +10,7 @@ import java.util.Stack;
  *
  * @author john
  */
-public class GraphMaze<T> implements Maze<T> {
+public class GraphMaze<T> implements ExposedGraphMaze<T> {
 
     private Graph<T> graph;
     private Node<T> start;
@@ -56,15 +56,6 @@ public class GraphMaze<T> implements Maze<T> {
                 this.graph.addNode(node);
             }
         }
-    }
-
-    public void generateMaze(T defaultValue) {
-        /* Generate maze */
-        GraphMazeGenerator<T> graphMazeGenerator = new GraphMazeGenerator<>(this, defaultValue);
-        graphMazeGenerator.generateMaze();
-
-        /* Validate maze */
-        // TODO
     }
 
     /**
@@ -161,79 +152,23 @@ public class GraphMaze<T> implements Maze<T> {
         return null;
     }
 
-    private class CoordinatePair {
-        public final int down;
-        public final int across;
-
-        public CoordinatePair(int down, int across) {
-            this.down = down;
-            this.across = across;
-        }
-
-        @Override
-        public int hashCode() {
-            return this.down ^ this.across;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (obj == null) {
-                return false;
-            }
-            if (this.getClass() != obj.getClass()) {
-                return false;
-            } else {
-                CoordinatePair castedObj = (CoordinatePair)obj;
-                return (castedObj.down == this.down && castedObj.across == this.across);
-            }
-        }
+    /**
+     * Returns the internal graph representation of this GraphMaze.
+     *
+     * @return the internal graph representation of this GraphMaze
+     */
+    @Override
+    public Graph<T> getGraph() {
+        return this.graph;
     }
 
-    private class GraphMazeGenerator<T> {
-        private GraphMaze<T> graphMaze;
-        private T defaultValue;
-        private Stack<CoordinatePair> stack;
-        private Map<CoordinatePair, Boolean> visited;
-
-        public GraphMazeGenerator(GraphMaze<T> graphMaze, T defaultValue) {
-            this.graphMaze = graphMaze;
-            this.defaultValue = defaultValue;
-            this.stack = new Stack<>();
-            this.visited = new HashMap<>();
-            for (int i = 0; i < this.graphMaze.height; i++) {
-                for (int j = 0; j < this.graphMaze.length; j++) {
-                    this.visited.put(new CoordinatePair(i, j), false);
-                }
-            }
-        }
-
-        public void generateMaze() {
-            /* Choose random edge node to start */
-            CoordinatePair currCoordinatePair = null; // TODO random start position
-            this.visited.put(currCoordinatePair, true);
-            /* Push starting node coordinates to stack */
-            this.stack.push(currCoordinatePair);
-            /* While there are unvisited cells */
-            while (this.visited.containsValue(false)) {
-                if (false) { // TODO: condition
-                    /* If the current cell has any unvisited neighbours */
-                    /* Choose randomly one of the unvisited neighbours */
-                    CoordinatePair chosenCoordinatePair = null; // TODO choose neighbour
-                    /* Push the current cell to the stack */
-                    this.stack.push(currCoordinatePair);
-                    /* Connect the current cell to the chosen cell */
-                    this.graphMaze.graph.addEdge(
-                            this.graphMaze.getNodeAt(currCoordinatePair.down, currCoordinatePair.across),
-                            this.graphMaze.getNodeAt(chosenCoordinatePair.down, chosenCoordinatePair.across));
-                    /* Make the chosen cell the current cell and mark it as visited */
-                    currCoordinatePair = chosenCoordinatePair;
-                    this.visited.put(currCoordinatePair, true);
-                } else if (!this.stack.isEmpty()) {
-                    /* Else if the stack is not empty */
-                    /* Pop a cell from the stack and make it the current cell */
-                    currCoordinatePair = stack.pop();
-                }
-            }
-        }
+    /**
+     * Returns the internal grid representation of this GraphMaze.
+     *
+     * @return the internal grid representation of this GraphMaze
+     */
+    @Override
+    public Map<CoordinatePair, Node<T>> getGrid() {
+        return this.grid;
     }
 }
