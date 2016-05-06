@@ -3,6 +3,7 @@ package MazeRep;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * An implementation of a generic orthogonal maze using a graph.
@@ -18,13 +19,28 @@ public class GraphMaze<T> implements Maze<T> {
     private int height;
     private Map<CoordinatePair, Node<T>> grid;
 
-    public GraphMaze(int height, int length, int numCoins) {
+    /**
+     * Constructs an empty GraphMaze with the specified dimensions
+     *
+     * @param height the unit height of the maze
+     * @param length the unit length of the maze
+     * @throws IllegalArgumentException if either of the dimensions specified are not greater than 0
+     */
+    public GraphMaze(int height, int length) {
         this.graph = null;
         this.start = null;
         this.end = null;
         this.grid = null;
         this.height = height;
         this.length = length;
+
+        /* Parameter checking */
+        if (height <= 0) {
+            throw new IllegalArgumentException("Height of maze must be greater than 0");
+        }
+        if (length <= 0) {
+            throw new IllegalArgumentException("Length of maze must be greater than 0");
+        }
 
         /* Initialise empty graph */
         this.graph = new AdjacencyListGraph<>();
@@ -40,8 +56,15 @@ public class GraphMaze<T> implements Maze<T> {
                 this.graph.addNode(node);
             }
         }
+    }
 
-        // TODO: generate maze here or in another method?
+    public void generateMaze(T defaultValue) {
+        /* Generate maze */
+        GraphMazeGenerator<T> graphMazeGenerator = new GraphMazeGenerator<>(this, defaultValue);
+        graphMazeGenerator.generateMaze();
+
+        /* Validate maze */
+        // TODO
     }
 
     /**
@@ -162,6 +185,54 @@ public class GraphMaze<T> implements Maze<T> {
             } else {
                 CoordinatePair castedObj = (CoordinatePair)obj;
                 return (castedObj.down == this.down && castedObj.across == this.across);
+            }
+        }
+    }
+
+    private class GraphMazeGenerator<T> {
+        private GraphMaze<T> graphMaze;
+        private T defaultValue;
+        private Stack<CoordinatePair> stack;
+        private Map<CoordinatePair, Boolean> visited;
+
+        public GraphMazeGenerator(GraphMaze<T> graphMaze, T defaultValue) {
+            this.graphMaze = graphMaze;
+            this.defaultValue = defaultValue;
+            this.stack = new Stack<>();
+            this.visited = new HashMap<>();
+            for (int i = 0; i < this.graphMaze.height; i++) {
+                for (int j = 0; j < this.graphMaze.length; j++) {
+                    this.visited.put(new CoordinatePair(i, j), false);
+                }
+            }
+        }
+
+        public void generateMaze() {
+            /* Choose random edge node to start */
+            CoordinatePair currCoordinatePair = null; // TODO random start position
+            this.visited.put(currCoordinatePair, true);
+            /* Push starting node coordinates to stack */
+            this.stack.push(currCoordinatePair);
+            /* While there are unvisited cells */
+            while (this.visited.containsValue(false)) {
+                if (false) { // TODO: condition
+                    /* If the current cell has any unvisited neighbours */
+                    /* Choose randomly one of the unvisited neighbours */
+                    CoordinatePair chosenCoordinatePair = null; // TODO choose neighbour
+                    /* Push the current cell to the stack */
+                    this.stack.push(currCoordinatePair);
+                    /* Connect the current cell to the chosen cell */
+                    this.graphMaze.graph.addEdge(
+                            this.graphMaze.getNodeAt(currCoordinatePair.down, currCoordinatePair.across),
+                            this.graphMaze.getNodeAt(chosenCoordinatePair.down, chosenCoordinatePair.across));
+                    /* Make the chosen cell the current cell and mark it as visited */
+                    currCoordinatePair = chosenCoordinatePair;
+                    this.visited.put(currCoordinatePair, true);
+                } else if (!this.stack.isEmpty()) {
+                    /* Else if the stack is not empty */
+                    /* Pop a cell from the stack and make it the current cell */
+                    currCoordinatePair = stack.pop();
+                }
             }
         }
     }

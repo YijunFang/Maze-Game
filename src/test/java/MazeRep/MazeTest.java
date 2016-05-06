@@ -16,7 +16,7 @@ public class MazeTest {
 
     @Before
     public void setUp() throws Exception {
-        this.maze = new GraphMaze<>(3, 2, 0);
+        this.maze = new GraphMaze<>(3, 2);
     }
 
     @Test
