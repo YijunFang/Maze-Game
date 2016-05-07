@@ -47,6 +47,15 @@ public interface Maze<T> {
     Node<T> getNodeAt(int down, int across);
 
     /**
+     * Returns the {@link CoordinatePair} reference of the given node representation of a square in this Maze.
+     *
+     * @param node a {@link Node} in this Maze
+     * @return the {@link CoordinatePair} reference of the given node representation of a square in this Maze
+     * @throws IllegalArgumentException if the given {@link Node} does not exist in this Maze
+     */
+    CoordinatePair getCoordinatesOf(Node<T> node);
+
+    /**
      * Finds the shortest path from a given starting {@link MazeRep.Node} and a given ending {@link MazeRep.Node}.
      *
      * @param from the starting {@link MazeRep.Node} of the path

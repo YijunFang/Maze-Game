@@ -20,12 +20,12 @@ public class MazeFactoryTest {
 
     @Test
     public void generateMaze() throws Exception {
-        Maze<Content> contentMaze = contentMazeFactory.generateMaze(GraphMaze.class, 2, 2, Content.EMPTY);
+        Maze<Content> contentMaze = contentMazeFactory.generateMaze(GraphMaze.class, 4, 4, Content.EMPTY);
         assertNotNull(contentMaze);
-        assertEquals(2, contentMaze.getHeight());
-        assertEquals(2, contentMaze.getLength());
+        assertEquals(4, contentMaze.getHeight());
+        assertEquals(4, contentMaze.getLength());
         assertEquals(Content.EMPTY, contentMaze.getNodeAt(0, 0).getValue());
-        assertEquals(Content.EMPTY, contentMaze.getNodeAt(1, 1).getValue());
+        assertEquals(Content.EMPTY, contentMaze.getNodeAt(3, 3).getValue());
         Maze<String> stringMaze = stringMazeFactory.generateMaze(GraphMaze.class, 2, 2, "foobar");
         assertNotNull(stringMaze);
         assertEquals(2, stringMaze.getHeight());

@@ -3,6 +3,8 @@ package MazeRep;
 import MazeRep.MazeGenStrategy.MazeGenStrategy;
 import MazeRep.MazeGenStrategy.RandomisedRecursiveDFS;
 
+import java.util.Random;
+
 /**
  * A factory for creating and initialising {@link MazeRep.Maze} objects with objects of type T as values in each square.
  *
@@ -36,6 +38,25 @@ public class MazeFactory<T> {
             strategy.generate(maze, defaultValue);
         } else {
             throw new NullPointerException("Given maze generation strategy is null");
+        }
+
+        /* Choose a random start and end */
+        Random rand = new Random();
+        int startDown;
+        int endDown;
+        int startAcross;
+        int endAcross;
+        do {
+            startDown = rand.nextInt(height);
+            startAcross = rand.nextInt(length);
+            endDown = rand.nextInt(height);
+            endAcross = rand.nextInt(length);
+        } while (startDown == endDown && startAcross == endAcross);
+        if (!maze.setStart(maze.getNodeAt(startDown, startAcross))) {
+            throw new IllegalStateException("Could not set start point of the maze");
+        }
+        if (!maze.setEnd(maze.getNodeAt(endDown, endAcross))) {
+            throw new IllegalStateException("Could not set end point of the maze");
         }
 
         /* Validate maze */

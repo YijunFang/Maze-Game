@@ -1,9 +1,9 @@
 package MazeRep;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
+import MazeRep.MazeSearch.GraphMazeSearchState;
+import MazeRep.MazeSearch.SearchState;
+
+import java.util.*;
 
 /**
  * An implementation of a generic orthogonal maze using a graph.
@@ -18,6 +18,7 @@ public class GraphMaze<T> implements ExposedGraphMaze<T> {
     private int length;
     private int height;
     private Map<CoordinatePair, Node<T>> grid;
+    private Map<Node<T>, CoordinatePair> inverseGrid;
 
     /**
      * Constructs an empty GraphMaze with the specified dimensions
@@ -45,14 +46,17 @@ public class GraphMaze<T> implements ExposedGraphMaze<T> {
         /* Initialise empty graph */
         this.graph = new AdjacencyListGraph<>();
 
-        /* Initialise empty grid */
+        /* Initialise empty grids */
         this.grid = new HashMap<>();
+        this.inverseGrid = new HashMap<>();
 
         /* Initialise nodes with nulls and populate grid and graph */
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < length; j++) {
                 Node<T> node = new AdjacencyListGraphNode<>(null);
-                this.grid.put(new CoordinatePair(i, j), node);
+                CoordinatePair coordinatePair = new CoordinatePair(i, j);
+                this.grid.put(coordinatePair, node);
+                this.inverseGrid.put(node, coordinatePair);
                 this.graph.addNode(node);
             }
         }
@@ -122,6 +126,22 @@ public class GraphMaze<T> implements ExposedGraphMaze<T> {
     }
 
     /**
+     * Returns the {@link CoordinatePair} reference of the given node representation of a square in this Maze.
+     *
+     * @param node a {@link Node} in this Maze
+     * @return the {@link CoordinatePair} reference of the given node representation of a square in this Maze
+     * @throws IllegalArgumentException if the given {@link Node} does not exist in this Maze
+     */
+    @Override
+    public CoordinatePair getCoordinatesOf(Node<T> node) {
+        if (this.graph.hasNode(node)) {
+            return this.inverseGrid.get(node);
+        } else {
+            throw new IllegalArgumentException("Given node does not exist in this Maze");
+        }
+    }
+
+    /**
      * Finds the shortest path from a given starting {@link MazeRep.Node} and a given ending {@link MazeRep.Node}.
      *
      * @param from the starting {@link MazeRep.Node} of the path
@@ -130,8 +150,109 @@ public class GraphMaze<T> implements ExposedGraphMaze<T> {
      */
     @Override
     public List<Node<T>> getShortestPath(Node<T> from, Node<T> to) {
-        // TODO: pathfinding algorithm
-        return null;
+        /* Initialise A* search data structures */
+        CoordinatePair startCoordinatePair = null;
+        CoordinatePair goalCoordinatePair = null;
+        for (Map.Entry<CoordinatePair, Node<T>> entry : this.grid.entrySet()) {
+            if (entry.getValue().equals(from)) {
+                startCoordinatePair = entry.getKey();
+            }
+            if (entry.getValue().equals(to)) {
+                goalCoordinatePair = entry.getKey();
+            }
+            if (startCoordinatePair != null && goalCoordinatePair != null) {
+                break;
+            }
+        }
+        if (startCoordinatePair == null) {
+            throw new IllegalArgumentException("Start node does not exist in maze");
+        } else if (goalCoordinatePair == null) {
+            throw new IllegalArgumentException("Goal node does not exist in maze");
+        }
+        Map<CoordinatePair, Boolean> visited = new HashMap<>();
+        for (CoordinatePair coordinatePair : this.grid.keySet()) {
+            visited.put(coordinatePair, false);
+        }
+        PriorityQueue<SearchState<CoordinatePair>> pq = new PriorityQueue<>();
+        SearchState<CoordinatePair> currState = null;
+        boolean completed = false;
+
+        /* Add the starting state to the priority queue */
+        pq.add(new GraphMazeSearchState(startCoordinatePair, goalCoordinatePair, 0, null));
+
+        /* While there are elements on the priority queue */
+        while (!pq.isEmpty()) {
+            /* Pop the element with the lowest cost + heuristic value off of the priority queue */
+            currState = pq.poll();
+            if (currState == null) {
+                throw new NullPointerException("Null was popped off of the priority queue");
+            }
+            CoordinatePair currCoordinatePair = currState.getValue();
+            /* If element is the goal, stop */
+            if (currState.getValue().equals(goalCoordinatePair)) {
+                completed = true;
+                break;
+            }
+            /* If element has been visited, ignore it */
+            if (visited.get(currState.getValue())) {
+                continue;
+            }
+            /* Mark element as visited */
+            visited.put(currState.getValue(), true);
+            /* Add child elements to priority queue */
+            /* Get all adjacent cells */
+            List<CoordinatePair> neighbours = new ArrayList<>(4);
+            /* Checking above */
+            try {
+                this.getNodeAt(currCoordinatePair.down - 1, currCoordinatePair.across);
+                neighbours.add(new CoordinatePair(currCoordinatePair.down - 1, currCoordinatePair.across));
+            } catch (IndexOutOfBoundsException e) {
+                /* No cell above current cell */
+            }
+            /* Checking to the right */
+            try {
+                this.getNodeAt(currCoordinatePair.down, currCoordinatePair.across - 1);
+                neighbours.add(new CoordinatePair(currCoordinatePair.down, currCoordinatePair.across - 1));
+            } catch (IndexOutOfBoundsException e) {
+                /* No cell to the right of current cell */
+            }
+            /* Checking below */
+            try {
+                this.getNodeAt(currCoordinatePair.down + 1, currCoordinatePair.across);
+                neighbours.add(new CoordinatePair(currCoordinatePair.down + 1, currCoordinatePair.across));
+            } catch (IndexOutOfBoundsException e) {
+                /* No cell below current cell */
+            }
+            /* Checking to the left */
+            try {
+                this.getNodeAt(currCoordinatePair.down, currCoordinatePair.across + 1);
+                neighbours.add(new CoordinatePair(currCoordinatePair.down, currCoordinatePair.across + 1));
+            } catch (IndexOutOfBoundsException e) {
+                /* No cell to the left of current cell */
+            }
+            for (CoordinatePair coordinatePair : neighbours) {
+                /* Add only connected adjacent cells to the priority queue */
+                if (this.graph.hasEdge(
+                        this.getNodeAt(currCoordinatePair.down, currCoordinatePair.across),
+                        this.getNodeAt(coordinatePair.down, coordinatePair.across)
+                )) {
+                    pq.add(new GraphMazeSearchState(coordinatePair, goalCoordinatePair, currState.getCost() + 1, currState));
+                }
+            }
+        }
+
+        if (!completed) {
+            /* Search exited abnormally */
+            throw new IllegalStateException("Search aborted abnormally");
+        }
+
+        List<CoordinatePair> coordinatePairPath = currState.constructPath();
+        List<Node<T>> nodePath = new LinkedList<>();
+        for (CoordinatePair coordinatePair : coordinatePairPath) {
+            nodePath.add(this.getNodeAt(coordinatePair.down, coordinatePair.across));
+        }
+
+        return nodePath;
     }
 
     /**
@@ -174,5 +295,47 @@ public class GraphMaze<T> implements ExposedGraphMaze<T> {
     @Override
     public Map<CoordinatePair, Node<T>> getGrid() {
         return this.grid;
+    }
+
+    /**
+     * Returns the internal inverse lookup grid representation of this GraphMaze.
+     *
+     * @return the internal inverse lookup grid representation of this GraphMaze
+     */
+    @Override
+    public Map<Node<T>, CoordinatePair> getInverseGrid() {
+        return this.inverseGrid;
+    }
+
+    /**
+     * Sets the starting node of this GraphMaze.
+     *
+     * @param node the node to be set as the start of this GraphMaze
+     * @return true if the node was successfully set as the starting node
+     */
+    @Override
+    public boolean setStart(Node<T> node) {
+        if (this.graph.hasNode(node)) {
+            this.start = node;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Sets the end node of this GraphMaze.
+     *
+     * @param node the node to be set as the end of this GraphMaze
+     * @return true if the node was successfully set as the end node
+     */
+    @Override
+    public boolean setEnd(Node<T> node) {
+        if (this.graph.hasNode(node)) {
+            this.end = node;
+            return true;
+        } else {
+            return false;
+        }
     }
 }
