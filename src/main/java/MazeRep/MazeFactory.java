@@ -19,8 +19,8 @@ public class MazeFactory<T> {
      * @param strategy     the {@link MazeRep.MazeGenStrategy.MazeGenStrategy} to use when generating the {@link MazeRep.Maze}
      * @return a new {@link MazeRep.Maze} object
      * @throws IllegalArgumentException if mazeType is not a concrete implementation of the {@link MazeRep.Maze} interface
-     * @throws NullPointerException if the given maze generation strategy is null
-     * @throws IllegalStateException if the generated maze was invalid for any reason
+     * @throws NullPointerException     if the given maze generation strategy is null
+     * @throws IllegalStateException    if the generated maze was invalid for any reason
      */
     public Maze<T> generateMaze(Class mazeType, int height, int length, T defaultValue, MazeGenStrategy<T> strategy) {
         /* Construct empty maze using the relevant implementation */
@@ -55,7 +55,7 @@ public class MazeFactory<T> {
      * @param defaultValue the default value of the grid square representations of the {@link MazeRep.Maze}
      * @return a new {@link MazeRep.Maze} object
      * @throws IllegalArgumentException if mazeType is not a concrete implementation of the {@link MazeRep.Maze} interface
-     * @throws IllegalStateException if the generated maze was invalid for any reason
+     * @throws IllegalStateException    if the generated maze was invalid for any reason
      */
     public Maze<T> generateMaze(Class mazeType, int height, int length, T defaultValue) {
         MazeGenStrategy<T> defaultStrategy = new RandomisedRecursiveDFS<>();

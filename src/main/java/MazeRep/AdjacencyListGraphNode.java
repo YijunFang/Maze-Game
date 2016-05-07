@@ -41,6 +41,15 @@ public class AdjacencyListGraphNode<T> implements Node<T> {
     }
 
     /**
+     * Returns a string representation of this AdjacencyListGraphNode.
+     *
+     * @return a string representation of this AdjacencyListGraphNode
+     */
+    public String toString() {
+        return (this.value == null) ? "(null)" : this.value.toString();
+    }
+
+    /**
      * Creates and returns a copy of this AdjacencyListGraphNode
      *
      * @return a copy of this AdjacencyListGraphNode

@@ -189,6 +189,26 @@ public class AdjacencyListGraph<T> implements Graph<T> {
     }
 
     /**
+     * Returns a string representation of this AdjacencyListGraph.
+     *
+     * @return a string representation of this AdjacencyListGraph
+     */
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Map.Entry<Node<T>, List<Node<T>>> entry : this.nodes.entrySet()) {
+            stringBuilder.append("[").append(entry.getKey().toString()).append("]");
+            stringBuilder.append(" :");
+            for (Node<T> node : entry.getValue()) {
+                stringBuilder.append(" ");
+                stringBuilder.append(node.getValue().toString());
+            }
+            stringBuilder.append("\n");
+        }
+        return stringBuilder.toString();
+    }
+
+    /**
      * Creates and returns a deep copy of this AdjacencyListGraph.
      *
      * @return a deep copy of this AdjacencyListGraph
