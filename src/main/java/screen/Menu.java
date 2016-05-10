@@ -23,7 +23,7 @@ public class Menu extends JFrame {
 	boolean easy = false;
 	boolean medium = false;
 	boolean hard = false;
-	
+	//test
 	ActionListener newGamebutton = new ActionListener() {		
 		@Override
 		public void actionPerformed(ActionEvent e) {
