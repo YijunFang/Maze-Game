@@ -17,8 +17,9 @@ public class AppWindow extends JFrame {
         setLocationRelativeTo(null);
         getContentPane().setLayout(new BorderLayout(0, 0));
         
-        JPanel MainMenu = new MainMenu();
-        getContentPane().add(MainMenu, BorderLayout.CENTER);
+        MainMenu mainMenu = new MainMenu();
+        mainMenu.setMaster(null);
+        getContentPane().add(mainMenu, BorderLayout.CENTER);
     }
 
 }
