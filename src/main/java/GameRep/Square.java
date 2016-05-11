@@ -26,20 +26,20 @@ public class Square {
         this.coordinatePair = coordinatePair;
         this.borders = new Boolean[4];
         /* Set border values */
-        if (coordinatePair.down == 0) {
+        if (coordinatePair.down == maze.getHeight() - 1) {
             this.borders[SquareSide.DOWN.toInt()] = true;
         } else {
             this.borders[SquareSide.DOWN.toInt()] = !maze.areAdjacent(
                     maze.getNodeAt(coordinatePair.down, coordinatePair.across),
-                    maze.getNodeAt(coordinatePair.down - 1, coordinatePair.across)
+                    maze.getNodeAt(coordinatePair.down + 1, coordinatePair.across)
             );
         }
-        if (coordinatePair.down == maze.getHeight() - 1) {
+        if (coordinatePair.down == 0) {
             this.borders[SquareSide.UP.toInt()] = true;
         } else {
             this.borders[SquareSide.UP.toInt()] = !maze.areAdjacent(
                     maze.getNodeAt(coordinatePair.down, coordinatePair.across),
-                    maze.getNodeAt(coordinatePair.down + 1, coordinatePair.across)
+                    maze.getNodeAt(coordinatePair.down - 1, coordinatePair.across)
             );
         }
         if (coordinatePair.across == 0) {

@@ -22,6 +22,7 @@ public class GameState {
     private Maze<Content> maze;
     private Difficulty difficultyLevel;
     private CoordinatePair playerPosition;
+    private CoordinatePair goalPosition;
     private int numOfCoins;
 
     /**
@@ -36,6 +37,7 @@ public class GameState {
                 difficultyLevel.getSideLength(),
                 Content.EMPTY);
         this.playerPosition = this.maze.getCoordinatesOf(this.maze.getStart());
+        this.goalPosition = this.maze.getCoordinatesOf(this.maze.getEnd());
         this.difficultyLevel = difficultyLevel;
         /* Place coins in maze */
         Random random = new Random();
@@ -88,6 +90,15 @@ public class GameState {
             truncatedPath.add(i, this.maze.getCoordinatesOf(fullPath.get(i)));
         }
         return truncatedPath;
+    }
+
+    /**
+     * Returns a {@link CoordinatePair} corresponding to the goal square.
+     *
+     * @return a {@link CoordinatePair} corresponding to the goal square
+     */
+    public CoordinatePair getGoalPosition() {
+        return this.goalPosition;
     }
 
     /**
