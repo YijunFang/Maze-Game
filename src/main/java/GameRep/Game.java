@@ -62,7 +62,6 @@ public class Game extends JPanel {
         
         //Get maze length
         mazeLength = diff.getSideLength();
-        mazeLength = 10; //stub
         
         //Initialise maze representation
         for (int down = 0; down < mazeLength; down++) {
