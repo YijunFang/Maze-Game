@@ -13,6 +13,7 @@ public class Square {
 
     private Boolean borders[];
     private Content content;
+    private CoordinatePair coordinatePair;
 
     /**
      * Constructs a new Square to represent the square at given coordinate in the given maze.
@@ -22,6 +23,7 @@ public class Square {
      */
     Square(Maze<Content> maze, CoordinatePair coordinatePair) {
         this.content = maze.getNodeAt(coordinatePair.down, coordinatePair.across).getValue();
+        this.coordinatePair = coordinatePair;
         this.borders = new Boolean[4];
         /* Set border values */
         if (coordinatePair.down == 0) {
@@ -64,7 +66,7 @@ public class Square {
      * @return the corresponding {@link CoordinatePair} of this Square in the maze
      */
     public CoordinatePair getCoordinatePair() {
-        throw new UnsupportedOperationException();
+        return this.coordinatePair;
     }
 
     /**
