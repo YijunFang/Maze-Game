@@ -2,6 +2,7 @@ package screen;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -19,8 +20,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-import MazeRep.Graph;
 
 public class Menu extends JFrame {
 	Color blueeee = new Color(207, 243, 255);
@@ -109,7 +108,7 @@ public class Menu extends JFrame {
 			// save game
 			// temp: show empty panel
 			JOptionPane.showMessageDialog(mazeScreen, "GAME SAVED!", "Save Game", JOptionPane.INFORMATION_MESSAGE);
-			// cardLayout.show(emptyPanel, "mazeScreen");
+			cardLayout.show(emptyPanel, "mazeScreen");
 		}
 	};
 
@@ -123,14 +122,14 @@ public class Menu extends JFrame {
 	ActionListener restartbutton = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// cardLayout.show(emptyPanel, "mazeScreen");
+			cardLayout.show(emptyPanel, "mazeScreen");
 		}
 	};
 
 	ActionListener resumebutton = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// cardLayout.show(emptyPanel, "mazeScreen");
+			cardLayout.show(emptyPanel, "mazeScreen");
 		}
 	};
 
@@ -145,6 +144,7 @@ public class Menu extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// show hint: direction
+
 		}
 	};
 
@@ -166,7 +166,8 @@ public class Menu extends JFrame {
 
 		this.setTitle("A-Maze-ing");
 
-		this.setSize(400, 400);
+		this.setSize(700, 500);
+		this.setMinimumSize(new Dimension(700, 500));
 
 		this.setLocationRelativeTo(null);
 
@@ -200,9 +201,8 @@ public class Menu extends JFrame {
 		JPanel mainMenuPanel = new JPanel() {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(new ImageIcon("background.jpg").getImage(),
-						-100, -100, null);// 画窗口背景图
-			}
+				g.drawImage(new ImageIcon("background.jpg").getImage(), -100, -100, null);
+			}//change to your own directory
 		};
 
 		mainMenuPanel.setLayout(new GridLayout(0, 1));
@@ -231,12 +231,12 @@ public class Menu extends JFrame {
 		JPanel newGamePanel = new JPanel() {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(new ImageIcon("background.jpg").getImage(),
-						-100, -100, null);// 画窗口背景图
-			}
+				g.drawImage(new ImageIcon("background.jpg").getImage(), -100, -100, null);// 画窗口背景图
+			}//change to your own directory
 		};
 
-		newGamePanel.setLayout(new GridLayout(0, 1));
+		newGamePanel.setLayout(new GridLayout(0, 1, 5, 5));
+		newGamePanel.setBorder(new EmptyBorder(100, 30, 100, 30));
 
 		button1.addActionListener(easybutton);
 		button2.addActionListener(mediumbutton);
@@ -261,12 +261,12 @@ public class Menu extends JFrame {
 		JPanel helpScreenPanel = new JPanel() {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(new ImageIcon("background.jpg").getImage(),
-						-100, -100, null);// 画窗口背景图
-			}
+				g.drawImage(new ImageIcon("background.jpg").getImage(), -100, -100, null);// 画窗口背景图
+			}//change to your own directory
 		};
 
 		helpScreenPanel.setLayout(new GridLayout(0, 1));
+		helpScreenPanel.setBorder(new EmptyBorder(100, 30, 100, 30));
 
 		button1.addActionListener(infobutton);
 		button2.addActionListener(resumebutton);
@@ -286,12 +286,11 @@ public class Menu extends JFrame {
 		JPanel pauseScreen = new JPanel() {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(new ImageIcon("background.jpg").getImage(),
-						-100, -100, null);// 画窗口背景图
-			}
+				g.drawImage(new ImageIcon("background.jpg").getImage(), -100, -100, null);// 画窗口背景图
+			}//change to your own directory
 		};
 		pauseScreen.setLayout(new GridLayout(0, 1));
-		pauseScreen.setBorder(new EmptyBorder(200, 50, 50, 200));
+		pauseScreen.setBorder(new EmptyBorder(100, 30, 100, 30));
 
 		MyButton button1 = new MyButton("Resume");
 		MyButton button2 = new MyButton("Restart");
@@ -318,12 +317,12 @@ public class Menu extends JFrame {
 		JPanel mazePanel = new JPanel() {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(new ImageIcon("background.jpg").getImage(),
-						-100, -100, null);// 画窗口背景图
-			}
+				g.drawImage(new ImageIcon("background.jpg").getImage(), -100, -100, null);// 画窗口背景图
+			}//change to your own directory
 		};
 
-		mazePanel.setLayout(new GridLayout(0, 3));
+		mazePanel.setLayout(new GridLayout(0, 5, 0, 0));
+		mazePanel.setBorder(new EmptyBorder(0, 0, 300, 0));
 
 		button1.addActionListener(helpbutton);
 		button2.addActionListener(savebutton);
@@ -349,13 +348,12 @@ public class Menu extends JFrame {
 		JPanel endGamePanel = new JPanel() {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(new ImageIcon("background.jpg").getImage(),
-						-100, -100, null);// 画窗口背景图
-			}
+				g.drawImage(new ImageIcon("background.jpg").getImage(), -100, -100, null);// 画窗口背景图
+			}//change to your own directory
 		};
 
-		endGamePanel.setLayout(new GridLayout(1, 3));
-		// endGamePanel.setBackground(null);
+		endGamePanel.setLayout(new GridLayout(0, 1));
+		endGamePanel.setBorder(new EmptyBorder(100, 30, 100, 30));
 
 		button1.addActionListener(replaybutton);
 		button2.addActionListener(newGamebutton);
