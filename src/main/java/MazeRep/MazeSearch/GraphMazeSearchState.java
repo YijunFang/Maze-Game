@@ -1,6 +1,6 @@
 package MazeRep.MazeSearch;
 
-import MazeRep.CoordinatePair;
+import Common.CoordinatePair;
 
 import java.util.LinkedList;
 import java.util.List;

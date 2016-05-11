@@ -1,5 +1,7 @@
 package MazeRep;
 
+import Common.CoordinatePair;
+
 import java.util.Map;
 
 /**

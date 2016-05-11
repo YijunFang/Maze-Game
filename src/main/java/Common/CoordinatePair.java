@@ -1,4 +1,4 @@
-package MazeRep;
+package Common;
 
 /**
  * @author john

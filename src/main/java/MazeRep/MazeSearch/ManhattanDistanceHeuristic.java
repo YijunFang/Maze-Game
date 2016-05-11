@@ -1,6 +1,6 @@
 package MazeRep.MazeSearch;
 
-import MazeRep.CoordinatePair;
+import Common.CoordinatePair;
 
 /**
  * An implementation of the {@link SearchHeuristic} interface for a maze using the Total Manhattan Distance formula.
