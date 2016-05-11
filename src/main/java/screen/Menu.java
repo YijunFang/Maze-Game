@@ -1,17 +1,29 @@
 package screen;
 
+import java.awt.AlphaComposite;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Composite;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Panel;
+import java.awt.Transparency;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.font.ShapeGraphicAttribute;
+import java.awt.geom.Rectangle2D;
 
 import javax.sound.midi.MidiDevice.Info;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,6 +34,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 public class Menu extends JFrame {
+
 	Color blueeee = new Color(207, 243, 255);
 	CardLayout cardLayout = new CardLayout();
 	JPanel emptyPanel;
@@ -144,6 +157,8 @@ public class Menu extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// show hint: direction
+			JOptionPane.showMessageDialog(mazeScreen,  "Will Show Next Move","Hint", JOptionPane.INFORMATION_MESSAGE);
+
 
 		}
 	};
@@ -174,9 +189,10 @@ public class Menu extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		emptyPanel.setLayout(cardLayout);
-
 		emptyPanel.setBackground(null);
 		emptyPanel.add("mainMenu", mainMenu);
+		cardLayout.show(emptyPanel, "mainMenu");
+
 		emptyPanel.add("helpScreen", helpScreen);
 		emptyPanel.add("newGame", newGame);
 		emptyPanel.add("mazeScreen", mazeScreen);
@@ -185,7 +201,6 @@ public class Menu extends JFrame {
 		add(emptyPanel);
 		setLocationRelativeTo(null);
 
-		cardLayout.show(emptyPanel, "mainMenu");
 
 		this.setVisible(true);
 
@@ -204,19 +219,30 @@ public class Menu extends JFrame {
 				g.drawImage(new ImageIcon("src/main/resources/background.jpg").getImage(), -100, -100, null);
 			}
 		};
-
-		mainMenuPanel.setLayout(new GridLayout(0, 1));
-		mainMenuPanel.setBorder(new EmptyBorder(300, 30, 30, 500));
+		
+		JLabel title = new JLabel("A-MAZE-ING", JLabel.CENTER);
+		title.setFont(new Font("Courier New", Font.BOLD, 50));	
+//		title.setBorder(BorderFactory.createLineBorder(Color.BLACK));	
+		mainMenuPanel.add(title,JPanel.TOP_ALIGNMENT);
 
 		button1.addActionListener(newGamebutton);
 		button2.addActionListener(resumebutton);
 		button3.addActionListener(infobutton);
 		button4.addActionListener(quitbutton);
+		
+		
+		JPanel component = new JPanel() ;
+		component.setOpaque(false);
+		component.setLayout(new GridLayout(0, 1));
+		component.add(button1);
+		component.add(button2);
+		component.add(button3);
+		component.add(button4);
+//		component.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		
+		mainMenuPanel.add(component,JPanel.BOTTOM_ALIGNMENT);
+		mainMenuPanel.setLayout(new GridLayout(3,1));
 
-		mainMenuPanel.add(button1);
-		mainMenuPanel.add(button2);
-		mainMenuPanel.add(button3);
-		mainMenuPanel.add(button4);
 
 		setLocationRelativeTo(null);
 		return mainMenuPanel;
@@ -235,18 +261,25 @@ public class Menu extends JFrame {
 			}
 		};
 
-		newGamePanel.setLayout(new GridLayout(0, 1, 5, 5));
-		newGamePanel.setBorder(new EmptyBorder(100, 30, 100, 30));
+		JLabel title = new JLabel("Select Level", JLabel.CENTER);
+		title.setFont(new Font("Courier New", Font.BOLD, 50));	
+		newGamePanel.add(title,JPanel.TOP_ALIGNMENT);
 
 		button1.addActionListener(easybutton);
 		button2.addActionListener(mediumbutton);
 		button3.addActionListener(hardbutton);
 		button4.addActionListener(returnMainbutton);
 
-		newGamePanel.add(button1);
-		newGamePanel.add(button2);
-		newGamePanel.add(button3);
-		newGamePanel.add(button4);
+		JPanel component = new JPanel() ;
+		component.setOpaque(false);
+		component.setLayout(new GridLayout(0, 1));
+		component.add(button1);
+		component.add(button2);
+		component.add(button3);
+		component.add(button4);
+		
+		newGamePanel.add(component,JPanel.BOTTOM_ALIGNMENT);
+		newGamePanel.setLayout(new GridLayout(3,1));
 
 		return newGamePanel;
 	}
@@ -321,21 +354,29 @@ public class Menu extends JFrame {
 			}
 		};
 
-		mazePanel.setLayout(new GridLayout(0, 5, 0, 0));
-		mazePanel.setBorder(new EmptyBorder(0, 0, 400, 0));
-
 		button1.addActionListener(helpbutton);
 		button2.addActionListener(savebutton);
 		button3.addActionListener(hintbutton);
 		button4.addActionListener(returnMainbutton);
 		button5.addActionListener(pausebutton);
 
-		mazePanel.add(button1);
-		mazePanel.add(button2);
-		mazePanel.add(button3);
-		mazePanel.add(button4);
-		mazePanel.add(button5);
 
+		JPanel component = new JPanel() ;
+		component.setOpaque(false);
+		component.setLayout(new GridLayout(1, 5));
+		component.add(button1);
+		component.add(button2);
+		component.add(button3);
+		component.add(button4);
+		component.add(button5);
+		
+		mazePanel.add(component,JPanel.TOP_ALIGNMENT);
+		mazePanel.setLayout(new GridLayout(10,1));
+	
+		JPanel maze = new JPanel();
+		maze.setOpaque(false);
+
+		mazePanel.add(maze,JPanel.BOTTOM_ALIGNMENT);
 		return mazePanel;
 
 	}
@@ -353,7 +394,7 @@ public class Menu extends JFrame {
 		};
 
 		endGamePanel.setLayout(new GridLayout(0, 1));
-		endGamePanel.setBorder(new EmptyBorder(100, 30, 300, 30));
+		endGamePanel.setBorder(new EmptyBorder(100, 30, 100, 30));
 
 		button1.addActionListener(replaybutton);
 		button2.addActionListener(newGamebutton);
