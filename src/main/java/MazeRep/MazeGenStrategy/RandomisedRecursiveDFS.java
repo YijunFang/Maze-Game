@@ -1,6 +1,6 @@
 package MazeRep.MazeGenStrategy;
 
-import MazeRep.CoordinatePair;
+import Common.CoordinatePair;
 import MazeRep.ExposedGraphMaze;
 
 import java.util.*;
