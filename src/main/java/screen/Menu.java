@@ -294,7 +294,7 @@ public class Menu extends JFrame {
 		JPanel helpScreenPanel = new JPanel() {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(new ImageIcon("/src/main/resources/background.jpg").getImage(), -100, -100, null); 
+				g.drawImage(new ImageIcon("src/main/resources/background.jpg").getImage(), -100, -100, null); 
 			}
 		};
 
