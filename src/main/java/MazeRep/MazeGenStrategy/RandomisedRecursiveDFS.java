@@ -1,6 +1,6 @@
 package MazeRep.MazeGenStrategy;
 
-import MazeRep.CoordinatePair;
+import Common.CoordinatePair;
 import MazeRep.ExposedGraphMaze;
 
 import java.util.*;
@@ -80,7 +80,7 @@ public class RandomisedRecursiveDFS<T> implements MazeGenStrategy<T> {
             if (!unvisitedNeighbours.isEmpty()) {
                 /* If the current cell has any unvisited neighbours */
                 /* Randomly choose one of the unvisited neighbours */
-                CoordinatePair chosenCoordinatePair = neighbours.get(random.nextInt(neighbours.size()));
+                CoordinatePair chosenCoordinatePair = unvisitedNeighbours.get(random.nextInt(unvisitedNeighbours.size()));
                 /* Push the current cell to the stack */
                 stack.push(currCoordinatePair);
                 /* Connect the current cell to the chosen cell */

@@ -1,5 +1,6 @@
 package MazeRep;
 
+import Common.CoordinatePair;
 import MazeRep.MazeSearch.GraphMazeSearchState;
 import MazeRep.MazeSearch.SearchState;
 
@@ -253,6 +254,18 @@ public class GraphMaze<T> implements ExposedGraphMaze<T> {
         }
 
         return nodePath;
+    }
+
+    /**
+     * Returns true if the given {@link MazeRep.Node}s are adjacent to each other.
+     * @param node1 the first {@link MazeRep.Node}
+     * @param node2 the second {@link MazeRep.Node}
+     * @return true if the given {@link MazeRep.Node}s are adjacent to each other
+     * @throws IllegalArgumentException if either of the given {@link MazeRep.Node}s do not exist in this Maze
+     */
+    @Override
+    public boolean areAdjacent(Node<T> node1, Node<T> node2) {
+        return this.graph.hasEdge(node1, node2);
     }
 
     /**

@@ -1,0 +1,27 @@
+Getting data from gameRep
+    * Query maze for locations of specific features, will be doing:
+        * Get Maze walls
+        * Get Coin locations
+        * Get Starting and ending locations
+    * Regularly query location of player (get player location)
+    * Regularly query score and time. (get player score, get player time)
+
+Rendering
+    * Using maze data, create graphical representation of maze 
+        * Still figuring out how to do this 
+    * Place player and coin sprites on the maze
+        * Set player location to specific grid location
+        * Set coin sprites to specific grid locations
+    * Regularly update the render when new events occur
+        * Call an update method that updates the locations of all
+            objects graphically
+    
+Input
+    * Pass input from player to the gameRep
+        * Set player location using WASD or arrow keys.
+        * Get hint paths (i.e. get some grid references to highlight)
+        * Display hint path if hint button is triggered 
+    * If player steps on a coin, trigger an update to the coin counter
+        * i.e. if player is on coin: remove coin
+        * increment coin counter
+    * Immediately call a render update after this input.
