@@ -1,9 +1,11 @@
 package GameRep;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -57,7 +59,12 @@ public class Game extends JPanel {
         }
         
         //draw character
-        
+        CoordinatePair playerLoc = gs.getPlayerPosition();
+        System.out.println("PlayerLocation = x: " + playerLoc.across + " y: " + playerLoc.down);
+        Rectangle2D player = new Rectangle2D.Double(
+                playerLoc.across * squareLength + 2.5, playerLoc.down * squareLength + 2.5, squareLength - 5, squareLength - 5);
+        g2d.setPaint(Color.red);
+        g2d.fill(player);
     }
     
     public void start(Difficulty diff) {
@@ -82,24 +89,44 @@ public class Game extends JPanel {
         JFrame frame = new JFrame("Maze");
         Game game = new Game();
         frame.add(game);
-        frame.setSize(500, 500);
+        frame.setSize(600, 600);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        frame.setLocationRelativeTo(null);
         game.start(Difficulty.MEDIUM);
     }
     
     public void keyPressedDown() {
-        
+        CoordinatePair playerPosition = gs.getPlayerPosition();
+        Square currentSquare = gs.getSquareAt(playerPosition);
+        if (!currentSquare.isBorderedOn(SquareSide.DOWN)) {
+            setNewPlayerPosition (new CoordinatePair(playerPosition.down + 1, playerPosition.across));
+        }
     }
     public void keyPressedLeft() {
-        
+        CoordinatePair playerPosition = gs.getPlayerPosition();
+        Square currentSquare = gs.getSquareAt(playerPosition);
+        if (!currentSquare.isBorderedOn(SquareSide.LEFT)) {
+            setNewPlayerPosition (new CoordinatePair(playerPosition.down, playerPosition.across - 1));
+        }
     }
     public void keyPressedUp() {
-        
+        CoordinatePair playerPosition = gs.getPlayerPosition();
+        Square currentSquare = gs.getSquareAt(playerPosition);
+        if (!currentSquare.isBorderedOn(SquareSide.UP)) {
+            setNewPlayerPosition (new CoordinatePair(playerPosition.down - 1, playerPosition.across));
+        }
     }
     public void keyPressedRight() {
-        
+        CoordinatePair playerPosition = gs.getPlayerPosition();
+        Square currentSquare = gs.getSquareAt(playerPosition);
+        if (!currentSquare.isBorderedOn(SquareSide.RIGHT)) {
+            setNewPlayerPosition (new CoordinatePair(playerPosition.down, playerPosition.across + 1));
+        }
+    }
+    
+    private void setNewPlayerPosition (CoordinatePair newLocation) {
+        gs.setPlayerPosition(newLocation);
     }
     
     public void hintCoinActivated() {
