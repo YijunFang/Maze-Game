@@ -35,7 +35,8 @@ public class Game extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
             RenderingHints.VALUE_ANTIALIAS_ON);
-        
+
+        if (gs == null) return;
         //draw the squares
         for (int down = 0; down < mazeLength; down++) {
             for (int across = 0; across < mazeLength; across++) {
