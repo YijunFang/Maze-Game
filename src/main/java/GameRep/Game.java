@@ -13,8 +13,9 @@ import Common.Difficulty;
 
 @SuppressWarnings("serial")
 public class Game extends JPanel {
-    static final int squareLength = 10;
+    static final int squareLength = 50;
     int mazeLength;
+    GameState gs;
     
     int x = 0;
     int y = 0;
@@ -34,8 +35,8 @@ public class Game extends JPanel {
             RenderingHints.VALUE_ANTIALIAS_ON);
         
         //draw the squares
-        for (int down = 0; down < maze.length; down++) {
-            for (int across = 0; across < maze[down].length; across++) {
+        for (int down = 0; down < mazeLength; down++) {
+            for (int across = 0; across < mazeLength; across++) {
                 int pixelX = across * squareLength;
                 int pixelY =   down * squareLength;
                 
@@ -54,11 +55,15 @@ public class Game extends JPanel {
                 }
             }
         }
+        
+        //draw character
+        CoordinatePair playerPosition = gs.getPlayerPosition();
+        
     }
     
     public void start(Difficulty diff) {
         setSize(500, 500);
-        GameState gs = new GameState(diff);
+        gs = new GameState(diff);
         
         //Get maze length
         mazeLength = diff.getSideLength();
@@ -82,6 +87,30 @@ public class Game extends JPanel {
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        game.start(Difficulty.EASY);
+        game.start(Difficulty.MEDIUM);
     }
+    
+    public void keyPressedDown() {
+        
+    }
+    public void keyPressedLeft() {
+        
+    }
+    public void keyPressedUp() {
+        
+    }
+    public void keyPressedRight() {
+        
+    }
+    
+    public void hintCoinActivated() {
+        
+    }
+    public void pauseGame(boolean isPaused) {
+        
+    }
+    public int getTime() {
+        return 0;
+    }
+    
 }
