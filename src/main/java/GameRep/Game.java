@@ -39,8 +39,7 @@ public class Game extends JPanel {
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                             RenderingHints.VALUE_ANTIALIAS_ON);
-        
+            RenderingHints.VALUE_ANTIALIAS_ON);
         if (gs == null) return;
         //draw the squares
         for (int down = 0; down < mazeLength; down++) {
@@ -79,8 +78,7 @@ public class Game extends JPanel {
         }
         
         player = new Rectangle2D.Double(
-                                        playerLocationX, playerLocationY, playerSize, playerSize);
-        
+                playerLocationX, playerLocationY, playerSize, playerSize);
         g2d.setPaint(Color.red);
         g2d.fill(player);
     }
@@ -146,7 +144,7 @@ public class Game extends JPanel {
             repaintTimer.addActionListener(repaintAction);
             
             moveTimer.setInitialDelay(0);
-            moveTimer.start();
+            moveTimer.start(); 
             repaintTimer.start();
             
         }
@@ -211,7 +209,6 @@ public class Game extends JPanel {
         Square currentSquare = gs.getSquareAt(playerPosition);
         if (!currentSquare.isBorderedOn(SquareSide.RIGHT)) {
             setNewPlayerPosition (new CoordinatePair(playerPosition.down, playerPosition.across + 1));
-            
             CoordinatePair playerLoc = gs.getPlayerPosition();
             double newPlayerLocationX = playerLoc.across * squareLength + 2.5;
             
@@ -238,19 +235,19 @@ public class Game extends JPanel {
     private void setNewPlayerPosition (CoordinatePair newLocation) {
         gs.setPlayerPosition(newLocation);
         /*
-         CoordinatePair playerLoc = gs.getPlayerPosition();
-         double newPlayerLocationX = playerLoc.across * squareLength + 2.5;
-         double newPlayerLocationY = playerLoc.down * squareLength + 2.5;
-         
-         while (newPlayerLocationX != playerLocationX || newPlayerLocationY != playerLocationY) {
-         if (newPlayerLocationX != playerLocationX) {
-         playerLocationX += (newPlayerLocationX - playerLocationX)/10;
-         }
-         repaint();
-         }
-         
-         repaint();
-         */
+        CoordinatePair playerLoc = gs.getPlayerPosition();
+        double newPlayerLocationX = playerLoc.across * squareLength + 2.5;
+        double newPlayerLocationY = playerLoc.down * squareLength + 2.5;
+        
+        while (newPlayerLocationX != playerLocationX || newPlayerLocationY != playerLocationY) {
+            if (newPlayerLocationX != playerLocationX) {
+                playerLocationX += (newPlayerLocationX - playerLocationX)/10;
+            }
+            repaint();
+        }
+        
+        repaint();
+        */
     }
     
     public void hintCoinActivated() {
@@ -265,27 +262,26 @@ public class Game extends JPanel {
     
     public void initKeyPressDetect() {
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
-            
             @Override
             public boolean dispatchKeyEvent(KeyEvent ke) {
                 synchronized (Game.class) {
                     switch (ke.getID()) {
-                        case KeyEvent.KEY_PRESSED:
-                            switch (ke.getKeyCode()) {
-                                case KeyEvent.VK_W:
-                                    keyPressedUp();
-                                    break;
-                                case KeyEvent.VK_A:
-                                    keyPressedLeft();
-                                    break;
-                                case KeyEvent.VK_S:
-                                    keyPressedDown();
-                                    break;
-                                case KeyEvent.VK_D:
-                                    keyPressedRight();
-                                    break;
-                            }
-                            break;
+                    case KeyEvent.KEY_PRESSED:
+                        switch (ke.getKeyCode()) {
+                            case KeyEvent.VK_W:
+                                keyPressedUp();
+                                break;
+                            case KeyEvent.VK_A:
+                                keyPressedLeft();
+                                break;
+                            case KeyEvent.VK_S:
+                                keyPressedDown();
+                                break;
+                            case KeyEvent.VK_D:
+                                keyPressedRight();
+                                break;
+                        }
+                        break;
                     }
                     return false;
                 }
