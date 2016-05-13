@@ -3,7 +3,10 @@ package GameRep;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.awt.RenderingHints;
+import java.awt.event.KeyEvent;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
@@ -19,13 +22,10 @@ public class Game extends JPanel {
     int mazeLength;
     GameState gs;
     
-    int x = 0;
-    int y = 0;
-    
-    private void moveBall() {
-        x = x + 1;
-        y = y + 1;
+    public Game() {
+        initKeyPressDetect(); //debug
     }
+
     
     Square[][] maze;
     
@@ -93,7 +93,7 @@ public class Game extends JPanel {
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
-        game.start(Difficulty.MEDIUM);
+        game.start(Difficulty.HARD);
     }
     
     public void keyPressedDown() {
@@ -127,6 +127,7 @@ public class Game extends JPanel {
     
     private void setNewPlayerPosition (CoordinatePair newLocation) {
         gs.setPlayerPosition(newLocation);
+        repaint();
     }
     
     public void hintCoinActivated() {
@@ -137,6 +138,36 @@ public class Game extends JPanel {
     }
     public int getTime() {
         return 0;
+    }
+    
+    public void initKeyPressDetect() {
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
+
+            @Override
+            public boolean dispatchKeyEvent(KeyEvent ke) {
+                synchronized (Game.class) {
+                    switch (ke.getID()) {
+                    case KeyEvent.KEY_PRESSED:
+                        switch (ke.getKeyCode()) {
+                            case KeyEvent.VK_W:
+                                keyPressedUp();
+                                break;
+                            case KeyEvent.VK_A:
+                                keyPressedLeft();
+                                break;
+                            case KeyEvent.VK_S:
+                                keyPressedDown();
+                                break;
+                            case KeyEvent.VK_D:
+                                keyPressedRight();
+                                break;
+                        }
+                        break;
+                    }
+                    return false;
+                }
+            }
+        });
     }
     
 }
