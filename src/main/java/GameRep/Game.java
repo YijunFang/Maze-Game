@@ -60,7 +60,8 @@ public class Game extends JPanel {
         if (gs == null) return;
         
         //Image bedrock = getImage("bedrock.png");
-        //g2d.drawImage(bedrock, 100, 100, 64, 64, null, null);
+        //g2d.drawImage(bedrock, 100, 100, 64, 64, null, null); //bedrock to be used for walls
+
         //draw the squares
         for (int down = 0; down < mazeLength; down++) {
             for (int across = 0; across < mazeLength; across++) {
@@ -92,9 +93,13 @@ public class Game extends JPanel {
                 }
             }
         }
+        CoordinatePair goal = gs.getGoalPosition();
+        g2d.setPaint(Color.green);
+        Rectangle2D goalSquare = new Rectangle2D.Double(goal.across + centreShift, goal.down + centreShift,
+                playerSize * 0.5, playerSize * 0.5);
+        g2d.fill(goalSquare);
+        g2d.setPaint(Color.black);
 
-        Rectangle2D player;
-        
         if (!playerPlaced) { //if player not placed, determine its initial location
             CoordinatePair playerLoc = gs.getPlayerPosition();
             playerLocationX = playerLoc.across * squareLength;
@@ -102,11 +107,15 @@ public class Game extends JPanel {
             playerPlaced = true;
         }
         
-        player = new Rectangle2D.Double(
-                playerLocationX + centreShift, playerLocationY + centreShift, playerSize, playerSize);
-        
-        g2d.setPaint(Color.red);
-        g2d.fill(player);
+        //Draw zombie (player)
+        Image zombie = getImage("zombie.png");
+        g2d.drawImage(zombie, (int) (playerLocationX + centreShift), (int) (playerLocationY + centreShift), 
+                (int) playerSize, (int) playerSize, null, null);
+        //g2d.setPaint(Color.red);
+        //Rectangle2D player;
+        //player = new Rectangle2D.Double(
+        //        playerLocationX + centreShift, playerLocationY + centreShift, playerSize, playerSize); OLD CODE TO BE REMOVED LATER
+        //g2d.fill(player);
     }
     
     private Image getImage(String fileName) {
