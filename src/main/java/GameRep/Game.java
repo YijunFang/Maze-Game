@@ -199,10 +199,10 @@ public class Game extends JPanel {
         if (!currentSquare.isBorderedOn(SquareSide.DOWN)) {
             setNewPlayerPosition (new CoordinatePair(playerPosition.down + 1, playerPosition.across));
             CoordinatePair playerLoc = gs.getPlayerPosition();
-            double newPlayerLocationY = playerLoc.down * squareLength;
+            final double newPlayerLocationY = playerLoc.down * squareLength;
             
-            Timer moveTimer = new Timer(1, null);
-            Timer repaintTimer = new Timer (15, null);
+            final Timer moveTimer = new Timer(1, null);
+            final Timer repaintTimer = new Timer (15, null);
             ActionListener moveAction = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -238,10 +238,10 @@ public class Game extends JPanel {
             setNewPlayerPosition (new CoordinatePair(playerPosition.down, playerPosition.across - 1));
             
             CoordinatePair playerLoc = gs.getPlayerPosition();
-            double newPlayerLocationX = playerLoc.across * squareLength;
+            final double newPlayerLocationX = playerLoc.across * squareLength;
             
-            Timer moveTimer = new Timer(1, null);
-            Timer repaintTimer = new Timer (15, null);
+            final Timer moveTimer = new Timer(1, null);
+            final Timer repaintTimer = new Timer (15, null);
             ActionListener moveAction = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -274,10 +274,10 @@ public class Game extends JPanel {
         if (!currentSquare.isBorderedOn(SquareSide.UP)) {
             setNewPlayerPosition (new CoordinatePair(playerPosition.down - 1, playerPosition.across));
             CoordinatePair playerLoc = gs.getPlayerPosition();
-            double newPlayerLocationY = playerLoc.down * squareLength;
+            final double newPlayerLocationY = playerLoc.down * squareLength;
             
-            Timer moveTimer = new Timer(1, null);
-            Timer repaintTimer = new Timer (15, null);
+            final Timer moveTimer = new Timer(1, null);
+            final Timer repaintTimer = new Timer (15, null);
             ActionListener moveAction = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -312,10 +312,10 @@ public class Game extends JPanel {
             setNewPlayerPosition (new CoordinatePair(playerPosition.down, playerPosition.across + 1));
 
             CoordinatePair playerLoc = gs.getPlayerPosition();
-            double newPlayerLocationX = playerLoc.across * squareLength;
+            final double newPlayerLocationX = playerLoc.across * squareLength;
             
-            Timer moveTimer = new Timer(1, null);
-            Timer repaintTimer = new Timer (15, null);
+            final Timer moveTimer = new Timer(1, null);
+            final Timer repaintTimer = new Timer (15, null);
             ActionListener moveAction = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
