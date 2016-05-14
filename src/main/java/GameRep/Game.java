@@ -3,16 +3,22 @@ package GameRep;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -39,7 +45,7 @@ public class Game extends JPanel {
     private double playerLocationY = 0;
     
     public Game() {
-        initKeyPressDetect(); //debug
+        enableKeyPressDetect(); //debug
     }
     
     @Override
@@ -52,6 +58,9 @@ public class Game extends JPanel {
             RenderingHints.VALUE_ANTIALIAS_ON);
 
         if (gs == null) return;
+        
+        //Image bedrock = getImage("bedrock.png");
+        //g2d.drawImage(bedrock, 100, 100, 64, 64, null, null);
         //draw the squares
         for (int down = 0; down < mazeLength; down++) {
             for (int across = 0; across < mazeLength; across++) {
@@ -83,19 +92,7 @@ public class Game extends JPanel {
                 }
             }
         }
-        //display hint coins
-        /*
-        hcList = gs.getHintCoordinateList();
-        for (CoordinatePair cp : hcList) {
-            System.out.println("hc = x: " + cp.across + " y: " + cp.down); //debug
-            double pixelX = cp.across * squareLength;
-            double pixelY = cp.down   * squareLength;
-            g2d.setPaint(Color.yellow);
-            g2d.fill(new Rectangle2D.Double(pixelX + centreShift, pixelY + centreShift, 20, 20));
-        }*/
-        
-        //draw character
-        //System.out.println("PlayerLocation = x: " + playerLoc.across + " y: " + playerLoc.down); //debug
+
         Rectangle2D player;
         
         if (!playerPlaced) { //if player not placed, determine its initial location
@@ -112,6 +109,16 @@ public class Game extends JPanel {
         g2d.fill(player);
     }
     
+    private Image getImage(String fileName) {
+        Image img = null;
+        try {
+            img = ImageIO.read(new File(fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return img;
+    }
+
     public void start(Difficulty diff) {
         setSize(frameSize, frameSize);
         gs = new GameState(diff);
@@ -163,35 +170,38 @@ public class Game extends JPanel {
     public void restart() {
         
     }
-    
-    public void initKeyPressDetect() {
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
+    KeyEventDispatcher ked = new KeyEventDispatcher() {
 
-            @Override
-            public boolean dispatchKeyEvent(KeyEvent ke) {
-                synchronized (Game.class) {
-                    switch (ke.getID()) {
-                    case KeyEvent.KEY_PRESSED:
-                        switch (ke.getKeyCode()) {
-                            case KeyEvent.VK_W:
-                                keyPressedUp();
-                                break;
-                            case KeyEvent.VK_A:
-                                keyPressedLeft();
-                                break;
-                            case KeyEvent.VK_S:
-                                keyPressedDown();
-                                break;
-                            case KeyEvent.VK_D:
-                                keyPressedRight();
-                                break;
-                        }
-                        break;
+        @Override
+        public boolean dispatchKeyEvent(KeyEvent ke) {
+            synchronized (Game.class) {
+                switch (ke.getID()) {
+                case KeyEvent.KEY_PRESSED:
+                    switch (ke.getKeyCode()) {
+                        case KeyEvent.VK_W:
+                            keyPressedUp();
+                            break;
+                        case KeyEvent.VK_A:
+                            keyPressedLeft();
+                            break;
+                        case KeyEvent.VK_S:
+                            keyPressedDown();
+                            break;
+                        case KeyEvent.VK_D:
+                            keyPressedRight();
+                            break;
                     }
-                    return false;
+                    break;
                 }
+                return false;
             }
-        });
+        }
+    };
+    private void enableKeyPressDetect() {
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(ked);
+    }
+    private void disableKeyPressDetect() {
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(ked);
     }
     public void keyPressedDown() {
         CoordinatePair playerPosition = gs.getPlayerPosition();
@@ -209,6 +219,7 @@ public class Game extends JPanel {
                     if (newPlayerLocationY < playerLocationY) {
                         moveTimer.stop();
                         repaintTimer.stop();
+                        enableKeyPressDetect();
                         repaint();
                     }
                     playerLocationY+=1;
@@ -223,6 +234,8 @@ public class Game extends JPanel {
             };
             moveTimer.addActionListener(moveAction);
             repaintTimer.addActionListener(repaintAction);
+            
+            disableKeyPressDetect();
             
             moveTimer.setInitialDelay(0);
             moveTimer.start(); 
@@ -246,8 +259,10 @@ public class Game extends JPanel {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (newPlayerLocationX > playerLocationX) {
+                        //Character has moved sufficiently, so stop movement process
                         moveTimer.stop();
                         repaintTimer.stop();
+                        enableKeyPressDetect();
                         repaint();
                     }
                     playerLocationX-=1;
@@ -262,6 +277,8 @@ public class Game extends JPanel {
             };
             moveTimer.addActionListener(moveAction);
             repaintTimer.addActionListener(repaintAction);
+            
+            disableKeyPressDetect();
             
             moveTimer.setInitialDelay(0);
             moveTimer.start(); 
@@ -284,6 +301,7 @@ public class Game extends JPanel {
                     if (newPlayerLocationY > playerLocationY) {
                         moveTimer.stop();
                         repaintTimer.stop();
+                        enableKeyPressDetect();
                         repaint();
                     }
                     playerLocationY-=1;
@@ -298,6 +316,8 @@ public class Game extends JPanel {
             };
             moveTimer.addActionListener(moveAction);
             repaintTimer.addActionListener(repaintAction);
+            
+            disableKeyPressDetect();
             
             moveTimer.setInitialDelay(0);
             moveTimer.start(); 
@@ -322,6 +342,7 @@ public class Game extends JPanel {
                     if (newPlayerLocationX < playerLocationX) {
                         moveTimer.stop();
                         repaintTimer.stop();
+                        enableKeyPressDetect();
                         repaint();
                     }
                     playerLocationX+=1;
@@ -337,10 +358,34 @@ public class Game extends JPanel {
             moveTimer.addActionListener(moveAction);
             repaintTimer.addActionListener(repaintAction);
             
+            disableKeyPressDetect();
+            
             moveTimer.setInitialDelay(0);
             moveTimer.start(); 
             repaintTimer.start();
         }
+    }
+    
+    /**
+     * scale image
+     * 
+     * @param sbi image to scale
+     * @param imageType type of image
+     * @param dWidth width of destination image
+     * @param dHeight height of destination image
+     * @param fWidth x-factor for transformation / scaling
+     * @param fHeight y-factor for transformation / scaling
+     * @return scaled image
+     */
+    public static BufferedImage scale(BufferedImage sbi, int imageType, int dWidth, int dHeight, double fWidth, double fHeight) {
+        BufferedImage dbi = null;
+        if(sbi != null) {
+            dbi = new BufferedImage(dWidth, dHeight, imageType);
+            Graphics2D g = dbi.createGraphics();
+            AffineTransform at = AffineTransform.getScaleInstance(fWidth, fHeight);
+            g.drawRenderedImage(sbi, at);
+        }
+        return dbi;
     }
     
 }
