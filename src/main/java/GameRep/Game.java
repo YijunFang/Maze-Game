@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import Common.Content;
 import Common.CoordinatePair;
 import Common.Difficulty;
 
@@ -72,17 +73,26 @@ public class Game extends JPanel {
                 if (s.isBorderedOn(SquareSide.LEFT)) {
                     g2d.draw(new Line2D.Double(pixelX, pixelY, pixelX, pixelY + squareLength));
                 }
+                
+                //draw hint coin if square has one
+                if (s.getContent() == Content.CREDIT) {
+                    g2d.setPaint(Color.yellow);
+                    g2d.fill(new Rectangle2D.Double(pixelX + centreShift, pixelY + centreShift, 20, 20));
+                    g2d.setPaint(Color.black);
+                    maze[down][across] = gs.getSquareAt(new CoordinatePair (down, across));
+                }
             }
         }
         //display hint coins
+        /*
         hcList = gs.getHintCoordinateList();
         for (CoordinatePair cp : hcList) {
-            System.out.println("hc = x: " + cp.across + " y: " + cp.down);
+            System.out.println("hc = x: " + cp.across + " y: " + cp.down); //debug
             double pixelX = cp.across * squareLength;
             double pixelY = cp.down   * squareLength;
             g2d.setPaint(Color.yellow);
             g2d.fill(new Rectangle2D.Double(pixelX + centreShift, pixelY + centreShift, 20, 20));
-        }
+        }*/
         
         //draw character
         //System.out.println("PlayerLocation = x: " + playerLoc.across + " y: " + playerLoc.down); //debug
@@ -149,6 +159,9 @@ public class Game extends JPanel {
     }
     public int getTime() {
         return 0;
+    }
+    public void restart() {
+        
     }
     
     public void initKeyPressDetect() {
