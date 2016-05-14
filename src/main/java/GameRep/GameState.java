@@ -18,7 +18,8 @@ import java.util.Random;
  * @author john
  */
 public class GameState {
-
+    //TODO Implement textures instead of lines
+    //      
     private Maze<Content> maze;
     private Difficulty difficultyLevel;
     private CoordinatePair playerPosition;
