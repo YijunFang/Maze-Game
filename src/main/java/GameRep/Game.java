@@ -29,39 +29,97 @@ import Common.Difficulty;
 
 @SuppressWarnings("serial")
 public class Game extends JPanel {
+    //window size
     private static final int frameSize = 800;
+    
+    //image locations
+    private static final String wallImg   = "cobblestone.png";
+    private static final String playerImg = "zombie.png";
+    private static final String groundImg = "greengrass.png";
+    private static final String hintImg   = "ender_eye.png";
+    private static final String goalImg   = "villager.png";
+    
+    //rendering information
     private double squareLength = 0;
     private double playerSize;
     private double centreShift;
-    private boolean isPaused = false;
-    
-    private int mazeLength;
-    private boolean playerPlaced = false;
-    GameState gs;
-    Square[][] maze;
-    List<CoordinatePair> hcList;
-    
     private double playerLocationX = 0;
     private double playerLocationY = 0;
+    
+    //game state
+    private GameState gs;
+    private Square[][] maze;
+    private boolean isPaused = false;
+    private boolean gameWon = false;
+    private int mazeLength;
+    private boolean playerPlaced = false;
+    List<CoordinatePair> hcList; //hint path list
     
     public Game() {
         enableKeyPressDetect(); //debug
     }
+    public static void main(String[] args) throws InterruptedException {
+        JFrame frame = new JFrame("Maze");
+        Game game = new Game();
+        frame.add(game);
+        frame.setSize(frameSize, frameSize);
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+        game.start(Difficulty.HARD);
+    }
+    public void start(Difficulty diff) {
+        setSize(frameSize, frameSize);
+        gs = new GameState(diff);
+        
+        //Get maze length
+        mazeLength = diff.getSideLength();
+        maze = new Square[mazeLength][mazeLength];
+        squareLength = frameSize/mazeLength * 0.95;
+        playerSize = squareLength * 0.6;
+        centreShift = squareLength * 0.2;
+        
+        //Initialise maze representation
+        for (int down = 0; down < mazeLength; down++) {
+            for (int across = 0; across < mazeLength; across++) {
+                maze[down][across] = gs.getSquareAt(new CoordinatePair (down, across));
+            }
+        }
+        repaint();
+    }
     
     @Override
     public void paint(Graphics g) {
-        if (isPaused) return;
-        
+        if (isPaused) return; //If the game is paused, don't paint anything
+        if (gs == null) return; //If game state is not initialised yet, don't paint anything
         super.paint(g);
+        if (gameWon) {
+            renderEndGame(g);
+        } else {
+            renderGame(g);
+        }
+    }
+    private void renderGame (Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
             RenderingHints.VALUE_ANTIALIAS_ON);
-
-        if (gs == null) return;
         
-        //Image bedrock = getImage("bedrock.png");
-        //g2d.drawImage(bedrock, 100, 100, 64, 64, null, null); //bedrock to be used for walls
-
+        //Get images
+        Image wall      = getImage(wallImg);
+        Image player    = getImage(playerImg);
+        Image ground    = getImage(groundImg);
+        Image hintImage = getImage(hintImg);
+        Image goalImage = getImage(goalImg);
+        
+        int wallImageSize   = (int) squareLength/4;
+        int groundImageSize = (int) squareLength/4;
+        //draw the ground
+        for (int x = 0; x < frameSize; x += groundImageSize) {
+            for (int y = 0; y < frameSize; y += groundImageSize) {
+                g2d.drawImage(ground, x, y, groundImageSize, groundImageSize, null, null);
+            }
+        }
+        
         //draw the squares
         for (int down = 0; down < mazeLength; down++) {
             for (int across = 0; across < mazeLength; across++) {
@@ -70,52 +128,69 @@ public class Game extends JPanel {
                 
                 Square s = maze[down][across];
                 
-                //Draw square borders
+                //Draw square borders (i.e. walls)
                 if (s.isBorderedOn(SquareSide.UP)) {
                     g2d.draw(new Line2D.Double(pixelX, pixelY, pixelX + squareLength, pixelY));
+                    int imgYCoordinate = (int) (pixelY - wallImageSize/2);
+                    
+                    for (int imglocation = (int) pixelX - wallImageSize/2; imglocation < pixelX + squareLength; imglocation += wallImageSize) {
+                        g2d.drawImage(wall, imglocation, imgYCoordinate, wallImageSize, wallImageSize, null, null);
+                    }
                 }
                 if (s.isBorderedOn(SquareSide.RIGHT)) {
                     g2d.draw(new Line2D.Double(pixelX + squareLength, pixelY, pixelX + squareLength, pixelY + squareLength));
+                    int imgXCoordinate = (int) (pixelX - wallImageSize/2 + squareLength);
+                    
+                    for (int imglocation = (int) pixelY - wallImageSize/2; imglocation < pixelY + squareLength; imglocation += wallImageSize) {
+                        g2d.drawImage(wall, imgXCoordinate, imglocation, wallImageSize, wallImageSize, null, null);
+                    }
                 }
                 if (s.isBorderedOn(SquareSide.DOWN)) {
                     g2d.draw(new Line2D.Double(pixelX, pixelY + squareLength, pixelX + squareLength, pixelY + squareLength));
+                    int imgYCoordinate = (int) (pixelY - wallImageSize/2 + squareLength);
+                    
+                    for (int imglocation = (int) pixelX - wallImageSize/2; imglocation < pixelX + squareLength; imglocation += wallImageSize) {
+                        g2d.drawImage(wall, imglocation, imgYCoordinate, wallImageSize, wallImageSize, null, null);
+                    }
                 }
                 if (s.isBorderedOn(SquareSide.LEFT)) {
                     g2d.draw(new Line2D.Double(pixelX, pixelY, pixelX, pixelY + squareLength));
+                    int imgXCoordinate = (int) (pixelX - wallImageSize/2);
+                    
+                    for (int imglocation = (int) pixelY - wallImageSize/2; imglocation < pixelY + squareLength; imglocation += wallImageSize) {
+                        g2d.drawImage(wall, imgXCoordinate, imglocation, wallImageSize, wallImageSize, null, null);
+                    }
                 }
                 
                 //draw hint coin if square has one
                 if (s.getContent() == Content.CREDIT) {
-                    g2d.setPaint(Color.yellow);
-                    g2d.fill(new Rectangle2D.Double(pixelX + centreShift, pixelY + centreShift, 20, 20));
-                    g2d.setPaint(Color.black);
+                    g2d.drawImage(hintImage, (int)(pixelX + centreShift), (int)(pixelY + centreShift),
+                            (int)(playerSize * 01), (int)(playerSize * 1), null, null);
                     maze[down][across] = gs.getSquareAt(new CoordinatePair (down, across));
                 }
             }
         }
+        
+        //draw goal
         CoordinatePair goal = gs.getGoalPosition();
-        g2d.setPaint(Color.green);
-        Rectangle2D goalSquare = new Rectangle2D.Double(goal.across + centreShift, goal.down + centreShift,
-                playerSize * 0.5, playerSize * 0.5);
-        g2d.fill(goalSquare);
-        g2d.setPaint(Color.black);
-
+        double goalPixelX = goal.across * squareLength;
+        double goalPixelY = goal.down   * squareLength;
+        g2d.drawImage(goalImage, (int)(goalPixelX + centreShift * 1.5), (int)(goalPixelY + centreShift), 
+                (int)(playerSize * 0.8), (int)(playerSize * 1.1), null, null);
+        
+        //draw zombie (player)
         if (!playerPlaced) { //if player not placed, determine its initial location
             CoordinatePair playerLoc = gs.getPlayerPosition();
             playerLocationX = playerLoc.across * squareLength;
             playerLocationY = playerLoc.down * squareLength;
             playerPlaced = true;
         }
-        
-        //Draw zombie (player)
-        Image zombie = getImage("zombie.png");
-        g2d.drawImage(zombie, (int) (playerLocationX + centreShift), (int) (playerLocationY + centreShift), 
+        g2d.drawImage(player, (int) (playerLocationX + centreShift), (int) (playerLocationY + centreShift), 
                 (int) playerSize, (int) playerSize, null, null);
-        //g2d.setPaint(Color.red);
-        //Rectangle2D player;
-        //player = new Rectangle2D.Double(
-        //        playerLocationX + centreShift, playerLocationY + centreShift, playerSize, playerSize); OLD CODE TO BE REMOVED LATER
-        //g2d.fill(player);
+    }
+    private void renderEndGame(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.drawString("You win!", 100, 100);
     }
     
     private Image getImage(String fileName) {
@@ -128,42 +203,8 @@ public class Game extends JPanel {
         return img;
     }
 
-    public void start(Difficulty diff) {
-        setSize(frameSize, frameSize);
-        gs = new GameState(diff);
-        
-        //Get maze length
-        mazeLength = diff.getSideLength();
-        maze = new Square[mazeLength][mazeLength];
-        squareLength = frameSize/mazeLength * 0.95;
-        playerSize = squareLength * 0.8;
-        centreShift = squareLength * 0.1;
-        
-        //Initialise maze representation
-        for (int down = 0; down < mazeLength; down++) {
-            for (int across = 0; across < mazeLength; across++) {
-                maze[down][across] = gs.getSquareAt(new CoordinatePair (down, across));
-            }
-        }
-        
-        repaint();
-    }
-
-    public static void main(String[] args) throws InterruptedException {
-        JFrame frame = new JFrame("Maze");
-        Game game = new Game();
-        frame.add(game);
-        frame.setSize(frameSize, frameSize);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        game.start(Difficulty.MEDIUM);
-    }
-    
-    
-    
     private void setNewPlayerPosition (CoordinatePair newLocation) {
-        gs.setPlayerPosition(newLocation);
+        this.gs.setPlayerPosition(newLocation);
     }
     
     public void hintCoinActivated() {
@@ -173,14 +214,21 @@ public class Game extends JPanel {
         this.isPaused = isPaused;
         repaint();
     }
-    public int getTime() {
-        return 0;
+    public int getNumCoins() {
+        return this.gs.getNumberOfCoins();
     }
     public void restart() {
         
     }
+    private void checkWinState() {
+        CoordinatePair goal = gs.getGoalPosition();
+        if (gs.getPlayerPosition().equals(goal)) {
+            this.gameWon = true;
+            repaint();
+        }
+    }
+    
     KeyEventDispatcher ked = new KeyEventDispatcher() {
-
         @Override
         public boolean dispatchKeyEvent(KeyEvent ke) {
             synchronized (Game.class) {
@@ -230,6 +278,7 @@ public class Game extends JPanel {
                         repaintTimer.stop();
                         enableKeyPressDetect();
                         repaint();
+                        checkWinState();
                     }
                     playerLocationY+=1;
                 }
@@ -273,6 +322,7 @@ public class Game extends JPanel {
                         repaintTimer.stop();
                         enableKeyPressDetect();
                         repaint();
+                        checkWinState();
                     }
                     playerLocationX-=1;
                 }
@@ -312,6 +362,7 @@ public class Game extends JPanel {
                         repaintTimer.stop();
                         enableKeyPressDetect();
                         repaint();
+                        checkWinState();
                     }
                     playerLocationY-=1;
                 }
@@ -353,6 +404,7 @@ public class Game extends JPanel {
                         repaintTimer.stop();
                         enableKeyPressDetect();
                         repaint();
+                        checkWinState();
                     }
                     playerLocationX+=1;
                 }
@@ -374,27 +426,4 @@ public class Game extends JPanel {
             repaintTimer.start();
         }
     }
-    
-    /**
-     * scale image
-     * 
-     * @param sbi image to scale
-     * @param imageType type of image
-     * @param dWidth width of destination image
-     * @param dHeight height of destination image
-     * @param fWidth x-factor for transformation / scaling
-     * @param fHeight y-factor for transformation / scaling
-     * @return scaled image
-     */
-    public static BufferedImage scale(BufferedImage sbi, int imageType, int dWidth, int dHeight, double fWidth, double fHeight) {
-        BufferedImage dbi = null;
-        if(sbi != null) {
-            dbi = new BufferedImage(dWidth, dHeight, imageType);
-            Graphics2D g = dbi.createGraphics();
-            AffineTransform at = AffineTransform.getScaleInstance(fWidth, fHeight);
-            g.drawRenderedImage(sbi, at);
-        }
-        return dbi;
-    }
-    
 }
