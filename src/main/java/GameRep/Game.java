@@ -16,6 +16,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -38,13 +39,15 @@ public class Game extends JPanel {
     private static final String groundImg = "greengrass.png";
     private static final String hintImg   = "ender_eye.png";
     private static final String goalImg   = "villager.png";
+    private BufferedImage mazeImage = null;
+    private BufferedImage hintImage = null;
     
     //rendering information
-    private double squareLength = 0;
+    private double squareLength;
     private double playerSize;
     private double centreShift;
-    private double playerLocationX = 0;
-    private double playerLocationY = 0;
+    private double playerLocationX;
+    private double playerLocationY;
     
     //game state
     private GameState gs;
@@ -53,7 +56,8 @@ public class Game extends JPanel {
     private boolean gameWon = false;
     private int mazeLength;
     private boolean playerPlaced = false;
-    List<CoordinatePair> hcList; //hint path list
+    private List<CoordinatePair> hintCoinList = null;
+    private List<CoordinatePair> hintPathList; //hint path list
     
     public Game() {
         enableKeyPressDetect(); //debug
@@ -74,17 +78,28 @@ public class Game extends JPanel {
         
         //Get maze length
         mazeLength = diff.getSideLength();
-        maze = new Square[mazeLength][mazeLength];
+        
+        //Initialise rendering information
         squareLength = frameSize/mazeLength * 0.95;
         playerSize = squareLength * 0.6;
         centreShift = squareLength * 0.2;
-        
+
         //Initialise maze representation
+        maze = new Square[mazeLength][mazeLength];
+        hintCoinList = new LinkedList<CoordinatePair>();
+        
         for (int down = 0; down < mazeLength; down++) {
             for (int across = 0; across < mazeLength; across++) {
+                //initialise each index of the maze
                 maze[down][across] = gs.getSquareAt(new CoordinatePair (down, across));
+                
+                //if index also contains hint coin, add it to the hint coin list
+                if (maze[down][across].getContent() == Content.CREDIT) {
+                    hintCoinList.add(maze[down][across].getCoordinatePair());
+                }
             }
         }
+        
         repaint();
     }
     
@@ -105,72 +120,98 @@ public class Game extends JPanel {
             RenderingHints.VALUE_ANTIALIAS_ON);
         
         //Get images
-        Image wall      = getImage(wallImg);
-        Image player    = getImage(playerImg);
-        Image ground    = getImage(groundImg);
-        Image hintImage = getImage(hintImg);
-        Image goalImage = getImage(goalImg);
+        Image wall          = getImage(wallImg);
+        Image player        = getImage(playerImg);
+        Image ground        = getImage(groundImg);
+        Image hintCoinImage = getImage(hintImg);
+        Image goalImage     = getImage(goalImg);
         
-        int wallImageSize   = (int) squareLength/4;
-        int groundImageSize = (int) squareLength/4;
-        //draw the ground
-        for (int x = 0; x < frameSize; x += groundImageSize) {
-            for (int y = 0; y < frameSize; y += groundImageSize) {
-                g2d.drawImage(ground, x, y, groundImageSize, groundImageSize, null, null);
+        //Maze will be a pre-generated image to remove the need to rerender the maze everytime the player moves
+        if (mazeImage == null) {
+            mazeImage = new BufferedImage (frameSize, frameSize, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D mazeImageGraphic = mazeImage.createGraphics();
+            
+            int wallImageSize   = (int) squareLength/4;
+            int groundImageSize = (int) squareLength/4;
+            
+            //draw the ground
+            for (int x = 0; x < frameSize; x += groundImageSize) {
+                for (int y = 0; y < frameSize; y += groundImageSize) {
+                    mazeImageGraphic.drawImage(ground, x, y, groundImageSize, groundImageSize, null, null);
+                }
+            }
+            //draw the squares
+            for (int down = 0; down < mazeLength; down++) {
+                for (int across = 0; across < mazeLength; across++) {
+                    double pixelX = across * squareLength;
+                    double pixelY =   down * squareLength;
+                    
+                    Square s = maze[down][across];
+                    
+                    //Draw square borders (i.e. walls)
+                    if (s.isBorderedOn(SquareSide.UP)) {
+                        mazeImageGraphic.draw(new Line2D.Double(pixelX, pixelY, pixelX + squareLength, pixelY));
+                        int imgYCoordinate = (int) (pixelY - wallImageSize/2);
+                        
+                        for (int imglocation = (int) pixelX - wallImageSize/2; imglocation < pixelX + squareLength; imglocation += wallImageSize) {
+                            mazeImageGraphic.drawImage(wall, imglocation, imgYCoordinate, wallImageSize, wallImageSize, null, null);
+                        }
+                    }
+                    if (s.isBorderedOn(SquareSide.RIGHT)) {
+                        mazeImageGraphic.draw(new Line2D.Double(pixelX + squareLength, pixelY, pixelX + squareLength, pixelY + squareLength));
+                        int imgXCoordinate = (int) (pixelX - wallImageSize/2 + squareLength);
+                        
+                        for (int imglocation = (int) pixelY - wallImageSize/2; imglocation < pixelY + squareLength; imglocation += wallImageSize) {
+                            mazeImageGraphic.drawImage(wall, imgXCoordinate, imglocation, wallImageSize, wallImageSize, null, null);
+                        }
+                    }
+                    if (s.isBorderedOn(SquareSide.DOWN)) {
+                        mazeImageGraphic.draw(new Line2D.Double(pixelX, pixelY + squareLength, pixelX + squareLength, pixelY + squareLength));
+                        int imgYCoordinate = (int) (pixelY - wallImageSize/2 + squareLength);
+                        
+                        for (int imglocation = (int) pixelX - wallImageSize/2; imglocation < pixelX + squareLength; imglocation += wallImageSize) {
+                           mazeImageGraphic.drawImage(wall, imglocation, imgYCoordinate, wallImageSize, wallImageSize, null, null);
+                        }
+                    }
+                    if (s.isBorderedOn(SquareSide.LEFT)) {
+                        mazeImageGraphic.draw(new Line2D.Double(pixelX, pixelY, pixelX, pixelY + squareLength));
+                        int imgXCoordinate = (int) (pixelX - wallImageSize/2);
+                        
+                        for (int imglocation = (int) pixelY - wallImageSize/2; imglocation < pixelY + squareLength; imglocation += wallImageSize) {
+                            mazeImageGraphic.drawImage(wall, imgXCoordinate, imglocation, wallImageSize, wallImageSize, null, null);
+                        }
+                    }
+                    
+                    
+                }
             }
         }
         
-        //draw the squares
-        for (int down = 0; down < mazeLength; down++) {
-            for (int across = 0; across < mazeLength; across++) {
-                double pixelX = across * squareLength;
-                double pixelY =   down * squareLength;
+        //draw maze image
+        g2d.drawImage(mazeImage, 0, 0, frameSize, frameSize, null, null);
+        
+        //Hint coins will be displayed as a rendered image that will be redrawn only when player takes one from the maze
+        if (hintImage == null || playerOnHintCoin(gs.getPlayerPosition())) {
+            if (hintImage != null)  {
+                hintCoinList.remove(gs.getPlayerPosition());
+                maze[gs.getPlayerPosition().down][gs.getPlayerPosition().across] = gs.getSquareAt(gs.getPlayerPosition());
+            }
+            hintImage = new BufferedImage (frameSize, frameSize, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D hintImageGraphics = hintImage.createGraphics();
+            
+            //rerender the hint coins
+            for (CoordinatePair cp : hintCoinList) {
+                double pixelX = cp.across * squareLength;
+                double pixelY = cp.down   * squareLength;
                 
-                Square s = maze[down][across];
-                
-                //Draw square borders (i.e. walls)
-                if (s.isBorderedOn(SquareSide.UP)) {
-                    g2d.draw(new Line2D.Double(pixelX, pixelY, pixelX + squareLength, pixelY));
-                    int imgYCoordinate = (int) (pixelY - wallImageSize/2);
-                    
-                    for (int imglocation = (int) pixelX - wallImageSize/2; imglocation < pixelX + squareLength; imglocation += wallImageSize) {
-                        g2d.drawImage(wall, imglocation, imgYCoordinate, wallImageSize, wallImageSize, null, null);
-                    }
-                }
-                if (s.isBorderedOn(SquareSide.RIGHT)) {
-                    g2d.draw(new Line2D.Double(pixelX + squareLength, pixelY, pixelX + squareLength, pixelY + squareLength));
-                    int imgXCoordinate = (int) (pixelX - wallImageSize/2 + squareLength);
-                    
-                    for (int imglocation = (int) pixelY - wallImageSize/2; imglocation < pixelY + squareLength; imglocation += wallImageSize) {
-                        g2d.drawImage(wall, imgXCoordinate, imglocation, wallImageSize, wallImageSize, null, null);
-                    }
-                }
-                if (s.isBorderedOn(SquareSide.DOWN)) {
-                    g2d.draw(new Line2D.Double(pixelX, pixelY + squareLength, pixelX + squareLength, pixelY + squareLength));
-                    int imgYCoordinate = (int) (pixelY - wallImageSize/2 + squareLength);
-                    
-                    for (int imglocation = (int) pixelX - wallImageSize/2; imglocation < pixelX + squareLength; imglocation += wallImageSize) {
-                        g2d.drawImage(wall, imglocation, imgYCoordinate, wallImageSize, wallImageSize, null, null);
-                    }
-                }
-                if (s.isBorderedOn(SquareSide.LEFT)) {
-                    g2d.draw(new Line2D.Double(pixelX, pixelY, pixelX, pixelY + squareLength));
-                    int imgXCoordinate = (int) (pixelX - wallImageSize/2);
-                    
-                    for (int imglocation = (int) pixelY - wallImageSize/2; imglocation < pixelY + squareLength; imglocation += wallImageSize) {
-                        g2d.drawImage(wall, imgXCoordinate, imglocation, wallImageSize, wallImageSize, null, null);
-                    }
-                }
-                
-                //draw hint coin if square has one
-                if (s.getContent() == Content.CREDIT) {
-                    g2d.drawImage(hintImage, (int)(pixelX + centreShift), (int)(pixelY + centreShift),
-                            (int)(playerSize * 01), (int)(playerSize * 1), null, null);
-                    maze[down][across] = gs.getSquareAt(new CoordinatePair (down, across));
-                }
+                hintImageGraphics.drawImage(hintCoinImage, (int)(pixelX + centreShift), (int)(pixelY + centreShift),
+                        (int)(playerSize), (int) playerSize, null, null);
             }
         }
         
+        //draw hint coin image
+        g2d.drawImage(hintImage, 0, 0, frameSize, frameSize, null, null);
+
         //draw goal
         CoordinatePair goal = gs.getGoalPosition();
         double goalPixelX = goal.across * squareLength;
@@ -202,6 +243,16 @@ public class Game extends JPanel {
         }
         return img;
     }
+    private boolean playerOnHintCoin(CoordinatePair playerPosition) {
+        if (hintCoinList == null) return false;
+        
+        for (CoordinatePair compare : hintCoinList) {
+            if (compare.equals(playerPosition)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     private void setNewPlayerPosition (CoordinatePair newLocation) {
         this.gs.setPlayerPosition(newLocation);
@@ -209,6 +260,9 @@ public class Game extends JPanel {
     
     public void hintCoinActivated() {
         
+    }
+    public boolean isGameWon() {
+        return this.gameWon;
     }
     public void pauseGame(boolean isPaused) {
         this.isPaused = isPaused;
