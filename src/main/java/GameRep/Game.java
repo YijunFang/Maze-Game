@@ -62,6 +62,7 @@ public class Game extends JPanel {
     public Game() {
         enableKeyPressDetect(); //debug
     }
+    
     public static void main(String[] args) throws InterruptedException {
         JFrame frame = new JFrame("Maze");
         Game game = new Game();
@@ -72,6 +73,14 @@ public class Game extends JPanel {
         frame.setLocationRelativeTo(null);
         game.start(Difficulty.HARD);
     }
+    
+    /**
+     * Sets the side length of the maze depending on diff.
+     * Initialises rendering information (maze size, player size, centre shift).
+     * Initialises the maze representation (maze, hint coins list).
+     * Repaints the maze using the new representation and initialization.
+     * @param diff the requested level of difficulty
+     */
     public void start(Difficulty diff) {
         setSize(frameSize, frameSize);
         gs = new GameState(diff);
@@ -103,6 +112,10 @@ public class Game extends JPanel {
         repaint();
     }
     
+    /**
+     *
+     * @param g the canvas that the maze is being painted onto
+     */
     @Override
     public void paint(Graphics g) {
         if (isPaused) return; //If the game is paused, don't paint anything
@@ -114,10 +127,19 @@ public class Game extends JPanel {
             renderGame(g);
         }
     }
+    
+    /**
+     * Renders the game. To do this, it firstly gets the necessary images
+     * using the getImage(String imageName) function. Then, if a maze image
+     * isn't already  generated, generate a maze image (so that the maze
+     * doesn't need to be rerendered every time the player moves). Then render
+     * the hint coins.
+     * @param g the canvas that the maze is being painted onto
+     */
     private void renderGame (Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-            RenderingHints.VALUE_ANTIALIAS_ON);
+                             RenderingHints.VALUE_ANTIALIAS_ON);
         
         //Get images
         Image wall          = getImage(wallImg);
@@ -170,7 +192,7 @@ public class Game extends JPanel {
                         int imgYCoordinate = (int) (pixelY - wallImageSize/2 + squareLength);
                         
                         for (int imglocation = (int) pixelX - wallImageSize/2; imglocation < pixelX + squareLength; imglocation += wallImageSize) {
-                           mazeImageGraphic.drawImage(wall, imglocation, imgYCoordinate, wallImageSize, wallImageSize, null, null);
+                            mazeImageGraphic.drawImage(wall, imglocation, imgYCoordinate, wallImageSize, wallImageSize, null, null);
                         }
                     }
                     if (s.isBorderedOn(SquareSide.LEFT)) {
@@ -181,8 +203,6 @@ public class Game extends JPanel {
                             mazeImageGraphic.drawImage(wall, imgXCoordinate, imglocation, wallImageSize, wallImageSize, null, null);
                         }
                     }
-                    
-                    
                 }
             }
         }
@@ -211,7 +231,6 @@ public class Game extends JPanel {
         
         //draw hint coin image
         g2d.drawImage(hintImage, 0, 0, frameSize, frameSize, null, null);
-
         //draw goal
         CoordinatePair goal = gs.getGoalPosition();
         double goalPixelX = goal.across * squareLength;
@@ -229,11 +248,21 @@ public class Game extends JPanel {
         g2d.drawImage(player, (int) (playerLocationX + centreShift), (int) (playerLocationY + centreShift), 
                 (int) playerSize, (int) playerSize, null, null);
     }
+    
+    /**
+     * Renders the end state of the game.
+     * @param g the canvas that the maze is being painted onto
+     */
     private void renderEndGame(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.drawString("You win!", 100, 100);
     }
     
+    /**
+     * Gets the image from file and returns the image so that it can be used in the program
+     * @param fileName the name of the image file
+     * @return the image
+     */
     private Image getImage(String fileName) {
         Image img = null;
         try {
@@ -243,6 +272,14 @@ public class Game extends JPanel {
         }
         return img;
     }
+    
+    /**
+     * Uses the coordinates of the player's current position and checks if
+     * there is a hint coin on that position
+     * @param playerPosition the current position of the player
+     * @return true if there is a hint coin on the player's current position,
+     * false otherwise
+     */
     private boolean playerOnHintCoin(CoordinatePair playerPosition) {
         if (hintCoinList == null) return false;
         
@@ -253,7 +290,11 @@ public class Game extends JPanel {
         }
         return false;
     }
-
+    /**
+     * Sets the new position for the player
+     * @param newLocation the coordinates of the location where the
+     * player is being set to
+     */
     private void setNewPlayerPosition (CoordinatePair newLocation) {
         this.gs.setPlayerPosition(newLocation);
     }
@@ -264,16 +305,57 @@ public class Game extends JPanel {
     public boolean isGameWon() {
         return this.gameWon;
     }
+    /**
+     *
+     */
+    public void hintCoinActivated() {
+        
+    }
+    
+    /**
+     * Returns true if the game is won, false otherwise
+     * @return true if the game is won, false otherwise
+     */
+    public boolean isGameWon() {
+        return this.gameWon;
+    }
+    
+    /**
+     * Repaints the maze screen to show paused game state
+     * @param isPaused true if game is paused, false otherwise
+     */
     public void pauseGame(boolean isPaused) {
         this.isPaused = isPaused;
         repaint();
     }
+
     public int getNumCoins() {
         return this.gs.getNumberOfCoins();
     }
     public void restart() {
         
     }
+    
+    /**
+     * Gets the number of coins that a player has
+     * @return the current number of coins that a player has
+     */
+    public int getNumCoins() {
+        return this.gs.getNumberOfCoins();
+    }
+    
+    /**
+     *
+     */
+    public void restart() {
+        
+    }
+    
+    /**
+     * Checks if the current coordinates of the player's position
+     * is equal to the goal's coordinates. If it is, then set gameWon
+     * to true and repaint the maze
+     */
     private void checkWinState() {
         CoordinatePair goal = gs.getGoalPosition();
         if (gs.getPlayerPosition().equals(goal)) {
@@ -308,12 +390,25 @@ public class Game extends JPanel {
             }
         }
     };
+    **
+     * Enables the use of computer keyboard to control the game
+     */
     private void enableKeyPressDetect() {
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(ked);
     }
+    **
+     * Disables the use of computer keyboard to control the game
+     */
     private void disableKeyPressDetect() {
         KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(ked);
     }
+    /**
+     * Moves the current position of the player one coordinate downwards
+     * Firstly, it ensures that the current position of the player is not
+     * already at the bottom coordinate of the maze. If it isn't then
+     * set the player's position to be one coordinate downwards of its
+     * current position.
+     */
     public void keyPressedDown() {
         CoordinatePair playerPosition = gs.getPlayerPosition();
         Square currentSquare = gs.getSquareAt(playerPosition);
