@@ -26,6 +26,10 @@ public class GameState {
     private CoordinatePair goalPosition;
     private int numOfCoins;
 
+    private GameState() {
+        // dummy constructor for clone() method
+    }
+
     /**
      * Creates a new game with the given difficulty level.
      *
@@ -155,5 +159,24 @@ public class GameState {
         }
         this.numOfCoins = numberOfCoins;
         return true;
+    }
+
+    /**
+     * Returns a deep copy of this GameState
+     *
+     * @return a deep copy of this GameState
+     */
+    public GameState clone() {
+        GameState copy = new GameState();
+        copy.maze = this.maze.clone();
+        copy.difficultyLevel = this.difficultyLevel;
+        copy.numOfCoins = this.numOfCoins;
+        copy.playerPosition = new CoordinatePair(
+                this.playerPosition.down,
+                this.playerPosition.across);
+        copy.goalPosition = new CoordinatePair(
+                this.goalPosition.down,
+                this.goalPosition.across);
+        return copy;
     }
 }
