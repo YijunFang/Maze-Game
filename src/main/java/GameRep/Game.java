@@ -299,10 +299,10 @@ public class Game extends JPanel {
         this.gs.setPlayerPosition(newLocation);
     }
     
-    public void hintCoinActivated() {
+    public void hintCoinActivated1() {
         
     }
-    public boolean isGameWon() {
+    public boolean isGameWon1() {
         return this.gameWon;
     }
     /**
@@ -328,14 +328,6 @@ public class Game extends JPanel {
         this.isPaused = isPaused;
         repaint();
     }
-
-    public int getNumCoins() {
-        return this.gs.getNumberOfCoins();
-    }
-    public void restart() {
-        
-    }
-    
     /**
      * Gets the number of coins that a player has
      * @return the current number of coins that a player has
@@ -390,13 +382,13 @@ public class Game extends JPanel {
             }
         }
     };
-    **
+    /**
      * Enables the use of computer keyboard to control the game
      */
     private void enableKeyPressDetect() {
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(ked);
     }
-    **
+    /**
      * Disables the use of computer keyboard to control the game
      */
     private void disableKeyPressDetect() {
