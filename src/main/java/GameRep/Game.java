@@ -10,9 +10,7 @@ import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -54,6 +52,7 @@ public class Game extends JPanel {
     private Square[][] maze;
     private boolean isPaused = false;
     private boolean gameWon = false;
+    private boolean displayHint = false;
     private int mazeLength;
     private boolean playerPlaced = false;
     private List<CoordinatePair> hintCoinList = null;
@@ -71,7 +70,7 @@ public class Game extends JPanel {
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
-        game.start(Difficulty.HARD);
+        game.start(Difficulty.EASY);
     }
     
     /**
@@ -299,16 +298,20 @@ public class Game extends JPanel {
         this.gs.setPlayerPosition(newLocation);
     }
     
-    public void hintCoinActivated1() {
-        
-    }
-    public boolean isGameWon1() {
-        return this.gameWon;
-    }
     /**
      *
      */
     public void hintCoinActivated() {
+        final Timer hintTimer = new Timer (5000, null);
+        ActionListener hintTimerListener = new ActionListener() {
+            @Override
+            public void actionPerformed (ActionEvent evt) {
+                
+            }
+        };
+        hintTimer.addActionListener(hintTimerListener);
+        
+        //define hint direction
         
     }
     
@@ -337,10 +340,27 @@ public class Game extends JPanel {
     }
     
     /**
-     *
+     * Resets the maze. This method does not generate a new maze.
      */
     public void restart() {
         
+    }
+    
+    /**
+     * Sets the time elapsed since the start of the game. Used mainly for saving
+     * @param time Time elapsed so far
+     */
+    public void setTime(int time) {
+        
+    }
+    
+    /**
+     * Retrieves the time elapsed so far since the start of the game. Used mainly for
+     * loading.
+     * @return Time elapsed so far
+     */
+    public int getTime() {
+        return 0;
     }
     
     /**
