@@ -26,9 +26,7 @@ public class TimerPanel extends JPanel {
 	}
 
 	private long getCurrTime() {
-
 		return System.currentTimeMillis() / 1000;
-
 	}
 
 	public void startTimer() {
@@ -63,12 +61,9 @@ public class TimerPanel extends JPanel {
 	}
 
 	private void setupLabel() {
-		label.setFont(new Font("Arial", Font.BOLD, 15));// new
-														// Font(label.getFont().getName(),
-														// label.getFont().getStyle(),
-														// 20));
+		label.setFont(new Font("Arial", Font.BOLD, 15));
 		this.setLayout(new GridLayout(1, 1));
-		this.add(label);// , BorderLayout.CENTER);
+		this.add(label);
 	}
 
 	private class CountingThread extends Thread {
@@ -95,24 +90,6 @@ public class TimerPanel extends JPanel {
 				}
 			}
 		}
-
-		// //reset time
-		// public String format(long elapsed) {
-		// int hour, minute, second, milli;
-		//
-		//// milli = (int) (elapsed % 1000);
-		//// elapsed = elapsed / 1000;
-		//
-		// second = (int) (elapsed % 60);
-		// elapsed = elapsed / 60;
-		//
-		// minute = (int) (elapsed % 60);
-		// elapsed = elapsed / 60;
-		//
-		// hour = (int) (elapsed % 60);
-		// return String.format("%02d:%02d:%02d", hour, minute, second);
-		//
-		// }
 	}
 
 	// reset time
