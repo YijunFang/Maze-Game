@@ -491,7 +491,7 @@ public class MainPanel extends JPanel {
 
 	private class Button extends JButton {
 
-		public Button(String text, JPanel parentPanel) {
+		public Button(String text, final JPanel parentPanel) {
 			
 			super(text);
 			setFont(new Font("Courier New", Font.BOLD, 15));
