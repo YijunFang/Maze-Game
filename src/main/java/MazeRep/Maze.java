@@ -41,7 +41,7 @@ public interface Maze<T> {
     /**
      * Returns the {@link MazeRep.Node} in this Maze representing the square at the given coordinates.
      *
-     * @param down the x-coordinate of the {@link MazeRep.Node}
+     * @param down   the x-coordinate of the {@link MazeRep.Node}
      * @param across the y-coordinate of the {@link MazeRep.Node}
      * @return the {@link MazeRep.Node} in this Maze representing the square at the given coordinates
      * @throws IndexOutOfBoundsException if the given coordinates are out of the range of this Maze
@@ -61,13 +61,14 @@ public interface Maze<T> {
      * Finds the shortest path from a given starting {@link MazeRep.Node} and a given ending {@link MazeRep.Node}.
      *
      * @param from the starting {@link MazeRep.Node} of the path
-     * @param to the ending {@link MazeRep.Node} of the path
+     * @param to   the ending {@link MazeRep.Node} of the path
      * @return an ordered list of {@link MazeRep.Node}s representing the shortest path if it exists, otherwise null
      */
     List<Node<T>> getShortestPath(Node<T> from, Node<T> to);
 
     /**
      * Returns true if the given {@link MazeRep.Node}s are adjacent to each other.
+     *
      * @param node1 the first {@link MazeRep.Node}
      * @param node2 the second {@link MazeRep.Node}
      * @return true if the given {@link MazeRep.Node}s are adjacent to each other
@@ -87,4 +88,14 @@ public interface Maze<T> {
      * @return a deep copy of this Maze
      */
     Maze<T> clone();
+
+    /**
+     * Deletes an existing wall between two nodes, effectively creating a path between them.
+     *
+     * @param node1 the first node
+     * @param node2 the second node
+     * @return true if an existing wall between two nodes was effectively deleted
+     * @throws IllegalArgumentException if the given nodes do not have a wall between them
+     */
+    boolean cut(Node<T> node1, Node<T> node2);
 }

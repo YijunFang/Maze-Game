@@ -258,6 +258,7 @@ public class GraphMaze<T> implements ExposedGraphMaze<T> {
 
     /**
      * Returns true if the given {@link MazeRep.Node}s are adjacent to each other.
+     *
      * @param node1 the first {@link MazeRep.Node}
      * @param node2 the second {@link MazeRep.Node}
      * @return true if the given {@link MazeRep.Node}s are adjacent to each other
@@ -288,6 +289,23 @@ public class GraphMaze<T> implements ExposedGraphMaze<T> {
     public Maze<T> clone() {
         // TODO: deep copy
         throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Deletes an existing wall between two nodes, effectively creating a path between them.
+     *
+     * @param node1 the first node
+     * @param node2 the second node
+     * @return true if an existing wall between two nodes was effectively deleted
+     * @throws IllegalArgumentException if the given nodes do not have a wall between them
+     */
+    @Override
+    public boolean cut(Node<T> node1, Node<T> node2) {
+        if (!this.areAdjacent(node1, node2)) {
+            return this.graph.addEdge(node1, node2);
+        } else {
+            throw new IllegalArgumentException("Given nodes are already adjacent");
+        }
     }
 
     /**
