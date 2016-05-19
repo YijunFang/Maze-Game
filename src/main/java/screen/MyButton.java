@@ -12,12 +12,12 @@ public class MyButton extends JButton {
 
 	public MyButton(String text) {
 		super(text);
-//		Dimension d = new Dimension(5, 5);
-//		setPreferredSize(d);
-		setFont(new Font("Arial", Font.BOLD, 20));
-//		setOpaque(false);
-//		setContentAreaFilled(false);
-//		setBorderPainted(false);
+		Dimension d = new Dimension(5, 5);
+		setPreferredSize(d);
+		setFont(new Font("Arial", Font.BOLD, 15));
+		setOpaque(false);
+		setContentAreaFilled(false);
+		setBorderPainted(false);
 
 	}
 

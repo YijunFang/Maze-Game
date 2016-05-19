@@ -38,7 +38,7 @@ public class RandomisedRecursiveDFS<T> implements MazeGenStrategy<T> {
         /* Push starting cell coordinates to stack */
         stack.push(currCoordinatePair);
         /* While there are unvisited cells */
-        while (visited.containsValue(false)) {
+        while (visited.containsValue(false) || !stack.isEmpty()) {
             /* Initialise current cell */
             maze.getNodeAt(currCoordinatePair.down, currCoordinatePair.across).setValue(defaultValue);
             /* Check for unvisited cells neighbouring the current cell */

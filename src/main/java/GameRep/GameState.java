@@ -8,6 +8,10 @@ import MazeRep.Maze;
 import MazeRep.MazeFactory;
 import MazeRep.Node;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -18,12 +22,17 @@ import java.util.Random;
  * @author john
  */
 public class GameState {
-
+    //TODO Implement textures instead of lines
+    //      
     private Maze<Content> maze;
     private Difficulty difficultyLevel;
     private CoordinatePair playerPosition;
     private CoordinatePair goalPosition;
     private int numOfCoins;
+
+    private GameState() {
+        // dummy constructor for clone() method
+    }
 
     /**
      * Creates a new game with the given difficulty level.
@@ -154,5 +163,46 @@ public class GameState {
         }
         this.numOfCoins = numberOfCoins;
         return true;
+    }
+
+    /**
+     * Returns a deep copy of this GameState
+     *
+     * @return a deep copy of this GameState
+     */
+    public GameState clone() {
+        GameState copy = new GameState();
+        copy.maze = this.maze.clone();
+        copy.difficultyLevel = this.difficultyLevel;
+        copy.numOfCoins = this.numOfCoins;
+        copy.playerPosition = new CoordinatePair(
+                this.playerPosition.down,
+                this.playerPosition.across);
+        copy.goalPosition = new CoordinatePair(
+                this.goalPosition.down,
+                this.goalPosition.across);
+        return copy;
+    }
+
+    public static void save(GameState gs, FileOutputStream ofs) {
+        try {
+            ObjectOutputStream oofs = new ObjectOutputStream(ofs);
+            oofs.writeObject(gs);
+            oofs.flush();
+            oofs.close();
+        } catch (Exception e) {
+            throw new RuntimeException("Bad file output stream");
+        }
+    }
+
+    public static GameState load(FileInputStream ifs) {
+        try {
+            ObjectInputStream oifs = new ObjectInputStream(ifs);
+            GameState gs = (GameState)oifs.readObject();
+            oifs.close();
+            return gs;
+        } catch (Exception e) {
+            throw new RuntimeException("Bad file input stream");
+        }
     }
 }

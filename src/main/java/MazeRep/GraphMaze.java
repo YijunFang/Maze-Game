@@ -276,7 +276,7 @@ public class GraphMaze<T> implements ExposedGraphMaze<T> {
     @Override
     public String toString() {
         // TODO: figure out a nice way to do this
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -287,7 +287,7 @@ public class GraphMaze<T> implements ExposedGraphMaze<T> {
     @Override
     public Maze<T> clone() {
         // TODO: deep copy
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     /**
