@@ -2,10 +2,7 @@
 package screen;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -51,7 +48,7 @@ public class MainPanel extends JPanel {
 		// add("helpScreen", helpScreen);
 		pauseScreen = createPauseScreen();
 		add("pauseScreen", pauseScreen);
-
+		this.addComponentListener(new resizeListener());
 	}
 
 	public JPanel createMainMenu() {
@@ -116,7 +113,7 @@ public class MainPanel extends JPanel {
 		return newGamePanel;
 	}
 
-	/*
+	/**
 	 * public JPanel createHelpScreen() { System.out.println(
 	 * "Create Help Screen Once Only");
 	 * 
@@ -137,7 +134,6 @@ public class MainPanel extends JPanel {
 	 * return helpScreenPanel; }
 	 * 
 	 */
-
 	private JPanel createPauseScreen() {
 		// System.out.println("Create Pause Screen Once Only");
 
@@ -410,7 +406,7 @@ public class MainPanel extends JPanel {
 
 	private class Button extends JButton {
 
-		public Button(String text, JPanel parentPanel) {
+		public Button(String text, final JPanel parentPanel) {
 			super(text);
 			setFont(new Font("Arial", Font.BOLD, 15));
 			setOpaque(false);
@@ -675,4 +671,10 @@ public class MainPanel extends JPanel {
 
 	}
 
+	private class resizeListener extends ComponentAdapter {
+		public void componentResized(ComponentEvent e) {
+			System.out.println("Resized to H:" + e.getComponent().getHeight() + " W:" + e.getComponent().getWidth());
+			//TODO
+		}
+	}
 }
