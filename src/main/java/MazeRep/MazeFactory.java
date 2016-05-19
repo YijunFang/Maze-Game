@@ -41,6 +41,7 @@ public class MazeFactory<T> {
         }
 
         /* Choose a random start and end */
+        /*
         Random rand = new Random();
         int startDown;
         int endDown;
@@ -58,6 +59,11 @@ public class MazeFactory<T> {
         if (!maze.setEnd(maze.getNodeAt(endDown, endAcross))) {
             throw new IllegalStateException("Could not set end point of the maze");
         }
+        */
+
+        /* Set start and end */
+        maze.setStart(maze.getNodeAt(0, 0));
+        maze.setEnd(maze.getNodeAt(maze.getHeight() - 1, maze.getLength() - 1));
 
         /* Validate maze */
         if (!this.validateMaze(maze)) {
