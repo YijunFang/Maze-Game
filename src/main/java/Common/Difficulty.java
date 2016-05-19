@@ -6,9 +6,10 @@ package Common;
  * @author john
  */
 public enum Difficulty {
-    EASY(5, 1, 5, 5),
-    MEDIUM(10, 2, 5, 4),
-    HARD(15, 3, 5, 3);
+    SIMPLE(5, 1, 5, 5),
+    EASY(10, 2, 5, 4),
+    MEDIUM(15, 3, 5, 3),
+    HARD(20, 4, 5, 2);
 
     private int sideLength;
     private int numberOfCoins;
