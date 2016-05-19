@@ -8,6 +8,10 @@ import MazeRep.Maze;
 import MazeRep.MazeFactory;
 import MazeRep.Node;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -178,5 +182,27 @@ public class GameState {
                 this.goalPosition.down,
                 this.goalPosition.across);
         return copy;
+    }
+
+    public static void save(GameState gs, FileOutputStream ofs) {
+        try {
+            ObjectOutputStream oofs = new ObjectOutputStream(ofs);
+            oofs.writeObject(gs);
+            oofs.flush();
+            oofs.close();
+        } catch (Exception e) {
+            throw new RuntimeException("Bad file output stream");
+        }
+    }
+
+    public static GameState load(FileInputStream ifs) {
+        try {
+            ObjectInputStream oifs = new ObjectInputStream(ifs);
+            GameState gs = (GameState)oifs.readObject();
+            oifs.close();
+            return gs;
+        } catch (Exception e) {
+            throw new RuntimeException("Bad file input stream");
+        }
     }
 }
