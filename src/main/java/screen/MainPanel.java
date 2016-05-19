@@ -2,7 +2,10 @@
 package screen;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -48,7 +51,7 @@ public class MainPanel extends JPanel {
 		// add("helpScreen", helpScreen);
 		pauseScreen = createPauseScreen();
 		add("pauseScreen", pauseScreen);
-		this.addComponentListener(new resizeListener());
+
 	}
 
 	public JPanel createMainMenu() {
@@ -58,24 +61,35 @@ public class MainPanel extends JPanel {
 			@Override
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(new ImageIcon("src/main/resources/background.jpg").getImage(), -100, -100, null);
+				g.drawImage(new ImageIcon("background.jpg").getImage(), -200, -50, null);
 			}
 		};
 
-		JLabel title = new JLabel("A-MAZE-ING", JLabel.CENTER);
+		JLabel title = new JLabel("", JLabel.CENTER);
 		title.setFont(new Font("Courier New", Font.BOLD, 50));
-		mainMenuPanel.add(title, JPanel.TOP_ALIGNMENT);
 
 		JPanel component = new JPanel();
+		
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(0, 1));
-		component.add(new Button("New Game", this));
+		component.add(new Button("New Game", this), JPanel.CENTER_ALIGNMENT);
 		component.add(new Button("Continue", this));
 		component.add(new Button("How To Play", this));
 		component.add(new Button("Quit", this));
+		component.setBorder(new EmptyBorder(0, 200, 0, 200));
 
-		mainMenuPanel.add(component, JPanel.BOTTOM_ALIGNMENT);
-		mainMenuPanel.setLayout(new GridLayout(3, 1));
+		JPanel titlePanel = new JPanel() {
+			@Override
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(new ImageIcon("Mazecraft.png").getImage(), 150, 50, null);
+			}
+		};
+		titlePanel.setOpaque(false);
+		mainMenuPanel.add(title, JPanel.TOP_ALIGNMENT);
+		mainMenuPanel.add(titlePanel);//, JPanel.CENTER_ALIGNMENT);
+		mainMenuPanel.add(component);//, JPanel.BOTTOM_ALIGNMENT);
+		mainMenuPanel.setLayout(new GridLayout(4, 1));
 
 		return mainMenuPanel;
 	}
@@ -91,9 +105,10 @@ public class MainPanel extends JPanel {
 		JPanel newGamePanel = new JPanel() {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(new ImageIcon("src/main/resources/background.jpg").getImage(), -100, -100, null);
+				g.drawImage(new ImageIcon("background.jpg").getImage(), -200, -50, null);
 			}
 		};
+
 
 		JLabel title = new JLabel("Select Level", JLabel.CENTER);
 		title.setFont(new Font("Courier New", Font.BOLD, 50));
@@ -107,13 +122,29 @@ public class MainPanel extends JPanel {
 		component.add(button3);
 		component.add(button4);
 
-		newGamePanel.add(component, JPanel.BOTTOM_ALIGNMENT);
-		newGamePanel.setLayout(new GridLayout(3, 1));
+		JPanel titlePanel = new JPanel() {
+			@Override
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(new ImageIcon("Mazecraft.png").getImage(), 150, 50, null);
+			}
+		};
+		titlePanel.setOpaque(false);
+		newGamePanel.add(titlePanel, JPanel.TOP_ALIGNMENT);
+		newGamePanel.add(title);//, JPanel.CENTER_ALIGNMENT);
+		newGamePanel.add(component);//, JPanel.BOTTOM_ALIGNMENT);
+		newGamePanel.setLayout(new GridLayout(4, 1));
+		
+		
+		
+//		
+//		newGamePanel.add(component, JPanel.BOTTOM_ALIGNMENT);
+//		newGamePanel.setLayout(new GridLayout(3, 1));
 
 		return newGamePanel;
 	}
 
-	/**
+	/*
 	 * public JPanel createHelpScreen() { System.out.println(
 	 * "Create Help Screen Once Only");
 	 * 
@@ -134,25 +165,43 @@ public class MainPanel extends JPanel {
 	 * return helpScreenPanel; }
 	 * 
 	 */
+
 	private JPanel createPauseScreen() {
 		// System.out.println("Create Pause Screen Once Only");
 
 		JPanel pauseScreen = new JPanel() {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(new ImageIcon("src/main/resources/background.jpg").getImage(), -100, -100, null);
+				g.drawImage(new ImageIcon("background.jpg").getImage(), -200, -50, null);
 			}
 		};
+		
+		JPanel titlePanel = new JPanel() {
+			@Override
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(new ImageIcon("Mazecraft.png").getImage(), 150, 50, null);
+			}
+		};
+		titlePanel.setOpaque(false);
+		pauseScreen.add(titlePanel, JPanel.TOP_ALIGNMENT);
+//		pauseScreen.setLayout(new GridLayout(0, 1));
+		
 		pauseScreen.setLayout(new GridLayout(0, 1));
 		pauseScreen.setBorder(new EmptyBorder(50, 30, 100, 30));
 
-		pauseScreen.add(new Button("How To Play", this));
-		pauseScreen.add(new Button("Resume", this));
-		pauseScreen.add(new Button("Restart", this));
-		pauseScreen.add(new Button("Save", this));
-		pauseScreen.add(new Button("Give Up", this));
-		pauseScreen.add(new Button("Return to Main Menu", this));
+		JPanel component = new JPanel();
+		component.setOpaque(false);
+		component.setLayout(new GridLayout(0, 1));
+		
+		component.add(new Button("How To Play", this));
+		component.add(new Button("Resume", this));
+		component.add(new Button("Restart", this));
+		component.add(new Button("Save", this));
+		component.add(new Button("Give Up", this));
+		component.add(new Button("Return to Main Menu", this));
 
+		pauseScreen.add(component, JPanel.CENTER_ALIGNMENT);
 		return pauseScreen;
 	}
 
@@ -161,21 +210,52 @@ public class MainPanel extends JPanel {
 		gameRunning = false;
 		// System.out.println("End Screen Created");
 
+		
 		JPanel endScreen = new JPanel() {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(new ImageIcon("src/main/resources/background.jpg").getImage(), -100, -100, null);
+				g.drawImage(new ImageIcon("background.jpg").getImage(), -200, -50, null);
 			}
 		};
 
+		JPanel titlePanel = new JPanel() {
+			@Override
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(new ImageIcon("Mazecraft.png").getImage(), 150, 50, null);
+			}
+		};
+		titlePanel.setOpaque(false);
+		endScreen.add(titlePanel, JPanel.TOP_ALIGNMENT);
+			
 		// endScreen.setBackground(Color.BLACK);
-		endScreen.setLayout(new GridLayout(5, 1));
+		endScreen.setLayout(new GridLayout(3, 1));
 		endScreen.setBorder(new EmptyBorder(100, 30, 100, 30));
 
-		// endScreen.add(resultTime,JPanel.TOP_ALIGNMENT);
-		endScreen.add(new Button("Replay", this));
-		endScreen.add(new Button("New Game", this));
-		endScreen.add(new Button("Main Menu", this));
+		pauseScreen.setLayout(new GridLayout(0, 1));
+		pauseScreen.setBorder(new EmptyBorder(50, 30, 100, 30));
+
+		JPanel component = new JPanel();
+		component.setOpaque(false);
+		component.setLayout(new GridLayout(0, 1));
+	
+		component.add(new Button("Replay", this));
+		component.add(new Button("New Game", this));
+		component.add(new Button("Main Menu", this));
+		
+		
+		JPanel ScorePanel = new JPanel();
+		ScorePanel.setOpaque(false);
+		ScorePanel.setLayout(new GridLayout(1, 2));
+		
+		JLabel showCoin = new JLabel("SHOULD SHOW COINS", JLabel.CENTER);
+		ScorePanel.add(showCoin);
+		JLabel showTime = new JLabel("SHOULD SHOW Time", JLabel.CENTER);
+		ScorePanel.add(showTime);
+		
+		endScreen.add(ScorePanel,JPanel.CENTER_ALIGNMENT);
+		
+		 endScreen.add(component,JPanel.BOTTOM_ALIGNMENT);
 
 		return endScreen;
 	}
@@ -186,7 +266,7 @@ public class MainPanel extends JPanel {
 		JPanel mazePanel = new JPanel() {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(new ImageIcon("src/main/resources/background.jpg").getImage(), -100, -100, null);
+				g.drawImage(new ImageIcon("background.jpg").getImage(), -200, -50, null);
 			}
 		};
 		GridBagLayout gridbag = new GridBagLayout();
@@ -196,8 +276,13 @@ public class MainPanel extends JPanel {
 		mazePanel.setLayout(gridbag);
 		mazePanel.setBorder(new EmptyBorder(1, 2, 0, 0));
 
-		JPanel component = new JPanel();
-		component.setOpaque(false);
+		JPanel component = new JPanel()//;
+		{	public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(new ImageIcon("sidebackground.jpg").getImage(), 0, 0, null);
+			}
+		};
+//		component.setOpaque(false);
 		component.setLayout(new GridLayout(0, 1));
 		// component.add(new Button("Help", this));
 		// component.add(new Button("Save", this));
@@ -406,9 +491,12 @@ public class MainPanel extends JPanel {
 
 	private class Button extends JButton {
 
-		public Button(String text, final JPanel parentPanel) {
+		public Button(String text, JPanel parentPanel) {
+			
 			super(text);
-			setFont(new Font("Arial", Font.BOLD, 15));
+			setFont(new Font("Courier New", Font.BOLD, 15));
+			Dimension d = new Dimension(10, 5);
+			setMinimumSize(d);
 			setOpaque(false);
 			setContentAreaFilled(false);
 			setBorderPainted(false);
@@ -671,10 +759,4 @@ public class MainPanel extends JPanel {
 
 	}
 
-	private class resizeListener extends ComponentAdapter {
-		public void componentResized(ComponentEvent e) {
-			System.out.println("Resized to H:" + e.getComponent().getHeight() + " W:" + e.getComponent().getWidth());
-			//TODO
-		}
-	}
 }
