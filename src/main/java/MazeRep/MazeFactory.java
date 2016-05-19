@@ -97,7 +97,21 @@ public class MazeFactory<T> {
      * @return true if the given {@link MazeRep.Maze} is valid
      */
     private boolean validateMaze(Maze<T> maze) {
-        if (maze != null && maze.getStart() != null && maze.getEnd() != null) {
+        if (maze == null) {
+            return false;
+        }
+        for (int i = 0; i < maze.getHeight(); i++) {
+            for (int j = 0; j < maze.getLength(); j++) {
+                if (maze.getNodeAt(i, j) != null) {
+                    if (maze.getNodeAt(i, j).getValue() == null) {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            }
+        }
+        if (maze.getStart() != null && maze.getEnd() != null) {
             if (maze.getShortestPath(maze.getStart(), maze.getEnd()) != null) {
                 return true;
             } else {
