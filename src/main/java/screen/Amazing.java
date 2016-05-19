@@ -20,8 +20,6 @@ public class Amazing extends JFrame {
 			e.printStackTrace();
 		}
 
-		// setLayout(null);
-
 		setTitle("A-Maze-ing");
 
 		setupBorder(this);
@@ -61,3 +59,21 @@ public class Amazing extends JFrame {
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
