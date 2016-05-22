@@ -2,8 +2,10 @@ package screen;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Graphics;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
@@ -32,7 +34,12 @@ public class Amazing extends JFrame {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		parentPanel = new MainPanel(getWidth(), getHeight());
+		parentPanel = new MainPanel(){
+			public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.drawImage(new ImageIcon("background.jpg").getImage(), -200, -50, null);
+		}
+	};
 
 		// parentPanel.setBounds(0, 0, getWidth(), getHeight());
 
