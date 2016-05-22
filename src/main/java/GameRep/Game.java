@@ -25,6 +25,7 @@ import javax.swing.Timer;
 import Common.Content;
 import Common.CoordinatePair;
 import Common.Difficulty;
+import javafx.collections.ListChangeListener.Change;
 
 @SuppressWarnings("serial")
 public class Game extends JPanel {
@@ -57,20 +58,62 @@ public class Game extends JPanel {
     private boolean playerPlaced = false;
     private List<CoordinatePair> hintCoinList = null;
     private List<CoordinatePair> hintPathList; //hint path list
+
+//	changed here
+	protected KeyEventDispatcher ked;
     
     public Game() {
-        enableKeyPressDetect(); //debug
+  
+//    	changed here
+//      enableKeyPressDetect(); //debug
     }
     
+//	changed here    
+    public void setKeyDetect(KeyEventDispatcher initked) {
+    	ked = initked;
+    	enableKeyPressDetect();
+	}
+
+//	changed here
     public static void main(String[] args) throws InterruptedException {
         JFrame frame = new JFrame("Maze");
         Game game = new Game();
+        KeyEventDispatcher ked = new KeyEventDispatcher() {
+            @Override
+            public boolean dispatchKeyEvent(KeyEvent ke) {
+                synchronized (Game.class) {
+                    switch (ke.getID()) {
+                    case KeyEvent.KEY_PRESSED:
+                        switch (ke.getKeyCode()) {
+                            case KeyEvent.VK_W:
+                                game.keyPressedUp();System.out.println("coin = "+game.getNumCoins());
+                                break;
+                            case KeyEvent.VK_A:
+                            	 game.keyPressedLeft();System.out.println("coin = "+game.getNumCoins());
+                                break;
+                            case KeyEvent.VK_S:
+                            	 game.keyPressedDown();System.out.println("coin = "+game.getNumCoins());
+                                break;
+                            case KeyEvent.VK_D:
+                            	 game.keyPressedRight();System.out.println("coin = "+game.getNumCoins());
+                                break;
+                        }
+                        break;
+                    }
+                    return false;
+                }
+            }
+        };
+        game.setKeyDetect(ked);
+        
         frame.add(game);
         frame.setSize(frameSize, frameSize);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         game.start(Difficulty.EASY);
+        
+
     }
     
     /**
@@ -121,7 +164,13 @@ public class Game extends JPanel {
         if (gs == null) return; //If game state is not initialised yet, don't paint anything
         super.paint(g);
         if (gameWon) {
-            renderEndGame(g);
+//        	change here
+//        	renderEndGame(g);
+//			reset everything?
+        	gs = null;
+        	gameWon = false;
+        	ked = null;
+        	;
         } else {
             renderGame(g);
         }
@@ -247,15 +296,17 @@ public class Game extends JPanel {
         g2d.drawImage(player, (int) (playerLocationX + centreShift), (int) (playerLocationY + centreShift), 
                 (int) playerSize, (int) playerSize, null, null);
     }
+
     
-    /**
-     * Renders the end state of the game.
-     * @param g the canvas that the maze is being painted onto
-     */
-    private void renderEndGame(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.drawString("You win!", 100, 100);
-    }
+//    change here
+//    /**
+//     * Renders the end state of the game.
+//     * @param g the canvas that the maze is being painted onto
+//     */
+//    private void renderEndGame(Graphics g) {
+//        Graphics2D g2d = (Graphics2D) g;
+//        g2d.drawString("You win!", 100, 100);
+//    }
     
     /**
      * Gets the image from file and returns the image so that it can be used in the program
@@ -375,7 +426,10 @@ public class Game extends JPanel {
             repaint();
         }
     }
-    
+
+
+//    Change here
+    private KeyEventDispatcher formKeyEventDispatcher() {
     KeyEventDispatcher ked = new KeyEventDispatcher() {
         @Override
         public boolean dispatchKeyEvent(KeyEvent ke) {
@@ -402,6 +456,9 @@ public class Game extends JPanel {
             }
         }
     };
+    return ked;
+	}
+
     /**
      * Enables the use of computer keyboard to control the game
      */
