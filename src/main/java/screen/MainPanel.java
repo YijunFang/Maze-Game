@@ -27,13 +27,8 @@ import GameRep.Game;
 import screen.TimerPanel;
 
 import java.awt.SystemColor;
-import net.miginfocom.swing.MigLayout;
 import javax.swing.BoxLayout;
 import java.awt.BorderLayout;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.FormSpecs;
-import com.jgoodies.forms.layout.RowSpec;
 import java.awt.Insets;
 import java.awt.KeyEventDispatcher;
 import java.awt.FlowLayout;
@@ -42,13 +37,11 @@ import javax.swing.JSplitPane;
 import java.awt.Component;
 import javax.swing.JTabbedPane;
 import javax.swing.Box;
-import com.jgoodies.forms.factories.DefaultComponentFactory;
 import java.awt.Panel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JScrollPane;
-import com.jgoodies.forms.layout.Sizes;
 
 @SuppressWarnings("serial")
 public class MainPanel extends JPanel {

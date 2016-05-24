@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -47,6 +48,7 @@ public class Game extends JPanel {
     private double centreShift;
     private double playerLocationX;
     private double playerLocationY;
+    private int moveAmount = 3;
     
     //game state
     private GameState gs;
@@ -63,7 +65,6 @@ public class Game extends JPanel {
 	protected KeyEventDispatcher ked;
     
     public Game() {
-  
 //    	changed here
 //      enableKeyPressDetect(); //debug
     }
@@ -153,9 +154,24 @@ public class Game extends JPanel {
         
         repaint();
     }
+    /**
+     * Stop resets the data in the Game object to ensure that none of it gets reused in the next iteration of the game
+     */
+    public void stop() {
+        disableKeyPressDetect();
+        mazeImage = null;
+        hintImage = null;
+        
+        gs = null;
+        maze = null;
+        gameWon = false;
+        displayHint = false;
+        hintCoinList = null;
+        hintPathList = null;
+    }
     
     /**
-     *
+     * Paint renders the 2D graphics onto the screen
      * @param g the canvas that the maze is being painted onto
      */
     @Override
@@ -277,6 +293,7 @@ public class Game extends JPanel {
             }
         }
         
+        
         //draw hint coin image
         g2d.drawImage(hintImage, 0, 0, frameSize, frameSize, null, null);
         //draw goal
@@ -295,6 +312,20 @@ public class Game extends JPanel {
         }
         g2d.drawImage(player, (int) (playerLocationX + centreShift), (int) (playerLocationY + centreShift), 
                 (int) playerSize, (int) playerSize, null, null);
+        
+        //draw hint squares if needed to be displayed) 
+        /*
+        if (displayHint) {
+            if (hintPathList == null) {
+                System.out.println("No hint path list exists.");
+            } else {
+                for (CoordinatePair cp : hintPathList) {
+                    Rectangle2D hintSquare = new Rectangle2D.Double(
+                            cp.across * squareLength, cp.across * squareLength, squareLength, squareLength);
+                    g2d.fill(hintSquare);
+                }
+            }
+        }*/
     }
 
     
@@ -353,17 +384,17 @@ public class Game extends JPanel {
      *
      */
     public void hintCoinActivated() {
+        hintPathList = gs.getHintCoordinateList();
         final Timer hintTimer = new Timer (5000, null);
         ActionListener hintTimerListener = new ActionListener() {
             @Override
             public void actionPerformed (ActionEvent evt) {
-                
+                hintTimer.stop();
+                displayHint = false;
             }
         };
+        displayHint = true;
         hintTimer.addActionListener(hintTimerListener);
-        
-        //define hint direction
-        
     }
     
     /**
@@ -491,14 +522,14 @@ public class Game extends JPanel {
             ActionListener moveAction = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (newPlayerLocationY < playerLocationY) {
+                    if (newPlayerLocationY < playerLocationY + centreShift/2) {
                         moveTimer.stop();
                         repaintTimer.stop();
                         enableKeyPressDetect();
                         repaint();
                         checkWinState();
                     }
-                    playerLocationY+=1;
+                    playerLocationY+=moveAmount;
                 }
                 
             };
@@ -534,7 +565,7 @@ public class Game extends JPanel {
             ActionListener moveAction = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (newPlayerLocationX > playerLocationX) {
+                    if (newPlayerLocationX > playerLocationX - centreShift/2) {
                         //Character has moved sufficiently, so stop movement process
                         moveTimer.stop();
                         repaintTimer.stop();
@@ -542,7 +573,7 @@ public class Game extends JPanel {
                         repaint();
                         checkWinState();
                     }
-                    playerLocationX-=1;
+                    playerLocationX-=moveAmount;
                 }
                 
             };
@@ -575,14 +606,14 @@ public class Game extends JPanel {
             ActionListener moveAction = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (newPlayerLocationY > playerLocationY) {
+                    if (newPlayerLocationY > playerLocationY - centreShift/2) {
                         moveTimer.stop();
                         repaintTimer.stop();
                         enableKeyPressDetect();
                         repaint();
                         checkWinState();
                     }
-                    playerLocationY-=1;
+                    playerLocationY-=moveAmount;
                 }
                 
             };
@@ -617,14 +648,14 @@ public class Game extends JPanel {
             ActionListener moveAction = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (newPlayerLocationX < playerLocationX) {
+                    if (newPlayerLocationX < playerLocationX + centreShift/2) {
                         moveTimer.stop();
                         repaintTimer.stop();
                         enableKeyPressDetect();
                         repaint();
                         checkWinState();
                     }
-                    playerLocationX+=1;
+                    playerLocationX+=moveAmount;
                 }
                 
             };
