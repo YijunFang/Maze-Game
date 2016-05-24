@@ -67,6 +67,7 @@ public class Game extends JPanel {
     public Game() {
 //    	changed here
 //      enableKeyPressDetect(); //debug
+        
     }
     
 //	changed here    
@@ -151,7 +152,7 @@ public class Game extends JPanel {
                 }
             }
         }
-        
+        hintCoinActivated();
         repaint();
     }
     /**
@@ -314,7 +315,7 @@ public class Game extends JPanel {
                 (int) playerSize, (int) playerSize, null, null);
         
         //draw hint squares if needed to be displayed) 
-        /*
+        
         if (displayHint) {
             if (hintPathList == null) {
                 System.out.println("No hint path list exists.");
@@ -325,7 +326,7 @@ public class Game extends JPanel {
                     g2d.fill(hintSquare);
                 }
             }
-        }*/
+        }
     }
 
     
@@ -395,6 +396,7 @@ public class Game extends JPanel {
         };
         displayHint = true;
         hintTimer.addActionListener(hintTimerListener);
+        hintTimer.start();
     }
     
     /**
@@ -429,23 +431,6 @@ public class Game extends JPanel {
     }
     
     /**
-     * Sets the time elapsed since the start of the game. Used mainly for saving
-     * @param time Time elapsed so far
-     */
-    public void setTime(int time) {
-        
-    }
-    
-    /**
-     * Retrieves the time elapsed so far since the start of the game. Used mainly for
-     * loading.
-     * @return Time elapsed so far
-     */
-    public int getTime() {
-        return 0;
-    }
-    
-    /**
      * Checks if the current coordinates of the player's position
      * is equal to the goal's coordinates. If it is, then set gameWon
      * to true and repaint the maze
@@ -461,33 +446,33 @@ public class Game extends JPanel {
 
 //    Change here
     private KeyEventDispatcher formKeyEventDispatcher() {
-    KeyEventDispatcher ked = new KeyEventDispatcher() {
-        @Override
-        public boolean dispatchKeyEvent(KeyEvent ke) {
-            synchronized (Game.class) {
-                switch (ke.getID()) {
-                case KeyEvent.KEY_PRESSED:
-                    switch (ke.getKeyCode()) {
-                        case KeyEvent.VK_W:
-                            keyPressedUp();
-                            break;
-                        case KeyEvent.VK_A:
-                            keyPressedLeft();
-                            break;
-                        case KeyEvent.VK_S:
-                            keyPressedDown();
-                            break;
-                        case KeyEvent.VK_D:
-                            keyPressedRight();
-                            break;
+        KeyEventDispatcher ked = new KeyEventDispatcher() {
+            @Override
+            public boolean dispatchKeyEvent(KeyEvent ke) {
+                synchronized (Game.class) {
+                    switch (ke.getID()) {
+                    case KeyEvent.KEY_PRESSED:
+                        switch (ke.getKeyCode()) {
+                            case KeyEvent.VK_W:
+                                keyPressedUp();
+                                break;
+                            case KeyEvent.VK_A:
+                                keyPressedLeft();
+                                break;
+                            case KeyEvent.VK_S:
+                                keyPressedDown();
+                                break;
+                            case KeyEvent.VK_D:
+                                keyPressedRight();
+                                break;
+                        }
+                        break;
                     }
-                    break;
+                    return false;
                 }
-                return false;
             }
-        }
-    };
-    return ked;
+        };
+        return ked;
 	}
 
     /**
