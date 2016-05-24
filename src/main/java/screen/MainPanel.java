@@ -517,6 +517,9 @@ public class MainPanel extends JPanel {
 	}
 
 	private void deleteGame() {
+	    if (currGame != null) {
+	        currGame.stop();
+	    }
 		if (maze.getComponentCount() != 0) {
 			maze.remove(0);
 			System.out.println(maze.getComponentCount());

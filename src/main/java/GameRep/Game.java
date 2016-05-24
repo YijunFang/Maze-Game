@@ -48,7 +48,7 @@ public class Game extends JPanel {
     private double centreShift;
     private double playerLocationX;
     private double playerLocationY;
-    private int moveAmount = 3;
+    private int moveAmount = 2;
     
     //game state
     private GameState gs;
@@ -152,7 +152,7 @@ public class Game extends JPanel {
                 }
             }
         }
-        hintCoinActivated();
+        //hintCoinActivated();
         repaint();
     }
     /**
