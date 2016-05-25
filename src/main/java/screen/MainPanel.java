@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -152,11 +153,17 @@ public class MainPanel extends JPanel {
 		mainMenu.setBorder(new EmptyBorder(100, 200, 100, 200));
 		mainMenu.setMinimumSize(new Dimension(1000, 800));
 		
-		Button newGameButton = new Button("New Game", this){
+		Button newGameButton = null; 
+		newGameButton = new Button("New Game", this) {
 			@Override
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(new ImageIcon("newgame.png").getImage(), 0, 0, null);
+				ImageIcon newGameImg = new ImageIcon("newgame.png");
+				Image img = newGameImg.getImage();
+				Image newimg = img.getScaledInstance(590, 65, java.awt.Image.SCALE_SMOOTH);
+				newGameImg = new ImageIcon(newimg);
+				g.drawImage(newGameImg.getImage(), 0, 0, null);
+				
 			}
 		};
 		
