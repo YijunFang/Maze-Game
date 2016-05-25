@@ -88,16 +88,16 @@ public class Game extends JPanel {
                     case KeyEvent.KEY_PRESSED:
                         switch (ke.getKeyCode()) {
                             case KeyEvent.VK_W:
-                                game.keyPressedUp();System.out.println("coin = "+game.getNumCoins());
+                                game.keyPressedUp();
                                 break;
                             case KeyEvent.VK_A:
-                            	 game.keyPressedLeft();System.out.println("coin = "+game.getNumCoins());
+                            	 game.keyPressedLeft();
                                 break;
                             case KeyEvent.VK_S:
-                            	 game.keyPressedDown();System.out.println("coin = "+game.getNumCoins());
+                            	 game.keyPressedDown();
                                 break;
                             case KeyEvent.VK_D:
-                            	 game.keyPressedRight();System.out.println("coin = "+game.getNumCoins());
+                            	 game.keyPressedRight();
                                 break;
                         }
                         break;
