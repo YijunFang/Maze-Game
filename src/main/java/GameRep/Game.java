@@ -26,7 +26,7 @@ import javax.swing.Timer;
 import Common.Content;
 import Common.CoordinatePair;
 import Common.Difficulty;
-import javafx.collections.ListChangeListener.Change;
+//import javafx.collections.ListChangeListener.Change;
 
 @SuppressWarnings("serial")
 public class Game extends JPanel {
@@ -79,7 +79,7 @@ public class Game extends JPanel {
 //	changed here
     public static void main(String[] args) throws InterruptedException {
         JFrame frame = new JFrame("Maze");
-        Game game = new Game();
+        final Game game = new Game();
         KeyEventDispatcher ked = new KeyEventDispatcher() {
             @Override
             public boolean dispatchKeyEvent(KeyEvent ke) {
