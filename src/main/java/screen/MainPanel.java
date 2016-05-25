@@ -540,7 +540,7 @@ public class MainPanel extends JPanel {
 		notice.setUndecorated(true);
 		notice.pack();
 
-		notice.setMinimumSize(new Dimension(400, 300));
+//		notice.setMinimumSize(new Dimension(400, 300));
 		notice.setLocationRelativeTo(null);
 		notice.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		notice.setVisible(true);
@@ -568,7 +568,7 @@ public class MainPanel extends JPanel {
 		notice.setUndecorated(true);
 		notice.pack();
 
-		notice.setMinimumSize(new Dimension(400, 300));
+//		notice.setMinimumSize(new Dimension(400, 300));
 		notice.setLocationRelativeTo(null);
 		notice.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		notice.setVisible(true);
@@ -597,7 +597,7 @@ public class MainPanel extends JPanel {
 		notice.setUndecorated(true);
 		notice.pack();
 
-		notice.setMinimumSize(new Dimension(400, 300));
+//		notice.setMinimumSize(new Dimension(400, 300));
 		notice.setLocationRelativeTo(null);
 		notice.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		notice.setVisible(true);
@@ -871,9 +871,9 @@ public class MainPanel extends JPanel {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// show hint: direction
-//						currGame.hintCoinActivated();
-						JOptionPane.showMessageDialog(parentPanel, "Will Show Next Move", "Hint",
-								JOptionPane.INFORMATION_MESSAGE);
+						currGame.hintCoinActivated();
+//						JOptionPane.showMessageDialog(parentPanel, "Will Show Next Move", "Hint",
+//								JOptionPane.INFORMATION_MESSAGE);
 
 					}
 				});

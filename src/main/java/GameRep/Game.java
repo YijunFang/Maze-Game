@@ -78,7 +78,6 @@ public class Game extends JPanel {
 //	changed here
     public static void main(String[] args) throws InterruptedException {
         JFrame frame = new JFrame("Maze");
-<<<<<<< Updated upstream
         final Game game = new Game();
         KeyEventDispatcher ked = new KeyEventDispatcher() {
             @Override
@@ -107,9 +106,6 @@ public class Game extends JPanel {
             }
         };
         //game.setKeyDetect(ked);
-=======
-        Game game = new Game();
->>>>>>> Stashed changes
         
         frame.add(game);
         frame.setSize(frameSize, frameSize);
