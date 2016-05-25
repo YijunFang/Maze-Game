@@ -24,11 +24,11 @@ public class Amazing extends JFrame {
 
 		setTitle("A-Maze-ing");
 
-		setupBorder(this);
+//		setupBorder(this);
 
 		setMinimumSize(new Dimension(1000, 800));
 		
-		setResizable(false);
+//		setResizable(false);
 
 		pack();
 
@@ -43,7 +43,7 @@ public class Amazing extends JFrame {
 		}
 	};
 
-		// parentPanel.setBounds(0, 0, getWidth(), getHeight());
+//		 parentPanel.setOpaque(false);
 
 		add(parentPanel);
 

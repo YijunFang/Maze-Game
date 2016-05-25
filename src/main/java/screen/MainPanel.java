@@ -1,9 +1,11 @@
 package screen;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -11,6 +13,8 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,16 +27,20 @@ import javax.swing.border.EmptyBorder;
 
 import Common.Difficulty;
 import GameRep.Game;
+import jdk.nashorn.internal.ir.Flags;
 import screen.TimerPanel;
 
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
 @SuppressWarnings("serial")
 public class MainPanel extends JPanel {
+
 
 	/**
 	 * Create the panel.
@@ -54,11 +62,17 @@ public class MainPanel extends JPanel {
 
 	private Game currGame;
 	private JFrame noticBox;
-	private TimerPanel timerPanel; //= new TimerPanel()
+	private TimerPanel timerPanel;
 	private JPanel coinPanel;
 	private int coinNumber;
+
+	private boolean globalPaint = false;
+	//LOAD IMAGE
+
 	
 	public MainPanel() {
+		setMaximumSize(new Dimension(1000, 800));
+
 		setLayout(cardLayout);		
 		
 		createMainMenu();
@@ -138,7 +152,7 @@ public class MainPanel extends JPanel {
 
 	public void createMainMenu() {
 		
-		JPanel titlePanel = new JPanel() {
+		JPanel titlePanel = new JPanel(){
 			@Override
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
@@ -153,24 +167,34 @@ public class MainPanel extends JPanel {
 		mainMenu.setBorder(new EmptyBorder(100, 200, 100, 200));
 		mainMenu.setMinimumSize(new Dimension(1000, 800));
 		
-		Button newGameButton = new Button("New Game", this){
-			@Override
-			public void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				Image old = new ImageIcon("newgame.png").getImage();
-				Image newimage = old.getScaledInstance(600, 80,java.awt.Image.SCALE_SMOOTH);
-				g.drawImage(newimage, 0, 0, null);
-			}
-		};
+
+//		Button newGameButton = new Button("New Game", this,null, 600, 75){
+//			@Override
+//			public void paintComponent(Graphics g) {
+//				super.paintComponent(g);
+////				boolean flag = g.drawImage(newNewgame, 0, 0, null);
+////				System.out.println("flag is "+flag);
+//				
+//				Image oldNewgame = new ImageIcon(null).getImage();
+//				Image newNewgame = oldNewgame.getScaledInstance(600, 65, java.awt.Image.SCALE_SMOOTH);
+//				boolean flag = false;
+//				while((flag = g.drawImage(newNewgame, 0, 0, null)) !=true) System.out.println(flag);
+//				System.out.println(flag);
+//			}
+//		};
+
+//		Button newGameButton = new Button("New Game", this, null, 600, 75);
+//		newGameButton.paintButton(null, 600, 75);
+//		newGameButton.setMaximumSize(dimMainButton);
 		
 		
 		JPanel component = new JPanel();
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(0, 1, 15, 15));
-		component.add(newGameButton);
-		component.add(new Button("Continue", this));
-		component.add(new Button("How To Play", this));
-		component.add(new Button("Quit", this));		
+		component.add(new Button("New Game", this,"newgame.png", 600, 75));
+		component.add(new Button("Continue", this, null, 600, 75));
+		component.add(new Button("How To Play", this,null, 600, 75));
+		component.add(new Button("Quit", this,null, 600, 75));		
 
 		GroupLayout gl_mainMenu = new GroupLayout(mainMenu);
 		gl_mainMenu.setHorizontalGroup(
@@ -178,17 +202,18 @@ public class MainPanel extends JPanel {
 				.addGroup(gl_mainMenu.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_mainMenu.createParallelGroup(Alignment.LEADING)
-						.addComponent(titlePanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
-						.addComponent(component, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE))
+						.addComponent(titlePanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+						.addComponent(component, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE))
 					.addGap(0))
 		);
 		gl_mainMenu.setVerticalGroup(
 			gl_mainMenu.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_mainMenu.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(titlePanel, GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
-					.addComponent(component, GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
-					.addGap(47))
+					.addComponent(titlePanel, GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+					.addGap(0)
+					.addComponent(component, GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+					.addGap(0))
 		);
 		
 		gl_mainMenu.setAutoCreateContainerGaps(true);
@@ -204,7 +229,7 @@ public class MainPanel extends JPanel {
 		newGame.setBorder(new EmptyBorder(100, 200, 100, 200));
 		newGame.setMinimumSize(new Dimension(1000, 800));
 		
-		JPanel titlePanel = new JPanel() {
+		JPanel titlePanel = new JPanel(){
 			@Override
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
@@ -215,14 +240,15 @@ public class MainPanel extends JPanel {
 		
 		JLabel title = new JLabel("Select Level", JLabel.CENTER);
 		title.setFont(new Font("Courier New", Font.BOLD, 50));
-
+		title.setSize(new Dimension(150, 60));
+		
 		JPanel component = new JPanel();
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(0, 1, 10, 10));
-		component.add(new Button("Easy", this));
-		component.add(new Button("Medium", this));
-		component.add(new Button("Hard", this));
-		component.add(new Button("Main Menu", this));
+		component.add(new Button("Easy", this,null, 600, 75));
+		component.add(new Button("Medium", this,null, 600, 75));
+		component.add(new Button("Hard", this,null, 600, 75));
+		component.add(new Button("Main Menu", this,null, 600, 75));
 		
 		
 		GroupLayout gl_newGame = new GroupLayout(newGame);
@@ -230,19 +256,18 @@ public class MainPanel extends JPanel {
 			gl_newGame.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_newGame.createSequentialGroup()
 					.addGroup(gl_newGame.createParallelGroup(Alignment.LEADING)
-						.addComponent(component, GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
-						.addComponent(titlePanel, GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
-						.addComponent(title, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addComponent(component, GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+						.addComponent(titlePanel, GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+						.addComponent(title, GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_newGame.setVerticalGroup(
 			gl_newGame.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_newGame.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(titlePanel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-					.addComponent(title)
-					.addComponent(component, GroupLayout.DEFAULT_SIZE, 6, Short.MAX_VALUE)
-					.addContainerGap())
+					.addComponent(titlePanel, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+					.addGap(0).addComponent(title)
+					.addComponent(component, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+					.addGap(0))
 		);
 		newGame.setLayout(gl_newGame);
 	}
@@ -267,12 +292,12 @@ public class MainPanel extends JPanel {
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(0, 1,10,10));
 		
-		component.add(new Button("How To Play", this));
-		component.add(new Button("Resume", this));
-		component.add(new Button("Restart", this));
-		component.add(new Button("Save", this));
-		component.add(new Button("Give Up", this));
-		component.add(new Button("Return to Main Menu", this));
+		component.add(new Button("How To Play", this,null, 600, 75));
+		component.add(new Button("Resume", this,null, 600, 75));
+		component.add(new Button("Restart", this,null, 600, 75));
+		component.add(new Button("Save", this,null, 600, 75));
+		component.add(new Button("Give Up", this,null, 600, 75));
+		component.add(new Button("Return to Main Menu", this,null, 600, 75));
 
 		GroupLayout gl_pauseScreen = new GroupLayout(pauseScreen);
 		gl_pauseScreen.setHorizontalGroup(
@@ -322,9 +347,9 @@ public class MainPanel extends JPanel {
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(0, 1));
 	
-		component.add(new Button("Replay", this));
-		component.add(new Button("New Game", this));
-		component.add(new Button("Main Menu", this));
+		component.add(new Button("Replay", this,null, 600, 75));
+		component.add(new Button("New Game", this,null, 600, 75));
+		component.add(new Button("Main Menu", this,null, 600, 75));
 		
 		
 		JPanel ScorePanel = new JPanel();
@@ -362,20 +387,16 @@ public class MainPanel extends JPanel {
 		titlePanel.setOpaque(false);
 		endScreen.add(titlePanel, JPanel.TOP_ALIGNMENT);
 			
-		// endScreen.setBackground(Color.BLACK);
 		endScreen.setLayout(new GridLayout(3, 1));
 		endScreen.setBorder(new EmptyBorder(100, 30, 100, 30));
-
-//		pauseScreen.setLayout(new GridLayout(0, 1));
-//		pauseScreen.setBorder(new EmptyBorder(50, 30, 100, 30));
 
 		JPanel component = new JPanel();
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(0, 1));
 	
-		component.add(new Button("Replay", this));
-		component.add(new Button("New Game", this));
-		component.add(new Button("Main Menu", this));
+		component.add(new Button("Replay", this,null, 600, 75));
+		component.add(new Button("New Game", this,null, 600, 75));
+		component.add(new Button("Main Menu", this,null, 600, 75));
 		
 		
 		JPanel ScorePanel = new JPanel();
@@ -397,63 +418,72 @@ public class MainPanel extends JPanel {
 	private JPanel createMazeScreen() {
 		coinNumber = 0;
 
-		JPanel mazePanel = new JPanel() {
+		JPanel mazePanel = new JPanel(){
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				g.drawImage(new ImageIcon("background.jpg").getImage(), -200, -50, null);
 			}
 		};
-		GridBagLayout gridbag = new GridBagLayout();
-		GridBagConstraints c = null;
-
-		mazePanel.setSize(getWidth(), getHeight());
-		mazePanel.setLayout(gridbag);
+		
 //		mazePanel.setBorder(new EmptyBorder(1, 2, 0, 0));
 
-		JPanel component = new JPanel()//;
-		{	public void paintComponent(Graphics g) {
+		JPanel component = new JPanel(){	
+			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(new ImageIcon("sidebackground.jpg").getImage(), 0, 0, null);
+				g.drawImage(new ImageIcon("sidebackground.jpg").getImage(), -10, 0, null);
 			}
 		};
-//		component.setOpaque(false);
-		component.setLayout(new GridLayout(6, 1));
-		// component.add(new Button("Help", this));
-		 component.add(new Button("Save", this));
-		component.add(new Button("Hint", this));
-		component.add(new Button("Pause", this));
-		component.add(new Button("Main Menu", this));
+		component.setOpaque(false);
+		component.setLayout(new GridLayout(6, 1, 10, 10));
+		component.setSize(new Dimension(200, 800));
+		// component.add(new Button("Help", this,null, 600, 75));
+		 component.add(new Button("Save", this,null, 200, 120));
+		component.add(new Button("Hint", this,null, 200, 120));
+		component.add(new Button("Pause", this,null, 200, 120));
+		component.add(new Button("Main Menu", this,null, 200, 120));
 
 		// timer here!!
-		timerPanel = new TimerPanel();
+		timerPanel = new TimerPanel(){
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				Image oldImg = new ImageIcon("labelbackground.png").getImage();
+				Image newNewgame = oldImg.getScaledInstance(300, 120, java.awt.Image.SCALE_SMOOTH);
+				while((g.drawImage(newNewgame, 0, 0, null)) !=true);
+			}
+		};
 		timerPanel.setOpaque(false);
 		component.add(timerPanel);
 
-		coinPanel = new coinPanel();
+		coinPanel = new coinPanel(){
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				Image oldImg = new ImageIcon("labelbackground.png").getImage();
+				Image newNewgame = oldImg.getScaledInstance(300, 120, java.awt.Image.SCALE_SMOOTH);
+				while((g.drawImage(newNewgame, 0, 0, null)) !=true);
+			}
+		};
+		coinPanel.setOpaque(false);
 		component.add(coinPanel);
-		// component.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		 
 
 		maze = new JPanel();
-		maze.setMaximumSize(new Dimension(100, 800));
-		// System.out.println("mazeScreen -> maze should be created once only");
+		maze.setSize(new Dimension(800, 800));
 		mazeLayout = new CardLayout();
 		maze.setLayout(mazeLayout);
 		maze.setOpaque(false);
+		
+		GridBagLayout gridbag = new GridBagLayout();
+		GridBagConstraints c = null;
 
-		// GridBagLayout gridBagLayout = new GridBagLayout();
-		// maze.setLayout(gridBagLayout);
-
-		// add panels to screen
-		// maze.setBackground(Color.white);
-		// currGame.setOpaque(true);
-		// currGame.setBackground(Color.BLUE);
-		// if(component.is)
-		// System.out.println(component.getWidth());
-
-		c = setGridBagConstraints(0, 0, 8, 9, 1, 1, GridBagConstraints.BOTH);
+		mazePanel.setLayout(gridbag);
+		c = setGridBagConstraints(0, 0, 16, 16, 1, 1, GridBagConstraints.BOTH);
 		mazePanel = addComponent(mazePanel, maze, gridbag, c);
-		c = setGridBagConstraints(9, 0, 8, 1, 1, 8, GridBagConstraints.BOTH);
+//		c = setGridBagConstraints(16, 0, 16, 4, 1, 1, GridBagConstraints.BOTH);
+		c = setGridBagConstraints(18, 0, 16, 2, 1, 1, GridBagConstraints.BOTH);
+
 		mazePanel = addComponent(mazePanel, component, gridbag, c);
+
+		 System.out.println(component.getWidth()+" "+component.getHeight());
 
 		return mazePanel;
 	}
@@ -496,8 +526,9 @@ public class MainPanel extends JPanel {
 
 		currGame.start(difficulty);
 		currGame.setOpaque(true);
-
+//		maze.setOpaque(false);
 		maze.add("currGame", currGame);
+		
 		saveFlag = false;
 		gameRunning = true;
 		// System.out.println(maze.getComponentCount());
@@ -564,8 +595,8 @@ public class MainPanel extends JPanel {
 		JPanel component = new JPanel();
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(1, 2));
-		component.add(new Button("Sure", this));
-		component.add(new Button("Continue Saved Game", this));
+		component.add(new Button("Sure", this,null, 600, 75));
+		component.add(new Button("Continue Saved Game", this,null, 600, 75));
 
 		notice.getContentPane().add(component);
 		notice.getContentPane().setLayout(new GridLayout(2, 1));
@@ -592,9 +623,9 @@ public class MainPanel extends JPanel {
 		JPanel component = new JPanel();
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(1, 2));
-		component.add(new Button("Save Game", this));
-		component.add(new Button("Don't Save", this));
-		component.add(new Button("Resume", this));
+		component.add(new Button("Save Game", this,null, 600, 75));
+		component.add(new Button("Don't Save", this,null, 600, 75));
+		component.add(new Button("Resume", this,null, 600, 75));
 
 		notice.getContentPane().add(component);
 		notice.getContentPane().setLayout(new GridLayout(2, 1));
@@ -621,8 +652,8 @@ public class MainPanel extends JPanel {
 		JPanel component = new JPanel();
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(1, 2));
-		component.add(new Button("Yes", this));
-		component.add(new Button("Resume", this));
+		component.add(new Button("Yes", this,null, 600, 75));
+		component.add(new Button("Resume", this,null, 600, 75));
 
 		notice.getContentPane().add(component);
 		notice.getContentPane().setLayout(new GridLayout(2, 1));
@@ -641,30 +672,54 @@ public class MainPanel extends JPanel {
 		}
 
 		System.out.println(info);
+		
 
 }
 	
 
-
+	
+	
 	public class Button extends JButton {
-
-		public Button(String text, final JPanel parentPanel) {
+		
+		private Image oldImage = null;
+		private int buttonWidth = 0;
+		private int buttonHight = 0;
+		
+		public Button(String text, final JPanel parentPanel, String imgName, int width, int height) {
 			
 			super(text);
-			setFont(new Font("Courier New", Font.BOLD, 20));
-//			Dimension d = new Dimension(300, 50);
-//			setMaximumSize(d);
-//			setOpaque(false);
-//			setContentAreaFilled(false);
-//			setBorderPainted(false);
+			globalPaint = true;
+			setFont(new Font("Courier New", Font.BOLD, 15));
+			Dimension d = new Dimension(width, height);
+			setSize(d);
+			
+			if(imgName == null) {
+				oldImage = null;
+				setOpaque(false);
+//				setBackground(Color.LIGHT_GRAY);
+//				setForeground(Color.white);
+				
+				setContentAreaFilled(true);
+				setBorderPainted(true);
+//				setBorder(BorderFactory.createLineBorder(Color.BLACK));
+			}
+			else{
+				try {
+					oldImage = getImage(imgName);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
 
+			buttonWidth = width;
+			buttonHight = height;
+
+			if(oldImage == null) System.out.println("null");
+			
 			if (text.equals("New Game")) {
 				addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						// if a game saved before ask: are you sure? this will
-						// delete your saved game
-						// buttons: new game / continue
 						if (saveFlag) {
 							noticBox = askNewGame();
 						} else {
@@ -674,7 +729,7 @@ public class MainPanel extends JPanel {
 					}
 				});
 
-			} else if (text.equals("Sure")) {
+			}else if (text.equals("Sure")) {
 				addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -684,6 +739,7 @@ public class MainPanel extends JPanel {
 						debug();
 					}
 				});
+				
 			} else if (text.equals("Easy")) {
 				addActionListener(new ActionListener() {
 					@Override
@@ -717,15 +773,10 @@ public class MainPanel extends JPanel {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 
-						// if a running game not saved, ask save or not
 						if (!saveFlag && gameRunning) {
 							timerPanel.pauseTimer();
 							noticBox = askSaveGame();
-						}
-
-						// if save ->save and return to main
-						// else return to main
-						else {
+						}else {
 							gameRunning = false;
 							cardLayout.show(parentPanel, "mainMenu");
 						}
@@ -826,7 +877,6 @@ public class MainPanel extends JPanel {
 
 			} else if (text.equals("Save Game")) {
 				addActionListener(new ActionListener() {
-
 					@Override
 					public void actionPerformed(ActionEvent e) {
 
@@ -844,6 +894,7 @@ public class MainPanel extends JPanel {
 
 					}
 				});
+			
 			} else if (text.equals("Don't Save")) {
 				addActionListener(new ActionListener() {
 
@@ -860,6 +911,7 @@ public class MainPanel extends JPanel {
 
 					}
 				});
+			
 			} else if (text.equals("How To Play")) {
 				addActionListener(new ActionListener() {
 					@Override
@@ -882,11 +934,7 @@ public class MainPanel extends JPanel {
 				addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						// show hint: direction
 						currGame.hintCoinActivated();
-//						JOptionPane.showMessageDialog(parentPanel, "Will Show Next Move", "Hint",
-//								JOptionPane.INFORMATION_MESSAGE);
-
 					}
 				});
 
@@ -913,7 +961,61 @@ public class MainPanel extends JPanel {
 				System.out.println(text + "button not implemented yet! FIX");
 			}
 
-		}
+		
 
+		}
+		
+
+
+			@Override
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				if(globalPaint){
+					if(oldImage != null){
+						Image newNewgame = oldImage.getScaledInstance(buttonWidth, buttonHight, java.awt.Image.SCALE_SMOOTH);
+//						System.out.println(buttonWidth+" "+ buttonHight);
+						boolean flag = false;
+						while((flag = g.drawImage(newNewgame, -5, 0, null)) !=true) System.out.println(flag);
+//						System.out.println(flag);
+					}
+//					System.out.println(this.getText());
+				}
+			};
+		
 	}
+	
+
+    /**
+     * Gets the image from file and returns the image so that it can be used in the program
+     * @param fileName the name of the image file
+     * @return the image
+     */
+    private Image getImage(String fileName) throws IOException {
+        Image img = null;
+        if(fileName == null) return null;
+        try {
+            img = ImageIO.read(new File(fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return img;
+    }
+	
+
+
+	
+
+	
 }
+//		@Override
+//	    public void paint(Graphics g) {
+////			super.paint(g);	
+//		}
+
+
+//		
+//		@Override
+//		public void paintComponent(Graphics g) {
+//			super.paintComponent(g);
+////	        g.drawString();
+//	    }
