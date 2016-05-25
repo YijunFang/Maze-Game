@@ -473,7 +473,7 @@ public class MainPanel extends JPanel {
 		
 		KeyEventDispatcher ked = formKeyEventDispatcher();
 	   checkGameWon = false;
-		currGame.setKeyDetect(ked);
+		//currGame.setKeyDetect(ked);
 
 		currGame.start(difficulty);
 		currGame.setOpaque(true);

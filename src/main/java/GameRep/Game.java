@@ -1,6 +1,5 @@
 package GameRep;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -70,11 +69,12 @@ public class Game extends JPanel {
         
     }
     
-//	changed here    
+//	changed here   
+    /*
     public void setKeyDetect(KeyEventDispatcher initked) {
     	ked = initked;
     	enableKeyPressDetect();
-	}
+	}*/
 
 //	changed here
     public static void main(String[] args) throws InterruptedException {
@@ -106,7 +106,7 @@ public class Game extends JPanel {
                 }
             }
         };
-        game.setKeyDetect(ked);
+        //game.setKeyDetect(ked);
         
         frame.add(game);
         frame.setSize(frameSize, frameSize);
@@ -159,7 +159,7 @@ public class Game extends JPanel {
      * Stop resets the data in the Game object to ensure that none of it gets reused in the next iteration of the game
      */
     public void stop() {
-        disableKeyPressDetect();
+        //disableKeyPressDetect();
         mazeImage = null;
         hintImage = null;
         
@@ -445,6 +445,7 @@ public class Game extends JPanel {
 
 
 //    Change here
+    /*
     private KeyEventDispatcher formKeyEventDispatcher() {
         KeyEventDispatcher ked = new KeyEventDispatcher() {
             @Override
@@ -474,19 +475,22 @@ public class Game extends JPanel {
         };
         return ked;
 	}
-
+*/
     /**
      * Enables the use of computer keyboard to control the game
      */
+    /*
     private void enableKeyPressDetect() {
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(ked);
-    }
+    }*/
     /**
      * Disables the use of computer keyboard to control the game
      */
+    /*
     private void disableKeyPressDetect() {
         KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(ked);
     }
+    */
     /**
      * Moves the current position of the player one coordinate downwards
      * Firstly, it ensures that the current position of the player is not
@@ -510,7 +514,6 @@ public class Game extends JPanel {
                     if (newPlayerLocationY < playerLocationY + centreShift/2) {
                         moveTimer.stop();
                         repaintTimer.stop();
-                        enableKeyPressDetect();
                         repaint();
                         checkWinState();
                     }
@@ -527,7 +530,7 @@ public class Game extends JPanel {
             moveTimer.addActionListener(moveAction);
             repaintTimer.addActionListener(repaintAction);
             
-            disableKeyPressDetect();
+            //disableKeyPressDetect();
             
             moveTimer.setInitialDelay(0);
             moveTimer.start(); 
@@ -554,7 +557,7 @@ public class Game extends JPanel {
                         //Character has moved sufficiently, so stop movement process
                         moveTimer.stop();
                         repaintTimer.stop();
-                        enableKeyPressDetect();
+                        //enableKeyPressDetect();
                         repaint();
                         checkWinState();
                     }
@@ -571,7 +574,7 @@ public class Game extends JPanel {
             moveTimer.addActionListener(moveAction);
             repaintTimer.addActionListener(repaintAction);
             
-            disableKeyPressDetect();
+            //disableKeyPressDetect();
             
             moveTimer.setInitialDelay(0);
             moveTimer.start(); 
@@ -594,7 +597,7 @@ public class Game extends JPanel {
                     if (newPlayerLocationY > playerLocationY - centreShift/2) {
                         moveTimer.stop();
                         repaintTimer.stop();
-                        enableKeyPressDetect();
+                        //enableKeyPressDetect();
                         repaint();
                         checkWinState();
                     }
@@ -611,7 +614,7 @@ public class Game extends JPanel {
             moveTimer.addActionListener(moveAction);
             repaintTimer.addActionListener(repaintAction);
             
-            disableKeyPressDetect();
+            //disableKeyPressDetect();
             
             moveTimer.setInitialDelay(0);
             moveTimer.start(); 
@@ -636,7 +639,7 @@ public class Game extends JPanel {
                     if (newPlayerLocationX < playerLocationX + centreShift/2) {
                         moveTimer.stop();
                         repaintTimer.stop();
-                        enableKeyPressDetect();
+                        //enableKeyPressDetect();
                         repaint();
                         checkWinState();
                     }
@@ -653,7 +656,7 @@ public class Game extends JPanel {
             moveTimer.addActionListener(moveAction);
             repaintTimer.addActionListener(repaintAction);
             
-            disableKeyPressDetect();
+            //disableKeyPressDetect();
             
             moveTimer.setInitialDelay(0);
             moveTimer.start(); 
