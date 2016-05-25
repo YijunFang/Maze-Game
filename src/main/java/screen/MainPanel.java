@@ -25,6 +25,8 @@ import GameRep.Game;
 import screen.TimerPanel;
 
 import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
@@ -113,7 +115,6 @@ public class MainPanel extends JPanel {
 		//check game won
 		if(currGame.isGameWon() == true){
 			checkGameWon = true;
-			
 			JLabel resultTime = timerPanel.saveTimer();
 			timerPanel.clearTimer();
 			deleteGame();
@@ -464,6 +465,9 @@ public class MainPanel extends JPanel {
 
 		return c;
 	}
+	
+	KeyEventDispatcher ked = null;
+	KeyboardFocusManager kfm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 
 	private void startNewGame(Difficulty difficulty) {
 		// if there is a saved game, delete it
@@ -471,9 +475,11 @@ public class MainPanel extends JPanel {
 		
 		currGame = new Game();
 		
-		KeyEventDispatcher ked = formKeyEventDispatcher();
+		ked = formKeyEventDispatcher();
 	   checkGameWon = false;
 		//currGame.setKeyDetect(ked);
+	    
+	    kfm.addKeyEventDispatcher(ked);
 
 		currGame.start(difficulty);
 		currGame.setOpaque(true);
@@ -517,6 +523,7 @@ public class MainPanel extends JPanel {
 	}
 
 	private void deleteGame() {
+		kfm.removeKeyEventDispatcher(ked);
 	    if (currGame != null) {
 	        currGame.stop();
 	    }
