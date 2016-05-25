@@ -152,10 +152,19 @@ public class MainPanel extends JPanel {
 		mainMenu.setBorder(new EmptyBorder(100, 200, 100, 200));
 		mainMenu.setMinimumSize(new Dimension(1000, 800));
 		
+		Button newGameButton = new Button("New Game", this){
+			@Override
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(new ImageIcon("newgame.png").getImage(), 0, 0, null);
+			}
+		};
+		
+		
 		JPanel component = new JPanel();
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(0, 1, 15, 15));
-		component.add(new Button("New Game", this));
+		component.add(newGameButton);
 		component.add(new Button("Continue", this));
 		component.add(new Button("How To Play", this));
 		component.add(new Button("Quit", this));		
@@ -630,7 +639,7 @@ public class MainPanel extends JPanel {
 
 		System.out.println(info);
 
-	}
+}
 	
 
 
