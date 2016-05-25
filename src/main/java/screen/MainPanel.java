@@ -153,7 +153,6 @@ public class MainPanel extends JPanel {
 //			System.out.println(currGame.getNumCoins());
 			((screen.coinPanel) coinPanel).updateCoin(currGame.getNumCoins());
 		}
-
 	}
 
 	public void createMainMenu() {
@@ -297,7 +296,7 @@ public class MainPanel extends JPanel {
 		grid.setLayout(new GridLayout(0, 2));
 
 		grid.add(new JLabel(
-				"<html><p>You're a zombie and it has been a few days since you have had some delicious vilager brain</p></html>"));
+				"<html><p>You're a zombie and it has been a few days since you have had some delicious villager brain</p></html>"));
 		ImageIcon zombie = new ImageIcon(getClass().getResource("zombiebrain.png"));
 		grid.add(new JLabel(zombie));
 		grid.add(new JLabel(
@@ -517,7 +516,8 @@ public class MainPanel extends JPanel {
 						.addGap(0)));
 		endScreen.setLayout(gl_endScreen);
 		
-		
+		endScreen.add(component,JPanel.BOTTOM_ALIGNMENT);
+
 		return endScreen;
 	}
 
