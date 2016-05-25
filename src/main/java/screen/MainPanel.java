@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -156,7 +157,9 @@ public class MainPanel extends JPanel {
 			@Override
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(new ImageIcon("newgame.png").getImage(), 0, 0, null);
+				Image old = new ImageIcon("newgame.png").getImage();
+				Image newimage = old.getScaledInstance(600, 80,java.awt.Image.SCALE_SMOOTH);
+				g.drawImage(newimage, 0, 0, null);
 			}
 		};
 		
@@ -549,7 +552,7 @@ public class MainPanel extends JPanel {
 		notice.setUndecorated(true);
 		notice.pack();
 
-//		notice.setMinimumSize(new Dimension(400, 300));
+		notice.setMinimumSize(new Dimension(400, 300));
 		notice.setLocationRelativeTo(null);
 		notice.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		notice.setVisible(true);
@@ -577,7 +580,7 @@ public class MainPanel extends JPanel {
 		notice.setUndecorated(true);
 		notice.pack();
 
-//		notice.setMinimumSize(new Dimension(400, 300));
+		notice.setMinimumSize(new Dimension(400, 300));
 		notice.setLocationRelativeTo(null);
 		notice.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		notice.setVisible(true);
@@ -606,7 +609,7 @@ public class MainPanel extends JPanel {
 		notice.setUndecorated(true);
 		notice.pack();
 
-//		notice.setMinimumSize(new Dimension(400, 300));
+		notice.setMinimumSize(new Dimension(400, 300));
 		notice.setLocationRelativeTo(null);
 		notice.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		notice.setVisible(true);
