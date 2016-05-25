@@ -25,7 +25,6 @@ import javax.swing.Timer;
 import Common.Content;
 import Common.CoordinatePair;
 import Common.Difficulty;
-//import javafx.collections.ListChangeListener.Change;
 
 @SuppressWarnings("serial")
 public class Game extends JPanel {
@@ -106,7 +105,6 @@ public class Game extends JPanel {
                 }
             }
         };
-        //game.setKeyDetect(ked);
         
         frame.add(game);
         frame.setSize(frameSize, frameSize);

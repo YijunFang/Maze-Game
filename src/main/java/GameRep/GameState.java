@@ -98,6 +98,7 @@ public class GameState {
         List<CoordinatePair> truncatedPath = new LinkedList<>();
         for (int i = 0; i < pathLength && i < fullPath.size(); i++) {
             truncatedPath.add(i, this.maze.getCoordinatesOf(fullPath.get(i)));
+            System.out.println(truncatedPath.get(i).across + ", " + truncatedPath.get(i).down);
         }
         return truncatedPath;
     }

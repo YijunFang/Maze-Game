@@ -27,6 +27,8 @@ public class Amazing extends JFrame {
 		setupBorder(this);
 
 		setMinimumSize(new Dimension(1000, 800));
+		
+		setResizable(false);
 
 		pack();
 

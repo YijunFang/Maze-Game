@@ -319,6 +319,7 @@ public class MainPanel extends JPanel {
 		ScorePanel.setOpaque(false);
 		ScorePanel.setLayout(new GridLayout(1, 2));
 		
+//		int coin=currGame.
 		JLabel showCoin = new JLabel("SHOULD SHOW COINS", JLabel.CENTER);
 		ScorePanel.add(showCoin);
 		JLabel showTime = new JLabel("SHOULD SHOW Time", JLabel.CENTER);
@@ -536,8 +537,10 @@ public class MainPanel extends JPanel {
 	public JFrame askNewGame() {
 
 		JFrame notice = new JFrame("New Game");
+		notice.setUndecorated(true);
+		notice.pack();
 
-		notice.setMinimumSize(new Dimension(400, 300));
+//		notice.setMinimumSize(new Dimension(400, 300));
 		notice.setLocationRelativeTo(null);
 		notice.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		notice.setVisible(true);
@@ -562,8 +565,10 @@ public class MainPanel extends JPanel {
 	public JFrame askSaveGame() {
 
 		JFrame notice = new JFrame("Game Not Saved");
+		notice.setUndecorated(true);
+		notice.pack();
 
-		notice.setMinimumSize(new Dimension(400, 300));
+//		notice.setMinimumSize(new Dimension(400, 300));
 		notice.setLocationRelativeTo(null);
 		notice.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		notice.setVisible(true);
@@ -589,8 +594,10 @@ public class MainPanel extends JPanel {
 	public JFrame askGiveUp() {
 
 		JFrame notice = new JFrame("Give Up");
+		notice.setUndecorated(true);
+		notice.pack();
 
-		notice.setMinimumSize(new Dimension(400, 300));
+//		notice.setMinimumSize(new Dimension(400, 300));
 		notice.setLocationRelativeTo(null);
 		notice.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		notice.setVisible(true);
@@ -864,8 +871,9 @@ public class MainPanel extends JPanel {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// show hint: direction
-						JOptionPane.showMessageDialog(parentPanel, "Will Show Next Move", "Hint",
-								JOptionPane.INFORMATION_MESSAGE);
+						currGame.hintCoinActivated();
+//						JOptionPane.showMessageDialog(parentPanel, "Will Show Next Move", "Hint",
+//								JOptionPane.INFORMATION_MESSAGE);
 
 					}
 				});
