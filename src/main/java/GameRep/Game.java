@@ -25,7 +25,6 @@ import javax.swing.Timer;
 import Common.Content;
 import Common.CoordinatePair;
 import Common.Difficulty;
-//import javafx.collections.ListChangeListener.Change;
 
 @SuppressWarnings("serial")
 public class Game extends JPanel {
@@ -79,6 +78,7 @@ public class Game extends JPanel {
 //	changed here
     public static void main(String[] args) throws InterruptedException {
         JFrame frame = new JFrame("Maze");
+<<<<<<< Updated upstream
         final Game game = new Game();
         KeyEventDispatcher ked = new KeyEventDispatcher() {
             @Override
@@ -107,6 +107,9 @@ public class Game extends JPanel {
             }
         };
         //game.setKeyDetect(ked);
+=======
+        Game game = new Game();
+>>>>>>> Stashed changes
         
         frame.add(game);
         frame.setSize(frameSize, frameSize);
