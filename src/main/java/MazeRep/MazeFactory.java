@@ -3,8 +3,6 @@ package MazeRep;
 import MazeRep.MazeGenStrategy.MazeGenStrategy;
 import MazeRep.MazeGenStrategy.RandomisedRecursiveDFS;
 
-import java.util.Random;
-
 /**
  * A factory for creating and initialising {@link MazeRep.Maze} objects with objects of type T as values in each square.
  *
