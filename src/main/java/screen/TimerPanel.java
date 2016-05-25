@@ -53,6 +53,30 @@ public class TimerPanel extends JPanel {
 
 	}
 
+	public String totalTime() {
+		thread.stopped = true;
+		long elapsed = getCurrTime() - programStart - pauseCount;
+		return format(elapsed);
+	}
+
+	public int totalTimeSecond() {
+
+		thread.stopped = true;
+		long elapsed = getCurrTime() - programStart - pauseCount;
+
+		int hour, minute, second;
+
+		second = (int) (elapsed % 60);
+		elapsed = elapsed / 60;
+
+		minute = (int) (elapsed % 60);
+		elapsed = elapsed / 60;
+
+		hour = (int) (elapsed % 60);
+		return second;
+
+	}
+
 	public void clearTimer() {
 		pauseStart = programStart;
 		pauseCount = 0;

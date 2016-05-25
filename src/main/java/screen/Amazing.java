@@ -24,11 +24,11 @@ public class Amazing extends JFrame {
 
 		setTitle("A-Maze-ing");
 
-//		setupBorder(this);
+		// setupBorder(this);
 
 		setMinimumSize(new Dimension(1000, 800));
-		
-//		setResizable(false);
+
+		setResizable(false);
 
 		pack();
 
@@ -36,14 +36,14 @@ public class Amazing extends JFrame {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		parentPanel = new MainPanel(){
+		parentPanel = new MainPanel() {
 			public void paintComponent(Graphics g) {
-			super.paintComponent(g);
-			g.drawImage(new ImageIcon("background.jpg").getImage(), -200, -50, null);
-		}
-	};
+				super.paintComponent(g);
+				g.drawImage(new ImageIcon("background.jpg").getImage(), -200, -50, null);
+			}
+		};
 
-//		 parentPanel.setOpaque(false);
+		// parentPanel.setOpaque(false);
 
 		add(parentPanel);
 
@@ -68,21 +68,3 @@ public class Amazing extends JFrame {
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

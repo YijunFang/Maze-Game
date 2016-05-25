@@ -51,6 +51,7 @@ public class Game extends JPanel {
     //game state
     private GameState gs;
     private Square[][] maze;
+    private boolean flag = false;
     private boolean isPaused = false;
     private boolean gameWon = false;
     private boolean displayHint = false;
@@ -79,6 +80,7 @@ public class Game extends JPanel {
     public static void main(String[] args) throws InterruptedException {
         JFrame frame = new JFrame("Maze");
         final Game game = new Game();
+        
         KeyEventDispatcher ked = new KeyEventDispatcher() {
             @Override
             public boolean dispatchKeyEvent(KeyEvent ke) {
@@ -105,6 +107,8 @@ public class Game extends JPanel {
                 }
             }
         };
+        KeyboardFocusManager kfm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+        kfm.addKeyEventDispatcher(ked);
         
         frame.add(game);
         frame.setSize(frameSize, frameSize);
@@ -179,13 +183,15 @@ public class Game extends JPanel {
         if (gs == null) return; //If game state is not initialised yet, don't paint anything
         super.paint(g);
         if (gameWon) {
+        	flag = true;
+        	System.out.println("gameWon "+gameWon);	
 //        	change here
 //        	renderEndGame(g);
 //			reset everything?
         	gs = null;
         	gameWon = false;
         	ked = null;
-        	;
+        	
         } else {
             renderGame(g);
         }
@@ -403,7 +409,8 @@ public class Game extends JPanel {
      * @return true if the game is won, false otherwise
      */
     public boolean isGameWon() {
-        return this.gameWon;
+    	System.out.println("flag" + flag);
+        return this.flag;
     }
     
     /**
