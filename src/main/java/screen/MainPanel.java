@@ -3,6 +3,7 @@ package screen;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -33,8 +34,10 @@ import screen.TimerPanel;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 
+
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
@@ -245,12 +248,13 @@ public class MainPanel extends JPanel {
 		JPanel component = new JPanel();
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(0, 1, 10, 10));
+
 		component.add(new Button("Easy", this,null, 600, 75));
 		component.add(new Button("Medium", this,null, 600, 75));
 		component.add(new Button("Hard", this,null, 600, 75));
 		component.add(new Button("Main Menu", this,null, 600, 75));
-		
-		
+
+
 		GroupLayout gl_newGame = new GroupLayout(newGame);
 		gl_newGame.setHorizontalGroup(
 			gl_newGame.createParallelGroup(Alignment.TRAILING)
@@ -270,6 +274,60 @@ public class MainPanel extends JPanel {
 					.addGap(0))
 		);
 		newGame.setLayout(gl_newGame);
+	}
+	
+	private JFrame createHelpScreen() {
+		
+		JFrame help = new JFrame("How to Play");
+		
+		help.setMinimumSize(new Dimension(800, 800));
+		help.setLocationRelativeTo(null);
+		help.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		help.setVisible(true);
+
+		JPanel mainPanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(new ImageIcon("background.jpg").getImage(), -200, -50, null);
+			}
+		};
+		
+		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+		mainPanel.setBorder(new EmptyBorder(50, 30, 100, 30));
+		add(mainPanel);
+		
+		JPanel grid = new JPanel();
+		
+		grid.setLayout(new GridLayout(0,2));
+		
+		grid.add(new JLabel("<html><p>You're a zombie and it has been a few days since you have had some delicious vilager brain</p></html>"));
+		ImageIcon zombie = new ImageIcon (getClass().getResource("zombiebrain.png"));
+		grid.add(new JLabel(zombie));
+		grid.add(new JLabel("<html><p>Trouble is, the villager's hiding somewhere in the maze and you have got to use your puzzle solving skills to get to him</p></html>"));
+		ImageIcon villager = new ImageIcon (getClass().getResource("villagerhelp.png"));
+		grid.add(new JLabel(villager));
+		grid.add(new JLabel("<html><p>Use the W key to move up, the A key to move left, the S key to move down and and D key to move right</p></html>"));
+		ImageIcon controls = new ImageIcon (getClass().getResource("controls.png"));
+		grid.add(new JLabel(controls));
+		grid.add(new JLabel("<html><p>If you come across an eye of ender, you can use it to show some portion of the correct path</p></html>"));
+		ImageIcon eye = new ImageIcon (getClass().getResource("eyeofenderhelp.png"));
+		grid.add(new JLabel(eye));
+//		grid.add(new JLabel("<html><p>If you come across a pickaxe, use it to break through a wall to get closer to that yummy brain</p></html>"));
+//		ImageIcon axe = new ImageIcon (getClass().getResource("pickaxe.png"));
+//		grid.add(new JLabel(axe));
+		
+		mainPanel.setVisible(true);
+		mainPanel.add(grid);
+		JPanel box = new JPanel();
+		
+		box.setLayout(new BoxLayout(box, BoxLayout.X_AXIS));
+
+		box.add(new Button("OK", this, null, 300, 15));
+		
+		mainPanel.add(box);
+		help.getContentPane().add(mainPanel);
+		
+		return help;
 	}
 
 	private void createPauseScreen() {
@@ -848,18 +906,14 @@ public class MainPanel extends JPanel {
 					}
 				});
 
-			} else if (text.equals("Help")) {
-				addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						// timmer stop
-						gameRunning = false;
-						currGame.pauseGame(true);
-						cardLayout.show(parentPanel, "helpScreen");
-						debug();
-
-					}
-				});
+//			} else if (text.equals("How to Play")) {
+//				addActionListener(new ActionListener() {
+//					@Override
+//					public void actionPerformed(ActionEvent e) {
+//						noticBox = createHelpScreen();
+//						debug();
+//					}
+//				});
 
 			} else if (text.equals("Save")) {
 				addActionListener(new ActionListener() {
@@ -914,13 +968,20 @@ public class MainPanel extends JPanel {
 			
 			} else if (text.equals("How To Play")) {
 				addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						JOptionPane.showMessageDialog(parentPanel,
-								"Please usw 'up', 'down', 'left', 'right' to move the character", "How To Play",
-								JOptionPane.INFORMATION_MESSAGE);
-					}
-				});
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					noticBox = createHelpScreen();
+					debug();
+				}
+			});
+//				addActionListener(new ActionListener() {
+//					@Override
+//					public void actionPerformed(ActionEvent e) {
+//						JOptionPane.showMessageDialog(parentPanel,
+//								"Please usw 'up', 'down', 'left', 'right' to move the character", "How To Play",
+//								JOptionPane.INFORMATION_MESSAGE);
+//					}
+//				});
 
 			} else if (text.equals("Quit")) {
 				addActionListener(new ActionListener() {
