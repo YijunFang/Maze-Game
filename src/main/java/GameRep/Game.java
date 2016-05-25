@@ -105,7 +105,6 @@ public class Game extends JPanel {
                 }
             }
         };
-        //game.setKeyDetect(ked);
         
         frame.add(game);
         frame.setSize(frameSize, frameSize);
