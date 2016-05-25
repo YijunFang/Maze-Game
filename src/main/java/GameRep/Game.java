@@ -51,7 +51,6 @@ public class Game extends JPanel {
     //game state
     private GameState gs;
     private Square[][] maze;
-    private boolean flag = false;
     private boolean isPaused = false;
     private boolean gameWon = false;
     private boolean displayHint = false;
@@ -183,15 +182,14 @@ public class Game extends JPanel {
         if (gs == null) return; //If game state is not initialised yet, don't paint anything
         super.paint(g);
         if (gameWon) {
-        	flag = true;
-        	System.out.println("gameWon "+gameWon);	
+        	System.out.println("gameWon "+gameWon);
 //        	change here
 //        	renderEndGame(g);
 //			reset everything?
         	gs = null;
         	gameWon = false;
         	ked = null;
-        	
+        	;
         } else {
             renderGame(g);
         }
@@ -409,8 +407,7 @@ public class Game extends JPanel {
      * @return true if the game is won, false otherwise
      */
     public boolean isGameWon() {
-    	System.out.println("flag" + flag);
-        return this.flag;
+        return this.gameWon;
     }
     
     /**
@@ -445,6 +442,7 @@ public class Game extends JPanel {
         CoordinatePair goal = gs.getGoalPosition();
         if (gs.getPlayerPosition().equals(goal)) {
             this.gameWon = true;
+            System.out.println("here");
             repaint();
         }
     }
