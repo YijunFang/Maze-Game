@@ -152,7 +152,7 @@ public class Game extends JPanel {
                 }
             }
         }
-        //hintCoinActivated();
+        hintCoinActivated();
         repaint();
     }
     /**
@@ -322,7 +322,7 @@ public class Game extends JPanel {
             } else {
                 for (CoordinatePair cp : hintPathList) {
                     Rectangle2D hintSquare = new Rectangle2D.Double(
-                            cp.across * squareLength, cp.across * squareLength, squareLength, squareLength);
+                            cp.across * squareLength, cp.down * squareLength, squareLength, squareLength);
                     g2d.fill(hintSquare);
                 }
             }
@@ -397,6 +397,7 @@ public class Game extends JPanel {
         displayHint = true;
         hintTimer.addActionListener(hintTimerListener);
         hintTimer.start();
+        System.out.println("Derp");
     }
     
     /**
