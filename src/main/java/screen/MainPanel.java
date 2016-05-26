@@ -170,42 +170,21 @@ public class MainPanel extends JPanel {
 		mainMenu.setBorder(new EmptyBorder(100, 200, 100, 200));
 		mainMenu.setMinimumSize(new Dimension(1000, 800));
 
-		// Button newGameButton = new Button("New Game", this,null, 600, 75){
-		// @Override
-		// public void paintComponent(Graphics g) {
-		// super.paintComponent(g);
-		//// boolean flag = g.drawImage(newNewgame, 0, 0, null);
-		//// System.out.println("flag is "+flag);
-		//
-		// Image oldNewgame = new ImageIcon(null).getImage();
-		// Image newNewgame = oldNewgame.getScaledInstance(600, 65,
-		// java.awt.Image.SCALE_SMOOTH);
-		// boolean flag = false;
-		// while((flag = g.drawImage(newNewgame, 0, 0, null)) !=true)
-		// System.out.println(flag);
-		// System.out.println(flag);
-		// }
-		// };
-
-		// Button newGameButton = new Button("New Game", this, null, 600, 75);
-		// newGameButton.paintButton(null, 600, 75);
-		// newGameButton.setMaximumSize(dimMainButton);
-
 		JPanel component = new JPanel();
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(0, 1, 15, 15));
-		component.add(new Button("New Game", this, "newgame.png", 600, 75));
-		component.add(new Button("Continue", this, null, 600, 75));
-		component.add(new Button("How To Play", this, null, 600, 75));
-		component.add(new Button("Quit", this, null, 600, 75));
+		component.add(new Button("New Game", this, "newgame.png", 595, 75));
+		component.add(new Button("Continue", this, "continue.png", 595, 75));
+		component.add(new Button("How To Play", this, "howtoplay.png", 595, 75));
+		component.add(new Button("Quit", this, "quitgame.png", 595, 75));
 
 		GroupLayout gl_mainMenu = new GroupLayout(mainMenu);
 		gl_mainMenu.setHorizontalGroup(gl_mainMenu.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_mainMenu.createSequentialGroup().addContainerGap()
 						.addGroup(gl_mainMenu.createParallelGroup(Alignment.LEADING)
-								.addComponent(titlePanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 600,
+								.addComponent(titlePanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 595,
 										Short.MAX_VALUE)
-								.addComponent(component, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 600,
+								.addComponent(component, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 595,
 										Short.MAX_VALUE))
 						.addGap(0)));
 		gl_mainMenu.setVerticalGroup(gl_mainMenu.createParallelGroup(Alignment.TRAILING)
@@ -217,7 +196,7 @@ public class MainPanel extends JPanel {
 		mainMenu.setLayout(gl_mainMenu);
 
 	}
-
+	
 	private void createNewGame() {
 
 		newGame = new JPanel();
@@ -235,37 +214,86 @@ public class MainPanel extends JPanel {
 		};
 		titlePanel.setOpaque(false);
 
-		JLabel title = new JLabel("Select Level", JLabel.CENTER);
-		title.setFont(new Font("Courier New", Font.BOLD, 50));
-		title.setSize(new Dimension(150, 60));
+//		JLabel title = new JLabel("Select Level", JLabel.CENTER);
+//		title.setFont(new Font("Courier New", Font.BOLD, 50));
+//		title.setSize(new Dimension(150, 60));
 
 		JPanel component = new JPanel();
 		component.setOpaque(false);
-		component.setLayout(new GridLayout(0, 1, 10, 10));
+		component.setLayout(new GridLayout(0, 1, 15, 15));
 
-		component.add(new Button("Easy", this, "easy.png", 600, 75));
-		component.add(new Button("Medium", this, "medium.png", 600, 75));
-		component.add(new Button("Hard", this, "hard.png", 600, 75));
-		component.add(new Button("Main Menu", this, "mainmenu.png", 600, 75));
+		component.add(new Button("Easy", this, "easy.png", 595, 75));
+		component.add(new Button("Medium", this, "medium.png", 595, 75));
+		component.add(new Button("Hard", this, "hard.png", 595, 75));
+		component.add(new Button("Main Menu", this, "mainmenu.png", 595, 75));
 
 		GroupLayout gl_newGame = new GroupLayout(newGame);
-		gl_newGame
-				.setHorizontalGroup(
-						gl_newGame.createParallelGroup(Alignment.TRAILING)
-								.addGroup(gl_newGame.createSequentialGroup()
-										.addGroup(gl_newGame.createParallelGroup(Alignment.LEADING)
-												.addComponent(component, GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
-												.addComponent(titlePanel, GroupLayout.DEFAULT_SIZE, 600,
-														Short.MAX_VALUE)
-												.addComponent(title, GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE))
-										.addContainerGap()));
-		gl_newGame.setVerticalGroup(gl_newGame.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_newGame.createSequentialGroup()
-						.addComponent(titlePanel, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE).addGap(0)
-						.addComponent(title).addComponent(component, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+		gl_newGame.setHorizontalGroup(gl_newGame.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_newGame.createSequentialGroup().addContainerGap()
+						.addGroup(gl_newGame.createParallelGroup(Alignment.LEADING)
+								.addComponent(titlePanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 595,
+										Short.MAX_VALUE)
+								.addComponent(component, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 595,
+										Short.MAX_VALUE))
 						.addGap(0)));
+		gl_newGame.setVerticalGroup(gl_newGame.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_newGame.createSequentialGroup().addContainerGap()
+						.addComponent(titlePanel, GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE).addGap(0)
+						.addComponent(component, GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE).addGap(0)));
+
+		gl_newGame.setAutoCreateContainerGaps(true);
+		
 		newGame.setLayout(gl_newGame);
 	}
+
+//	private void createNewGame() {
+//
+//		newGame = new JPanel();
+//		newGame.setOpaque(false);
+//		newGame.setFocusable(false);
+//		newGame.setBorder(new EmptyBorder(100, 200, 100, 200));
+//		newGame.setMinimumSize(new Dimension(1000, 800));
+//
+//		JPanel titlePanel = new JPanel() {
+//			@Override
+//			public void paintComponent(Graphics g) {
+//				super.paintComponent(g);
+//				g.drawImage(new ImageIcon("Mazecraft.png").getImage(), 0, 0, null);
+//			}
+//		};
+//		titlePanel.setOpaque(false);
+//
+//		JLabel title = new JLabel("Select Level", JLabel.CENTER);
+//		title.setFont(new Font("Courier New", Font.BOLD, 50));
+//		title.setSize(new Dimension(150, 60));
+//
+//		JPanel component = new JPanel();
+//		component.setOpaque(false);
+//		component.setLayout(new GridLayout(0, 1, 10, 10));
+//
+//		component.add(new Button("Easy", this, "easy.png", 595, 75));
+//		component.add(new Button("Medium", this, "medium.png", 595, 75));
+//		component.add(new Button("Hard", this, "hard.png", 595, 75));
+//		component.add(new Button("Main Menu", this, "mainmenu.png", 595, 75));
+//
+//		GroupLayout gl_newGame = new GroupLayout(newGame);
+//		gl_newGame
+//				.setHorizontalGroup(
+//						gl_newGame.createParallelGroup(Alignment.TRAILING)
+//								.addGroup(gl_newGame.createSequentialGroup()
+//										.addGroup(gl_newGame.createParallelGroup(Alignment.LEADING)
+//												.addComponent(component, GroupLayout.DEFAULT_SIZE, 595, Short.MAX_VALUE)
+//												.addComponent(titlePanel, GroupLayout.DEFAULT_SIZE, 595,
+//														Short.MAX_VALUE)
+//												.addComponent(title, GroupLayout.DEFAULT_SIZE, 595, Short.MAX_VALUE))
+//										.addContainerGap()));
+//		gl_newGame.setVerticalGroup(gl_newGame.createParallelGroup(Alignment.LEADING)
+//				.addGroup(gl_newGame.createSequentialGroup()
+//						.addComponent(titlePanel, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE).addGap(0)
+//						.addComponent(title).addComponent(component, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+//						.addGap(0)));
+//		newGame.setLayout(gl_newGame);
+//	}
 
 	private JFrame askHelp() {
 
@@ -368,12 +396,11 @@ public class MainPanel extends JPanel {
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(0, 1, 10, 10));
 
-		component.add(new Button("How To Play", this, null, 600, 75));
-		component.add(new Button("Resume", this, null, 600, 75));
-		component.add(new Button("Restart", this, null, 600, 75));
-		component.add(new Button("Save", this, null, 600, 75));
-		component.add(new Button("Give Up", this, null, 600, 75));
-		component.add(new Button("Return to Main Menu", this, null, 600, 75));
+		component.add(new Button("How To Play", this, "howtoplay.png", 595, 75));
+		component.add(new Button("Resume", this, "continue.png", 595, 75));
+		component.add(new Button("Save", this, null, 595, 75));
+		component.add(new Button("Give Up", this, "giveup.png", 595, 75));
+		component.add(new Button("Return to Main Menu", this, "mainmenu.png", 595, 75));
 
 		GroupLayout gl_pauseScreen = new GroupLayout(pauseScreen);
 		gl_pauseScreen.setHorizontalGroup(gl_pauseScreen.createParallelGroup(Alignment.LEADING)
@@ -402,7 +429,7 @@ public class MainPanel extends JPanel {
 		endScreen = new JPanel();
 		endScreen.setOpaque(false);
 		endScreen.setFocusable(false);
-		endScreen.setBorder(new EmptyBorder(100, 200, 100, 200));
+		endScreen.setBorder(new EmptyBorder(100, 150, 100, 150));
 		endScreen.setMinimumSize(new Dimension(1000, 800));
 
 		JPanel titlePanel = new JPanel() {
@@ -422,8 +449,8 @@ public class MainPanel extends JPanel {
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(0, 1, 10, 10));
 
-		component.add(new Button("New Game", this, null, 600, 75));
-		component.add(new Button("Main Menu", this, null, 600, 75));
+		component.add(new Button("New Game", this, "newgame.png", 595, 75));
+		component.add(new Button("Main Menu", this, "mainmenu.png", 595, 75));
 
 		JPanel ScorePanel = new JPanel();
 		ScorePanel.setOpaque(false);
@@ -442,10 +469,10 @@ public class MainPanel extends JPanel {
 						gl_endScreen.createParallelGroup(Alignment.TRAILING)
 								.addGroup(gl_endScreen.createSequentialGroup()
 										.addGroup(gl_endScreen.createParallelGroup(Alignment.LEADING)
-												.addComponent(ScorePanel, GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
-												.addComponent(component, GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
-												.addComponent(titlePanel, GroupLayout.DEFAULT_SIZE, 600,Short.MAX_VALUE)
-												.addComponent(title, GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE))
+												.addComponent(ScorePanel, GroupLayout.DEFAULT_SIZE, 595, Short.MAX_VALUE)
+												.addComponent(component, GroupLayout.DEFAULT_SIZE, 595, Short.MAX_VALUE)
+												.addComponent(titlePanel, GroupLayout.DEFAULT_SIZE, 595,Short.MAX_VALUE)
+												.addComponent(title, GroupLayout.DEFAULT_SIZE, 595, Short.MAX_VALUE))
 										.addContainerGap()));
 		gl_endScreen.setVerticalGroup(gl_endScreen.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_endScreen.createSequentialGroup()
@@ -478,22 +505,21 @@ public class MainPanel extends JPanel {
 			@Override
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(new ImageIcon("losetitle.png").getImage(), 0, 0, null);
+				g.drawImage(new ImageIcon("losetitle.png").getImage(), 100, 0, null);
 			}
 		};
 		titlePanel.setOpaque(false);
 
-		JLabel title = new JLabel("YOU LOOSE", JLabel.CENTER);
-		title.setFont(new Font("Courier New", Font.BOLD, 30));
-		title.setSize(new Dimension(150, 60));
+//		JLabel title = new JLabel("YOU LOOSE", JLabel.CENTER);
+//		title.setFont(new Font("Courier New", Font.BOLD, 30));
+//		title.setSize(new Dimension(150, 60));
 
 		JPanel component = new JPanel();
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(0, 1, 10, 10));
 
-		component.add(new Button("Replay", this, null, 600, 75));
-		component.add(new Button("New Game", this, null, 600, 75));
-		component.add(new Button("Main Menu", this, null, 600, 75));
+		component.add(new Button("New Game", this, "newgame.png", 595, 75));
+		component.add(new Button("Main Menu", this, "mainmenu.png", 595, 75));
 
 		JPanel ScorePanel = new JPanel();
 		ScorePanel.setOpaque(false);
@@ -512,16 +538,14 @@ public class MainPanel extends JPanel {
 						gl_endScreen.createParallelGroup(Alignment.TRAILING)
 								.addGroup(gl_endScreen.createSequentialGroup()
 										.addGroup(gl_endScreen.createParallelGroup(Alignment.LEADING)
-												.addComponent(ScorePanel, GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
-												.addComponent(component, GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
-												.addComponent(titlePanel, GroupLayout.DEFAULT_SIZE, 600,Short.MAX_VALUE)
-												.addComponent(title, GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE))
+												.addComponent(ScorePanel, GroupLayout.DEFAULT_SIZE, 595, Short.MAX_VALUE)
+												.addComponent(component, GroupLayout.DEFAULT_SIZE, 595, Short.MAX_VALUE)
+												.addComponent(titlePanel, GroupLayout.DEFAULT_SIZE, 595,Short.MAX_VALUE))
 										.addContainerGap()));
 		gl_endScreen.setVerticalGroup(gl_endScreen.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_endScreen.createSequentialGroup()
 						.addComponent(titlePanel, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
 						.addGap(0)
-						.addComponent(title, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
 						.addComponent(ScorePanel, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
 						.addGap(0)
 						.addComponent(component, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
@@ -554,7 +578,7 @@ public class MainPanel extends JPanel {
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(6, 1, 10, 10));
 		component.setSize(new Dimension(200, 800));
-		// component.add(new Button("Help", this,null, 600, 75));
+		// component.add(new Button("Help", this,null, 595, 75));
 		component.add(new Button("Save", this, null, 200, 120));
 		component.add(new Button("Hint", this, null, 200, 120));
 		component.add(new Button("Pause", this, null, 200, 120));
@@ -597,8 +621,7 @@ public class MainPanel extends JPanel {
 		mazePanel.setLayout(gridbag);
 		c = setGridBagConstraints(0, 0, 16, 16, 1, 1, GridBagConstraints.BOTH);
 		mazePanel = addComponent(mazePanel, maze, gridbag, c);
-		// c = setGridBagConstraints(16, 0, 16, 4, 1, 1,
-		// GridBagConstraints.BOTH);
+//		 c = setGridBagConstraints(16, 0, 16, 4, 1, 1,GridBagConstraints.BOTH);
 		c = setGridBagConstraints(18, 0, 16, 2, 1, 1, GridBagConstraints.BOTH);
 
 		mazePanel = addComponent(mazePanel, component, gridbag, c);
@@ -729,15 +752,15 @@ public class MainPanel extends JPanel {
 	}
 
 	public JFrame askSaveGame() {
-		for (Component b : mazeScreen.getComponents())
-			b.setEnabled(false);
+
 		JFrame notice = new JFrame("Game Not Saved");
-		notice.setUndecorated(true);
-		notice.pack();
-		notice.setResizable(false);
+		notice.setUndecorated(false);
+		
+//		notice.setResizable(false);
 		notice.setAlwaysOnTop(true);
 
-		notice.setMinimumSize(new Dimension(400, 300));
+		notice.setMinimumSize(new Dimension(500, 00));
+		notice.pack();
 		notice.setLocationRelativeTo(null);
 		notice.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		notice.setVisible(true);
@@ -817,17 +840,14 @@ public class MainPanel extends JPanel {
 			setFont(new Font("Courier New", Font.BOLD, 15));
 			Dimension d = new Dimension(width, height);
 			setSize(d);
+			setOpaque(false);
+			setContentAreaFilled(false);
+			setBorderPainted(false);
 
 			if (imgName == null) {
 //				globalPaint = false;
 				oldImage = null;
-				setOpaque(false);
-				// setBackground(Color.LIGHT_GRAY);
-				// setForeground(Color.white);
 
-				setContentAreaFilled(false);
-				setBorderPainted(true);
-				// setBorder(BorderFactory.createLineBorder(Color.BLACK));
 			} else {
 				try {
 					oldImage = getImage(imgName);
