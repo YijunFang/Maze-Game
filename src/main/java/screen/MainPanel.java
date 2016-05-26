@@ -472,7 +472,7 @@ public class MainPanel extends JPanel {
 		ScorePanel.setLayout(new GridBagLayout());
 		GridBagConstraints endScreenConstraints = new GridBagConstraints();
 
-		JLabel showCoin = new JLabel(resultCoin, JLabel.CENTER);
+		JLabel showCoin = new JLabel("COINS: " + resultCoin, JLabel.CENTER);
 		showCoin.setFont(new Font("Courier New", Font.BOLD, 25));
 		endScreenConstraints.weightx = 0.5;
 		endScreenConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -480,7 +480,7 @@ public class MainPanel extends JPanel {
 		endScreenConstraints.gridy = 0;
 		ScorePanel.add(showCoin, endScreenConstraints);
 		
-		JLabel showTime = new JLabel("COIN: "+resultTime, JLabel.CENTER);
+		JLabel showTime = new JLabel(resultTime, JLabel.CENTER);
 		showTime.setFont(new Font("Courier New", Font.BOLD, 25));
 		endScreenConstraints.weightx = 0.5;
 		endScreenConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -493,15 +493,18 @@ public class MainPanel extends JPanel {
 		int minutes = Integer.parseInt(timeSplit[1]);
 		int seconds = Integer.parseInt(timeSplit[2]);
 		
-		String[] coinSplit = resultCoin.split(": ");
-		int coinsInt = Integer.parseInt(coinSplit[1]);
+		int coinsInt = Integer.parseInt(resultCoin);
 		
-		int timeInt = (hours*60*60) + (minutes*60) + (seconds);
+		int timeInt = (hours*60) + (minutes) + (seconds/60);
 		System.out.println("time output:" + timeInt);
-		long scoreCalc = Math.round((Math.exp(-timeInt))*10000);
+		//long scoreCalc = Math.round(((Math.exp(-timeInt))+coinsInt)*10)*10;
+		
+		int initial = determineDifficulty();
+		
+		int scoreCalc = initial - (timeInt)*10 + coinsInt;
 		System.out.println("score output:" + scoreCalc);
 		
-		JLabel showScore = new JLabel(("Your Score is:" + scoreCalc + "!"), JLabel.CENTER);
+		JLabel showScore = new JLabel(("\n\nYour Score is:" + scoreCalc + "!"), JLabel.CENTER);
 		showScore.setFont(new Font("Courier New", Font.BOLD, 32));
 		endScreenConstraints.weightx = 0.5;
 		endScreenConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -532,6 +535,16 @@ public class MainPanel extends JPanel {
 		
 		
 		return endScreen;
+	}
+	
+	private int determineDifficulty() {
+		if (difficulty == 1) {
+			return 500;
+		} else if (difficulty == 2) {
+			return 1000;
+		} else {
+			return 2000;
+		}
 	}
 
 	private JPanel createQuitEndScreen(String resultTime, String resultScore) {
