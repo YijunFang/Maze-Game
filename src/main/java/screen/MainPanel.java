@@ -411,7 +411,6 @@ public class MainPanel extends JPanel {
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(0, 1, 10, 10));
 
-		component.add(new Button("Replay", this, null, 600, 75));
 		component.add(new Button("New Game", this, null, 600, 75));
 		component.add(new Button("Main Menu", this, null, 600, 75));
 
@@ -419,10 +418,10 @@ public class MainPanel extends JPanel {
 		ScorePanel.setOpaque(false);
 		ScorePanel.setLayout(new GridLayout(1, 2));
 
-		JLabel showCoin = new JLabel("COIN: "+resultScore, JLabel.CENTER);
+		JLabel showCoin = new JLabel(resultScore, JLabel.CENTER);
 		showCoin.setFont(new Font("Courier New", Font.BOLD, 25));
 		ScorePanel.add(showCoin);
-		JLabel showTime = new JLabel("TIME: "+resultTime, JLabel.CENTER);
+		JLabel showTime = new JLabel(resultTime, JLabel.CENTER);
 		showTime.setFont(new Font("Courier New", Font.BOLD, 25));
 		ScorePanel.add(showTime);
 		
@@ -489,10 +488,10 @@ public class MainPanel extends JPanel {
 		ScorePanel.setOpaque(false);
 		ScorePanel.setLayout(new GridLayout(1, 2));
 
-		JLabel showCoin = new JLabel("COIN: "+resultScore, JLabel.CENTER);
+		JLabel showCoin = new JLabel(resultScore, JLabel.CENTER);
 		showCoin.setFont(new Font("Courier New", Font.BOLD, 25));
 		ScorePanel.add(showCoin);
-		JLabel showTime = new JLabel("TIME: "+resultTime, JLabel.CENTER);
+		JLabel showTime = new JLabel(resultTime, JLabel.CENTER);
 		showTime.setFont(new Font("Courier New", Font.BOLD, 25));
 		ScorePanel.add(showTime);
 		
