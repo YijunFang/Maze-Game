@@ -510,7 +510,7 @@ public class Game extends JPanel {
                         moveTimer.stop();
                         repaintTimer.stop();
                         repaint();
-                        checkWinState();
+                        
                     }
                     playerLocationY+=moveAmount;
                 }
@@ -530,7 +530,7 @@ public class Game extends JPanel {
             moveTimer.setInitialDelay(0);
             moveTimer.start(); 
             repaintTimer.start();
-            
+            checkWinState();
         }
     }
     public void keyPressedLeft() {
@@ -554,7 +554,7 @@ public class Game extends JPanel {
                         repaintTimer.stop();
                         //enableKeyPressDetect();
                         repaint();
-                        checkWinState();
+                        
                     }
                     playerLocationX-=moveAmount;
                 }
@@ -574,6 +574,7 @@ public class Game extends JPanel {
             moveTimer.setInitialDelay(0);
             moveTimer.start(); 
             repaintTimer.start();
+            checkWinState();
         }
     }
     public void keyPressedUp() {
@@ -594,7 +595,7 @@ public class Game extends JPanel {
                         repaintTimer.stop();
                         //enableKeyPressDetect();
                         repaint();
-                        checkWinState();
+
                     }
                     playerLocationY-=moveAmount;
                 }
@@ -614,6 +615,7 @@ public class Game extends JPanel {
             moveTimer.setInitialDelay(0);
             moveTimer.start(); 
             repaintTimer.start();
+            checkWinState();
             
         }
     }
@@ -636,7 +638,7 @@ public class Game extends JPanel {
                         repaintTimer.stop();
                         //enableKeyPressDetect();
                         repaint();
-                        checkWinState();
+                        
                     }
                     playerLocationX+=moveAmount;
                 }
@@ -656,6 +658,7 @@ public class Game extends JPanel {
             moveTimer.setInitialDelay(0);
             moveTimer.start(); 
             repaintTimer.start();
+            checkWinState();
         }
     }
 }
