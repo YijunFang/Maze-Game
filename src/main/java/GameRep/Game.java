@@ -115,7 +115,7 @@ public class Game extends JPanel {
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
-        game.start(Difficulty.HARD);
+        game.start(Difficulty.MEDIUM);
         
 
     }
@@ -156,7 +156,7 @@ public class Game extends JPanel {
         }
         //hintCoinActivated();
         moveAmount = (int) (playerSize/20);
-        renderShift = (int) (centreShift * 1.5);
+        renderShift = (int) (centreShift*0.5);
         repaint();
     }
     /**
