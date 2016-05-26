@@ -1052,8 +1052,11 @@ public class MainPanel extends JPanel {
 				addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						if (noticBox == null || noticBox.getComponentCount() == 0)
-							currGame.hintCoinActivated();
+						if (noticBox == null || noticBox.getComponentCount() == 0) {
+							if (currGame.getNumCoins() > 0) {
+								currGame.hintCoinActivated();
+							}
+						}
 					}
 				});
 

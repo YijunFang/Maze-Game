@@ -397,6 +397,7 @@ public class Game extends JPanel {
                 repaint();
             }
         };
+        gs.setNumberOfCoins(gs.getNumberOfCoins() - 1);
         displayHint = true;
         hintTimer.addActionListener(hintTimerListener);
         hintTimer.start();
