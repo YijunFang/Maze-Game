@@ -394,13 +394,13 @@ public class MainPanel extends JPanel {
 
 		JPanel component = new JPanel();
 		component.setOpaque(false);
-		component.setLayout(new GridLayout(0, 1, 10, 10));
+		component.setLayout(new GridLayout(0, 1, 7, 7));
 
-		component.add(new Button("How To Play", this, "howtoplay.png", 595, 75));
-		component.add(new Button("Resume", this, "continue.png", 595, 75));
-		component.add(new Button("Save", this, null, 595, 75));
-		component.add(new Button("Give Up", this, "giveup.png", 595, 75));
-		component.add(new Button("Return to Main Menu", this, "mainmenu.png", 595, 75));
+		component.add(new Button("How To Play", this, "howtoplay.png", 595, 70));
+		component.add(new Button("Resume", this, "continue.png", 595, 70));
+		component.add(new Button("Save", this, null, 595, 70));
+		component.add(new Button("Give Up", this, "giveup.png", 595, 70));
+		component.add(new Button("Return to Main Menu", this, "mainmenu.png", 595, 70));
 
 		GroupLayout gl_pauseScreen = new GroupLayout(pauseScreen);
 		gl_pauseScreen.setHorizontalGroup(gl_pauseScreen.createParallelGroup(Alignment.LEADING)
@@ -413,8 +413,8 @@ public class MainPanel extends JPanel {
 						.addGap(0)));
 		gl_pauseScreen.setVerticalGroup(gl_pauseScreen.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_pauseScreen.createSequentialGroup().addContainerGap()
-						.addComponent(titlePanel, GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
-						.addComponent(component, GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE).addGap(47)));
+						.addComponent(titlePanel, GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE).addGap(0)
+						.addComponent(component, GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE).addGap(0)));
 		gl_pauseScreen.setAutoCreateContainerGaps(true);
 		pauseScreen.setLayout(gl_pauseScreen);
 
@@ -432,22 +432,32 @@ public class MainPanel extends JPanel {
 		endScreen.setBorder(new EmptyBorder(100, 150, 100, 150));
 		endScreen.setMinimumSize(new Dimension(1000, 800));
 
+		
+
 		JPanel titlePanel = new JPanel() {
 			@Override
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(new ImageIcon("wintitle.png").getImage(), 0, 0, null);
+				Image oldImage = null;
+				try {
+					oldImage = getImage("wintitle.png");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				Image newNewgame = oldImage.getScaledInstance(700, 120,java.awt.Image.SCALE_SMOOTH);
+				g.drawImage(newNewgame, 0, 0, null);
 			}
 		};
 		titlePanel.setOpaque(false);
 
-		JLabel title = new JLabel("YOU WIN", JLabel.CENTER);
-		title.setFont(new Font("Courier New", Font.BOLD, 30));
-		title.setSize(new Dimension(150, 60));
+//		JLabel title = new JLabel("YOU WIN", JLabel.CENTER);
+//		title.setFont(new Font("Courier New", Font.BOLD, 30));
+//		title.setSize(new Dimension(150, 60));
 
 		JPanel component = new JPanel();
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(0, 1, 10, 10));
+		component.setBorder(new EmptyBorder(0, 50, 0, 50));
 
 		component.add(new Button("New Game", this, "newgame.png", 595, 75));
 		component.add(new Button("Main Menu", this, "mainmenu.png", 595, 75));
@@ -471,14 +481,12 @@ public class MainPanel extends JPanel {
 										.addGroup(gl_endScreen.createParallelGroup(Alignment.LEADING)
 												.addComponent(ScorePanel, GroupLayout.DEFAULT_SIZE, 595, Short.MAX_VALUE)
 												.addComponent(component, GroupLayout.DEFAULT_SIZE, 595, Short.MAX_VALUE)
-												.addComponent(titlePanel, GroupLayout.DEFAULT_SIZE, 595,Short.MAX_VALUE)
-												.addComponent(title, GroupLayout.DEFAULT_SIZE, 595, Short.MAX_VALUE))
+												.addComponent(titlePanel, GroupLayout.DEFAULT_SIZE, 595,Short.MAX_VALUE))
 										.addContainerGap()));
 		gl_endScreen.setVerticalGroup(gl_endScreen.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_endScreen.createSequentialGroup()
 						.addComponent(titlePanel, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
 						.addGap(0)
-						.addComponent(title, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
 						.addComponent(ScorePanel, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
 						.addGap(0)
 						.addComponent(component, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
@@ -741,8 +749,8 @@ public class MainPanel extends JPanel {
 		JPanel component = new JPanel();
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(1, 2));
-		component.add(new Button("Sure", this, null, 200, 150));
-		component.add(new Button("Continue Saved Game", this, null, 200, 150));
+		component.add(new Button("Sure", this, null,  notice.getWidth()/3, notice.getWidth()/2));
+		component.add(new Button("Continue Saved Game", this, null,  notice.getWidth()/3, notice.getWidth()/2));
 
 		notice.getContentPane().add(component);
 		notice.getContentPane().setLayout(new GridLayout(2, 1));
@@ -754,12 +762,12 @@ public class MainPanel extends JPanel {
 	public JFrame askSaveGame() {
 
 		JFrame notice = new JFrame("Game Not Saved");
-		notice.setUndecorated(false);
+		notice.setUndecorated(true);
 		
-//		notice.setResizable(false);
+		notice.setResizable(false);
 		notice.setAlwaysOnTop(true);
 
-		notice.setMinimumSize(new Dimension(500, 00));
+		notice.setMinimumSize(new Dimension(400, 300));
 		notice.pack();
 		notice.setLocationRelativeTo(null);
 		notice.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -773,10 +781,14 @@ public class MainPanel extends JPanel {
 		JPanel component = new JPanel();
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(1, 2));
-		component.add(new Button("Save Game", this, null, 200, 150));
-		component.add(new Button("Don't Save", this, null, 200, 150));
-		component.add(new Button("Resume", this, null, 200, 150));
-
+		
+		//button sizes are: 133 150 for all these dialog box
+		component.add(new Button("Save Game", this, null, notice.getWidth()/3, notice.getWidth()/2));
+		component.add(new Button("Don't Save", this, null, notice.getWidth()/3, notice.getWidth()/2));
+		component.add(new Button("Resume", this, null, notice.getWidth()/3, notice.getWidth()/2));
+		
+		System.out.println(notice.getWidth()/3+" "+ notice.getHeight()/2);
+		
 		notice.getContentPane().add(component);
 		notice.getContentPane().setLayout(new GridLayout(2, 1));
 
@@ -804,8 +816,8 @@ public class MainPanel extends JPanel {
 		JPanel component = new JPanel();
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(1, 2));
-		component.add(new Button("Yes", this, null, 200, 150));
-		component.add(new Button("Resume", this, null, 200, 150));
+		component.add(new Button("Yes", this, null,  notice.getWidth()/3, notice.getWidth()/2));
+		component.add(new Button("Resume", this, null, notice.getWidth()/3, notice.getWidth()/2));
 
 		notice.getContentPane().add(component);
 		notice.getContentPane().setLayout(new GridLayout(2, 1));
@@ -1112,9 +1124,9 @@ public class MainPanel extends JPanel {
 						deleteGame();
 
 						quitEndScreen = createQuitEndScreen(resultTime, resultScore);
-						if(parentPanel.getComponentCount() >4){
-							parentPanel.remove(5);
-						}
+//						if(parentPanel.getComponentCount() >4){
+//							parentPanel.remove(5);
+//						}
 //							System.out.println("not create before"+parentPanel.getComponentCount() );
 						parentPanel.add("quitEndScreen", quitEndScreen);
 						cardLayout.show(parentPanel, "quitEndScreen");
