@@ -153,7 +153,7 @@ public class Game extends JPanel {
                 }
             }
         }
-        hintCoinActivated();
+        //hintCoinActivated();
         repaint();
     }
     /**
@@ -394,12 +394,14 @@ public class Game extends JPanel {
             public void actionPerformed (ActionEvent evt) {
                 hintTimer.stop();
                 displayHint = false;
+                repaint();
             }
         };
         displayHint = true;
         hintTimer.addActionListener(hintTimerListener);
         hintTimer.start();
         System.out.println("Derp");
+        repaint();
     }
     
     /**
