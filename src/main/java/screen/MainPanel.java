@@ -2,7 +2,6 @@ package screen;
 
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -39,23 +38,23 @@ import javax.swing.GroupLayout.Alignment;
 @SuppressWarnings("serial")
 public class MainPanel extends JPanel {
 
-	/**
-	 * Create the panel.
-	 */
+	//creates Card Layout for the Panel
 	private CardLayout cardLayout = new CardLayout();
+	
+	//creates the screens required as JPanels
 	private JPanel mainMenu;
 	private JPanel newGame;
 	private JPanel mazeScreen;
 	private JPanel pauseScreen;
-	// private JPanel helpScreen;
 	private JPanel winEndScreen;
 	private JPanel quitEndScreen;
+	private JPanel maze;
+	private CardLayout mazeLayout;
 
+	//various boolean conditions used by GUI
 	private boolean checkGameWon = false;
 	private boolean gameRunning = false;
 	private boolean saveFlag = false;
-	private JPanel maze;
-	private CardLayout mazeLayout;
 
 	private Game currGame;
 	private JFrame noticBox;
@@ -67,30 +66,44 @@ public class MainPanel extends JPanel {
 	private boolean globalPaint = false;
 	// LOAD IMAGE
 
+	/**
+	 * Constructor for the MainPnael
+	 */
 	public MainPanel() {
+		
+		//set the maximum size of the window
 		setMaximumSize(new Dimension(1000, 800));
 
+		//sets layout to the card layout field;
 		setLayout(cardLayout);
 
+		//creates the Main Menu Screen and adds the screen to the Card Layout
 		createMainMenu();
 		add(mainMenu, "mainMenu");
 		cardLayout.show(this, "mainMenu");
 //		System.out.println("+");
 
+		//creates the New Game Screen and adds the screen to the Card Layout
 		createNewGame();
 		add("newGame", newGame);
 //		System.out.println("+");
 
+		//creates the Game Screen and adds the screen to the Card Layout
 		mazeScreen = createMazeScreen();
 		add("mazeScreen", mazeScreen);
 //		System.out.println("+");
 
+		//creates the Pause Screen and adds the screen to the Card Layout
 		createPauseScreen();
 		add("pauseScreen", pauseScreen);
 //		System.out.println("+");
 
 	}
 
+	/**
+	 * Receives keyboard events
+	 * @return Key Event Dispatcher
+	 */
 	private KeyEventDispatcher formKeyEventDispatcher() {
 		KeyEventDispatcher ked = new KeyEventDispatcher() {
 			@Override
@@ -125,15 +138,23 @@ public class MainPanel extends JPanel {
 		return ked;
 	}
 
+	/**
+	 * Checks if the game has been won (and creates win screen) or updates the number of coins
+	 */
 	private void checkState() {
 		// check game won
 //		System.out.println(currGame.isGameWon());
 		if (currGame.isGameWon() == true) {
 //			System.out.println("enter here?");
+			//sets GameWon boolean to be true
 			checkGameWon = true;
+			//retrieves the total time taken to finish the maze
 			String resultTime = timerPanel.totalTime();
+			//resets the timer
 			timerPanel.clearTimer();
+			//retrieves the total coins collected
 			String resultScore = ((screen.coinPanel) coinPanel).format();
+			//resets the number of coins collected
 			((screen.coinPanel) coinPanel).clearCoin();
 
 			
@@ -141,21 +162,36 @@ public class MainPanel extends JPanel {
 //			if(this.getComponentCount() >4){
 //				this.remove(5);
 //			}
+			//creates the Win Screen and adds the screen to the Card Layout
 			winEndScreen = createWinEndScreen(resultTime, resultScore);
 			add("winEndScreen", winEndScreen);
 			cardLayout.show(this, "winEndScreen");
+			//stop and delete the current game
 			deleteGame();
 			currGame.stop();
 			debug();
 
 		} else {
 //			System.out.println(currGame.getNumCoins());
+			//update the number of coins
 			((screen.coinPanel) coinPanel).updateCoin(currGame.getNumCoins());
 		}
 	}
 
+	/**
+	 * Creates the Main Menu Screen
+	 */
 	public void createMainMenu() {
 //		System.out.println(true);
+		
+		//creates panel for the main menu and sets its opacity, padding and size properties
+		mainMenu = new JPanel();
+		mainMenu.setOpaque(false);
+		mainMenu.setFocusable(false);
+		mainMenu.setBorder(new EmptyBorder(100, 200, 100, 200));
+		mainMenu.setMinimumSize(new Dimension(1000, 800));
+		
+		//Paints the main title "Mazecraft"and makes the panel background transparent
 		JPanel titlePanel = new JPanel() {
 			@Override
 			public void paintComponent(Graphics g) {
@@ -165,12 +201,7 @@ public class MainPanel extends JPanel {
 		};
 		titlePanel.setOpaque(false);
 
-		mainMenu = new JPanel();
-		mainMenu.setOpaque(false);
-		mainMenu.setFocusable(false);
-		mainMenu.setBorder(new EmptyBorder(100, 200, 100, 200));
-		mainMenu.setMinimumSize(new Dimension(1000, 800));
-
+		//creates the buttons on the Main Menu screen and adds to a Grid Layout Panel called component
 		JPanel component = new JPanel();
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(0, 1, 15, 15));
@@ -179,6 +210,7 @@ public class MainPanel extends JPanel {
 		component.add(new Button("How To Play", this, "howtoplay.png", 595, 75));
 		component.add(new Button("Quit", this, "quitgame.png", 595, 75));
 
+		//sets layout of the Main Menu panel to the Group Layout and adds the respective layouts
 		GroupLayout gl_mainMenu = new GroupLayout(mainMenu);
 		gl_mainMenu.setHorizontalGroup(gl_mainMenu.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_mainMenu.createSequentialGroup().addContainerGap()
@@ -198,14 +230,19 @@ public class MainPanel extends JPanel {
 
 	}
 	
+	/**
+	 * Creates New Game Screen
+	 */
 	private void createNewGame() {
 
+		//creates panel for the new game screen and sets its opacity, padding and size properties
 		newGame = new JPanel();
 		newGame.setOpaque(false);
 		newGame.setFocusable(false);
 		newGame.setBorder(new EmptyBorder(100, 200, 100, 200));
 		newGame.setMinimumSize(new Dimension(1000, 800));
 
+		//Paints the main title "Mazecraft"and makes the panel background transparent
 		JPanel titlePanel = new JPanel() {
 			@Override
 			public void paintComponent(Graphics g) {
@@ -219,6 +256,7 @@ public class MainPanel extends JPanel {
 //		title.setFont(new Font("Courier New", Font.BOLD, 50));
 //		title.setSize(new Dimension(150, 60));
 
+		//creates the buttons on the Main Menu screen and adds to a Grid Layout Panel called component
 		JPanel component = new JPanel();
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(0, 1, 15, 15));
@@ -228,6 +266,7 @@ public class MainPanel extends JPanel {
 		component.add(new Button("Hard", this, "hard.png", 595, 75));
 		component.add(new Button("Main Menu", this, "mainmenu.png", 595, 75));
 
+		//sets layout of the New Game panel to the Group Layout and adds the respective layouts
 		GroupLayout gl_newGame = new GroupLayout(newGame);
 		gl_newGame.setHorizontalGroup(gl_newGame.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_newGame.createSequentialGroup().addContainerGap()
@@ -296,8 +335,13 @@ public class MainPanel extends JPanel {
 //		newGame.setLayout(gl_newGame);
 //	}
 
+	/**
+	 * Creates the How to Help dialog box
+	 * @return How to Help JFrame
+	 */
 	private JFrame askHelp() {
 
+		//creates a new JFrame for the Help dialog and sets title bar, size, resizeable and visibility properties
 		JFrame help = new JFrame("How to Play");
 		help.setUndecorated(true);
 		help.pack();
@@ -308,6 +352,7 @@ public class MainPanel extends JPanel {
 		help.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		help.setVisible(true);
 
+		//creates a new Panel for the content of the screen
 		JPanel mainTextArea = new JPanel(); //{
 //			public void paintComponent(Graphics g) {
 //				super.paintComponent(g);
@@ -316,71 +361,81 @@ public class MainPanel extends JPanel {
 //		};
 		
 		
-
+		//sets layout of content Panel to Box Layout and sets color and padding properties
 		mainTextArea.setLayout(new BoxLayout(mainTextArea, BoxLayout.Y_AXIS));
 		mainTextArea.setBackground(Color.GRAY);
-		mainTextArea.setBorder(new EmptyBorder(50, 30, 30, 30));
+		mainTextArea.setBorder(new EmptyBorder(50, 50, 50, 50));
+		mainTextArea.setVisible(true);
+		mainTextArea.setForeground(Color.WHITE);
 
+		//creates new Grid Layout panel and sets transparent background
 		JPanel grid = new JPanel();
-
 		grid.setLayout(new GridLayout(0, 2));
 		grid.setOpaque(false);
 
-		JLabel intro = new JLabel("<html><p>You're a zombie and it has been a week since you have had some delicious villager brain</p></html>");
-		intro.setFont(new Font("Courier New", Font.BOLD, 18));
-		intro.setForeground(Color.white);
-		grid.add(intro);
-		
+		//adds first set of instructions and accompanying image, sets properties to standard help text properties and adds to Grid panel
+		JLabel introText = new JLabel("<html><p>You're a zombie and it has been a week since you have had some delicious villager brain</p></html>");
+		grid.add(helpTextProperties(introText));
 		ImageIcon zombie = new ImageIcon(getClass().getResource("zombiebrain.png"));
 		grid.add(new JLabel(zombie));
 		
-		JLabel goal= new JLabel("<html><p>Trouble is, the villager's hiding somewhere in the maze and you have got to use your puzzle solving skills to get to him</p></html>");
-		goal.setFont(new Font("Courier New", Font.BOLD, 18));
-		goal.setForeground(Color.white);
-		grid.add(goal);
-		
+		JLabel goalText = new JLabel("<html><p>Trouble is, the villager's hiding somewhere in the maze and you have got to use your puzzle solving skills to get to him</p></html>");
+		grid.add(helpTextProperties(goalText));
 		ImageIcon villager = new ImageIcon(getClass().getResource("villagerhelp.png"));
-		grid.add(new JLabel(villager));
+		grid.add(new JLabel(villager));	
 		
-		JLabel controlText = new JLabel(
-				"<html><p>Use the W key to move up, the A key to move left, the S key to move down and and D key to move right</p></html>");
-		controlText.setFont(new Font("Courier New", Font.BOLD, 18));
-		controlText.setForeground(Color.white);
-		grid.add(controlText);
-		
+		JLabel controlText = new JLabel("<html><p>Use the W key to move up, the A key to move left, the S key to move down and and D key to move right</p></html>");
+		grid.add(helpTextProperties(controlText));
 		ImageIcon controls = new ImageIcon(getClass().getResource("controls.png"));
 		grid.add(new JLabel(controls));
 		
 		JLabel enderText = new JLabel("<html><p>If you come across an eye of ender, you can use it to show some portion of the correct path</p></html>");
-		enderText.setFont(new Font("Courier New", Font.BOLD, 18));
-		enderText.setForeground(Color.white);
-		grid.add(enderText);
-		
+		grid.add(helpTextProperties(enderText));
 		ImageIcon eye = new ImageIcon(getClass().getResource("eyeofenderhelp.png"));
 		grid.add(new JLabel(eye));
 
-		mainTextArea.setVisible(true);
+		//adds the grid to the mainPanel
 		mainTextArea.add(grid);
-		mainTextArea.setForeground(Color.WHITE);
-
+	
+		//creates a new box panel for the button and sets various properties
 		JPanel box = new JPanel();
-
 		box.setLayout(new BoxLayout(box, BoxLayout.X_AXIS));
-
-		box.add(new Button("OK", this, null, 300, 15));
 		box.setOpaque(false);
+		box.add(new Button("OK", this, null, 300, 15));
 
+		//adds the box button layout to the Content panel
 		mainTextArea.add(box);
-
+		
+		//adds Content panel to the Help Frame
 		help.getContentPane().add(mainTextArea);
 
 		return help;
 	}
+	
+	/**
+	 * Sets JLabel text properties to standard font and color properties
+	 * @param text
+	 * @return help text JLabel
+	 */
+	private JLabel helpTextProperties (JLabel text) {
+		text.setFont(new Font("Courier New", Font.BOLD, 18));
+		text.setForeground(Color.white);
+		
+		return text;
+	}
 
+	/**
+	 * Creates the Pause Screen
+	 */
 	private void createPauseScreen() {
 
+		//creates new Grid Layout Panel for the pause screen and sets transparency and padding properties
 		pauseScreen = new JPanel();
+		pauseScreen.setLayout(new GridLayout(0, 1));
 		pauseScreen.setOpaque(false);
+		pauseScreen.setBorder(new EmptyBorder(80, 200, 60, 200));
+		
+		//creates a new panel for the title paints the "Mazecraft" image and sets transparency properties
 		JPanel titlePanel = new JPanel() {
 			@Override
 			public void paintComponent(Graphics g) {
@@ -390,19 +445,19 @@ public class MainPanel extends JPanel {
 		};
 		titlePanel.setOpaque(false);
 
-		pauseScreen.setLayout(new GridLayout(0, 1));
-		pauseScreen.setBorder(new EmptyBorder(80, 200, 60, 200));
-
+		//creates new Grid Layout Panel for the buttons and sets transparency properties
 		JPanel component = new JPanel();
-		component.setOpaque(false);
 		component.setLayout(new GridLayout(0, 1, 7, 7));
+		component.setOpaque(false);
 
+		//creates and adds the buttons to the component panel
 		component.add(new Button("How To Play", this, "howtoplay.png", 595, 70));
 		component.add(new Button("Resume", this, "continue.png", 595, 70));
 		component.add(new Button("Save", this, "save.png", 595, 70));
 		component.add(new Button("Give Up", this, "giveup.png", 595, 70));
 		component.add(new Button("Return to Main Menu", this, "returntomainmenu.png", 595, 70));
 
+		//sets layout of the Pause Game panel to the Group Layout and adds the respective layouts
 		GroupLayout gl_pauseScreen = new GroupLayout(pauseScreen);
 		gl_pauseScreen.setHorizontalGroup(gl_pauseScreen.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pauseScreen.createSequentialGroup().addContainerGap()
@@ -421,23 +476,29 @@ public class MainPanel extends JPanel {
 
 	}
 
+	/**
+	 * Create End Screen when player has won their game
+	 * @param resultTime
+	 * @param resultCoin
+	 * @return Win Screen Panel
+	 */
 	private JPanel createWinEndScreen(String resultTime, String resultCoin) {
+		
+		//sets save and game running booleans to false
 		saveFlag = false;
 		gameRunning = false;
 		
-//		here
 		System.out.println(difficulty);
 		
+		//creates new panel for the End Screen and sets transparency, padding and size properties
 		JPanel endScreen = new JPanel();
-		
 		endScreen = new JPanel();
 		endScreen.setOpaque(false);
 		endScreen.setFocusable(false);
 		endScreen.setBorder(new EmptyBorder(100, 150, 100, 150));
 		endScreen.setMinimumSize(new Dimension(1000, 800));
 
-		
-
+		//creates new panel for the title of the end screen and scales down the image to fit the window
 		JPanel titlePanel = new JPanel() {
 			@Override
 			public void paintComponent(Graphics g) {
@@ -458,20 +519,24 @@ public class MainPanel extends JPanel {
 //		title.setFont(new Font("Courier New", Font.BOLD, 30));
 //		title.setSize(new Dimension(150, 60));
 
+		//creates new Grid Layout panel for the buttons on the end screen and sets transparency properties
 		JPanel component = new JPanel();
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(0, 1, 10, 10));
 		component.setBorder(new EmptyBorder(0, 50, 0, 50));
 
+		//creates and adds buttons for the end screen to the component panel
 		component.add(new Button("New Game", this, "newgame.png", 595, 75));
 		component.add(new Button("Main Menu", this, "mainmenu.png", 595, 75));
 
+		//create new Grid Bag Layout panel to contain stats and score
 		JPanel ScorePanel = new JPanel();
 		ScorePanel.setOpaque(false);
 		//ScorePanel.setLayout(new GridLayout(1, 2));
 		ScorePanel.setLayout(new GridBagLayout());
 		GridBagConstraints endScreenConstraints = new GridBagConstraints();
 
+		//creates a new Label for the number of coins and places in the first cell, first row
 		JLabel showCoin = new JLabel("COINS: " + resultCoin, JLabel.CENTER);
 		showCoin.setFont(new Font("Courier New", Font.BOLD, 25));
 		endScreenConstraints.weightx = 0.5;
@@ -480,6 +545,7 @@ public class MainPanel extends JPanel {
 		endScreenConstraints.gridy = 0;
 		ScorePanel.add(showCoin, endScreenConstraints);
 		
+		//creates a new label for the time and places in the second cell, first row
 		JLabel showTime = new JLabel(resultTime, JLabel.CENTER);
 		showTime.setFont(new Font("Courier New", Font.BOLD, 25));
 		endScreenConstraints.weightx = 0.5;
@@ -488,23 +554,27 @@ public class MainPanel extends JPanel {
 		endScreenConstraints.gridy = 0;
 		ScorePanel.add(showTime, endScreenConstraints);
 		
+		//parses time string to split seconds, minutes and hours as integers
 		String[] timeSplit = resultTime.split(":");
 		int hours = Integer.parseInt(timeSplit[0]);
 		int minutes = Integer.parseInt(timeSplit[1]);
 		int seconds = Integer.parseInt(timeSplit[2]);
 		
+		//parses coin string to get the number of coins as an integer
 		int coinsInt = Integer.parseInt(resultCoin);
 		
-		int timeInt = (hours*60) + (minutes) + (seconds/60);
-		System.out.println("time output:" + timeInt);
+		//converts the time into the number of seconds taken to complete game
+		int timeInt = (hours*60*60) + (minutes*60) + (seconds);
 		//long scoreCalc = Math.round(((Math.exp(-timeInt))+coinsInt)*10)*10;
 		
+		//determines base score for different difficulties
 		int initial = determineDifficulty();
 		
+		//calculates the score to be shown
 		int scoreCalc = initial - (timeInt)*10 + coinsInt;
-		System.out.println("score output:" + scoreCalc);
 		
-		JLabel showScore = new JLabel(("\n\nYour Score is:" + scoreCalc + "!"), JLabel.CENTER);
+		//creates new label for the score and places in the second row
+		JLabel showScore = new JLabel(("Your Score is:" + scoreCalc + "!"), JLabel.CENTER);
 		showScore.setFont(new Font("Courier New", Font.BOLD, 32));
 		endScreenConstraints.weightx = 0.5;
 		endScreenConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -513,6 +583,7 @@ public class MainPanel extends JPanel {
 		endScreenConstraints.gridy = 1;
 		ScorePanel.add(showScore, endScreenConstraints);
 		
+		//sets layout of the End Game panel to the Group Layout and adds the respective layouts
 		GroupLayout gl_endScreen = new GroupLayout(endScreen);
 		gl_endScreen
 				.setHorizontalGroup(
@@ -533,10 +604,13 @@ public class MainPanel extends JPanel {
 						.addGap(0)));
 		endScreen.setLayout(gl_endScreen);
 		
-		
 		return endScreen;
 	}
 	
+	/**
+	 * Determines the base score according to difficulty
+	 * @return base score according to difficulty
+	 */
 	private int determineDifficulty() {
 		if (difficulty == 1) {
 			return 500;
@@ -547,18 +621,27 @@ public class MainPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * Creates the End Screen when player gives up the game
+	 * @param resultTime
+	 * @param resultScore
+	 * @return
+	 */
 	private JPanel createQuitEndScreen(String resultTime, String resultScore) {
+		
+		//sets save and game running booleans to false
 		saveFlag = false;
 		gameRunning = false;
 		
+		//creates new panel for the end screen and transparency, padding and size properties
 		JPanel endScreen = new JPanel();
-		
 		endScreen = new JPanel();
 		endScreen.setOpaque(false);
 		endScreen.setFocusable(false);
 		endScreen.setBorder(new EmptyBorder(100, 200, 100, 200));
 		endScreen.setMinimumSize(new Dimension(1000, 800));
 
+		//creates new panel for the title of the end screen
 		JPanel titlePanel = new JPanel() {
 			@Override
 			public void paintComponent(Graphics g) {
@@ -568,21 +651,25 @@ public class MainPanel extends JPanel {
 		};
 		titlePanel.setOpaque(false);
 
-//		JLabel title = new JLabel("YOU LOOSE", JLabel.CENTER);
+//		JLabel title = new JLabel("YOU LOSE", JLabel.CENTER);
 //		title.setFont(new Font("Courier New", Font.BOLD, 30));
 //		title.setSize(new Dimension(150, 60));
 
+		//creates new Grid Layout panel for the buttons on the end screen and sets transparency properties
 		JPanel component = new JPanel();
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(0, 1, 10, 10));
 
+		//creates and adds buttons for the end screen to the component panel
 		component.add(new Button("New Game", this, "newgame.png", 595, 75));
 		component.add(new Button("Main Menu", this, "mainmenu.png", 595, 75));
 
+		//create new Grid Bag Layout panel to contain stats
 		JPanel ScorePanel = new JPanel();
 		ScorePanel.setOpaque(false);
 		ScorePanel.setLayout(new GridLayout(1, 2));
 
+		//Creates labels for the number of coins and time, sets font and adds to the grid
 		JLabel showCoin = new JLabel(resultScore, JLabel.CENTER);
 		showCoin.setFont(new Font("Courier New", Font.BOLD, 25));
 		ScorePanel.add(showCoin);
@@ -590,6 +677,7 @@ public class MainPanel extends JPanel {
 		showTime.setFont(new Font("Courier New", Font.BOLD, 25));
 		ScorePanel.add(showTime);
 		
+		//sets layout of the End Game panel to the Group Layout and adds the respective layouts
 		GroupLayout gl_endScreen = new GroupLayout(endScreen);
 		gl_endScreen
 				.setHorizontalGroup(
@@ -615,6 +703,10 @@ public class MainPanel extends JPanel {
 		return endScreen;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	private JPanel createMazeScreen() {
 		coinNumber = 0;
 
