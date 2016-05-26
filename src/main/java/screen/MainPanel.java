@@ -126,22 +126,25 @@ public class MainPanel extends JPanel {
 
 	private void checkState() {
 		// check game won
-		System.out.println(currGame.isGameWon());
+//		System.out.println(currGame.isGameWon());
 		if (currGame.isGameWon() == true) {
 //			System.out.println("enter here?");
 			checkGameWon = true;
 			String resultTime = timerPanel.totalTime();
 			timerPanel.clearTimer();
 			String resultScore = ((screen.coinPanel) coinPanel).format();
+			((screen.coinPanel) coinPanel).clearCoin();
 
-			deleteGame();
+			
 
-			if(this.getComponentCount() >4){
-				this.remove(5);
-			}
+//			if(this.getComponentCount() >4){
+//				this.remove(5);
+//			}
 			winEndScreen = createWinEndScreen(resultTime, resultScore);
 			add("winEndScreen", winEndScreen);
 			cardLayout.show(this, "winEndScreen");
+			deleteGame();
+			currGame.stop();
 			debug();
 
 		} else {

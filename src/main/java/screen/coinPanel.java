@@ -36,5 +36,9 @@ public class coinPanel extends JPanel {
 		this.numOfCoin = numOfCoin;
 		label.setText(format());
 	}
+	
+	public void clearCoin() {
+		numOfCoin = 0;
+	}
 
 }
