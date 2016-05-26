@@ -46,7 +46,7 @@ public class Game extends JPanel {
     private double centreShift;
     private double playerLocationX;
     private double playerLocationY;
-    private int moveAmount = 2;
+    private int moveAmount = 1;
     
     //game state
     private GameState gs;
@@ -114,7 +114,7 @@ public class Game extends JPanel {
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
-        game.start(Difficulty.EASY);
+        game.start(Difficulty.HARD);
         
 
     }
@@ -154,6 +154,7 @@ public class Game extends JPanel {
             }
         }
         //hintCoinActivated();
+        moveAmount = (int) (playerSize/20);
         repaint();
     }
     /**
@@ -506,7 +507,7 @@ public class Game extends JPanel {
             ActionListener moveAction = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (newPlayerLocationY < playerLocationY + centreShift/2) {
+                    if (newPlayerLocationY < playerLocationY) {
                         moveTimer.stop();
                         repaintTimer.stop();
                         repaint();
@@ -633,7 +634,7 @@ public class Game extends JPanel {
             ActionListener moveAction = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (newPlayerLocationX < playerLocationX + centreShift/2) {
+                    if (newPlayerLocationX < playerLocationX) {
                         moveTimer.stop();
                         repaintTimer.stop();
                         //enableKeyPressDetect();
