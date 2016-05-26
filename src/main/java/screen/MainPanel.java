@@ -4,10 +4,8 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -23,20 +21,17 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Common.Difficulty;
 import GameRep.Game;
-import jdk.nashorn.internal.ir.Flags;
 import screen.TimerPanel;
 
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -801,12 +796,13 @@ public class MainPanel extends JPanel {
 		public Button(String text, final JPanel parentPanel, String imgName, int width, int height) {
 
 			super(text);
-			// globalPaint = true;
+			 
 			setFont(new Font("Courier New", Font.BOLD, 15));
 			Dimension d = new Dimension(width, height);
 			setSize(d);
 
 			if (imgName == null) {
+//				globalPaint = false;
 				oldImage = null;
 				setOpaque(false);
 				// setBackground(Color.LIGHT_GRAY);
@@ -1038,7 +1034,6 @@ public class MainPanel extends JPanel {
 				addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						
 						noticBox = askHelp();
 						debug();
 						
@@ -1105,20 +1100,17 @@ public class MainPanel extends JPanel {
 		@Override
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
-			if (globalPaint) {
+//			if (globalPaint) {
 				if (oldImage != null) {
 					Image newNewgame = oldImage.getScaledInstance(buttonWidth, buttonHight,
 							java.awt.Image.SCALE_SMOOTH);
-					// System.out.println(buttonWidth+" "+ buttonHight);
-					boolean flag = false;
-					while ((flag = g.drawImage(newNewgame, -5, 0, null)) != true)
-						System.out.println(flag);
-					// System.out.println(flag);
+					g.drawImage(newNewgame, -5, 0, null);
+
 				}
-				// System.out.println(this.getText());
-			}
+//			}
 		};
 
+		
 	}
 
 	/**
