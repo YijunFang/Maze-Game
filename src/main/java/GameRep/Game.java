@@ -160,7 +160,6 @@ public class Game extends JPanel {
      * Stop resets the data in the Game object to ensure that none of it gets reused in the next iteration of the game
      */
     public void stop() {
-        //disableKeyPressDetect();
         mazeImage = null;
         hintImage = null;
         
@@ -181,18 +180,7 @@ public class Game extends JPanel {
         if (isPaused) return; //If the game is paused, don't paint anything
         if (gs == null) return; //If game state is not initialised yet, don't paint anything
         super.paint(g);
-        if (gameWon) {
-        	System.out.println("gameWon "+gameWon);
-//        	change here
-//        	renderEndGame(g);
-//			reset everything?
-        	gs = null;
-        	gameWon = false;
-        	ked = null;
-        	;
-        } else {
-            renderGame(g);
-        }
+        renderGame(g);
     }
     
     /**
@@ -397,6 +385,7 @@ public class Game extends JPanel {
                 repaint();
             }
         };
+        gs.setNumberOfCoins(gs.getNumberOfCoins() - 1);
         displayHint = true;
         hintTimer.addActionListener(hintTimerListener);
         hintTimer.start();
