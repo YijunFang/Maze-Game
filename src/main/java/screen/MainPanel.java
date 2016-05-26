@@ -242,7 +242,7 @@ public class MainPanel extends JPanel {
 
 		component.add(new Button("Easy", this, null, 600, 75));
 		component.add(new Button("Medium", this, null, 600, 75));
-		component.add(new Button("Hard", this, null, 600, 75));
+		component.add(new Button("Hard", this, "hard.png", 600, 75));
 		component.add(new Button("Main Menu", this, null, 600, 75));
 
 		GroupLayout gl_newGame = new GroupLayout(newGame);
