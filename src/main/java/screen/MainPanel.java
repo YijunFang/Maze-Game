@@ -276,26 +276,33 @@ public class MainPanel extends JPanel {
 		help.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		help.setVisible(true);
 
-		JPanel mainTextArea = new JPanel() {
-			public void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				g.drawImage(new ImageIcon("background.jpg").getImage(), -200, -50, null);
-			}
-		};
+		JPanel mainTextArea = new JPanel(); //{
+//			public void paintComponent(Graphics g) {
+//				super.paintComponent(g);
+//				g.drawImage(new ImageIcon("background.png").getImage(), -200, -50, null);
+//			}
+//		};
+		
+		
 
 		mainTextArea.setLayout(new BoxLayout(mainTextArea, BoxLayout.Y_AXIS));
+		mainTextArea.setBackground(Color.GRAY);
 		mainTextArea.setBorder(new EmptyBorder(50, 30, 30, 30));
 
 		JPanel grid = new JPanel();
 
 		grid.setLayout(new GridLayout(0, 2));
+		grid.setOpaque(false);
 
-		grid.add(new JLabel(
-				"<html><p>You're a zombie and it has been a few days since you have had some delicious villager brain</p></html>"));
+		JLabel intro = new JLabel("<html><p>You're a zombie and it has been a few days since you have had some delicious villager brain</p></html>");
+		intro.setFont(new Font("Courier New", Font.BOLD, 18));
+		intro.setForeground(Color.white);
+		grid.add(intro);
 		ImageIcon zombie = new ImageIcon(getClass().getResource("zombiebrain.png"));
 		grid.add(new JLabel(zombie));
-		grid.add(new JLabel(
-				"<html><p>Trouble is, the villager's hiding somewhere in the maze and you have got to use your puzzle solving skills to get to him</p></html>"));
+		
+		JLabel goal= new JLabel("<html><p>Trouble is, the villager's hiding somewhere in the maze and you have got to use your puzzle solving skills to get to him</p></html>");
+		grid.add(goal);
 		ImageIcon villager = new ImageIcon(getClass().getResource("villagerhelp.png"));
 		grid.add(new JLabel(villager));
 		grid.add(new JLabel(
@@ -391,7 +398,7 @@ public class MainPanel extends JPanel {
 			@Override
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(new ImageIcon("Mazecraft.png").getImage(), 0, 0, null);
+				g.drawImage(new ImageIcon("wintitle.png").getImage(), 0, 0, null);
 			}
 		};
 		titlePanel.setOpaque(false);
@@ -461,7 +468,7 @@ public class MainPanel extends JPanel {
 			@Override
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(new ImageIcon("Mazecraft.png").getImage(), 0, 0, null);
+				g.drawImage(new ImageIcon("losetitle.png").getImage(), 0, 0, null);
 			}
 		};
 		titlePanel.setOpaque(false);
