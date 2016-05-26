@@ -420,7 +420,7 @@ public class MainPanel extends JPanel {
 
 	}
 
-	private JPanel createWinEndScreen(String resultTime, String resultScore) {
+	private JPanel createWinEndScreen(String resultTime, String resultCoin) {
 		saveFlag = false;
 		gameRunning = false;
 		
@@ -464,14 +464,47 @@ public class MainPanel extends JPanel {
 
 		JPanel ScorePanel = new JPanel();
 		ScorePanel.setOpaque(false);
-		ScorePanel.setLayout(new GridLayout(1, 2));
+		//ScorePanel.setLayout(new GridLayout(1, 2));
+		ScorePanel.setLayout(new GridBagLayout());
+		GridBagConstraints endScreenConstraints = new GridBagConstraints();
 
-		JLabel showCoin = new JLabel(resultScore, JLabel.CENTER);
+		JLabel showCoin = new JLabel(resultCoin, JLabel.CENTER);
 		showCoin.setFont(new Font("Courier New", Font.BOLD, 25));
-		ScorePanel.add(showCoin);
+		endScreenConstraints.weightx = 0.5;
+		endScreenConstraints.fill = GridBagConstraints.HORIZONTAL;
+		endScreenConstraints.gridx = 0;
+		endScreenConstraints.gridy = 0;
+		ScorePanel.add(showCoin, endScreenConstraints);
+		
 		JLabel showTime = new JLabel(resultTime, JLabel.CENTER);
 		showTime.setFont(new Font("Courier New", Font.BOLD, 25));
-		ScorePanel.add(showTime);
+		endScreenConstraints.weightx = 0.5;
+		endScreenConstraints.fill = GridBagConstraints.HORIZONTAL;
+		endScreenConstraints.gridx = 1;
+		endScreenConstraints.gridy = 0;
+		ScorePanel.add(showTime, endScreenConstraints);
+		
+		String[] timeSplit = resultTime.split(":");
+		int hours = Integer.parseInt(timeSplit[0]);
+		int minutes = Integer.parseInt(timeSplit[1]);
+		int seconds = Integer.parseInt(timeSplit[2]);
+		
+		String[] coinSplit = resultCoin.split(": ");
+		int coinsInt = Integer.parseInt(coinSplit[1]);
+		
+		int timeInt = (hours*60*60) + (minutes*60) + (seconds);
+		System.out.println("time output:" + timeInt);
+		long scoreCalc = Math.round((Math.exp(-timeInt))*10000);
+		System.out.println("score output:" + scoreCalc);
+		
+		JLabel showScore = new JLabel(("Your Score is:" + scoreCalc + "!"), JLabel.CENTER);
+		showScore.setFont(new Font("Courier New", Font.BOLD, 32));
+		endScreenConstraints.weightx = 0.5;
+		endScreenConstraints.fill = GridBagConstraints.HORIZONTAL;
+		endScreenConstraints.gridwidth = 2;
+		endScreenConstraints.gridx = 0;
+		endScreenConstraints.gridy = 1;
+		ScorePanel.add(showScore, endScreenConstraints);
 		
 		GroupLayout gl_endScreen = new GroupLayout(endScreen);
 		gl_endScreen
