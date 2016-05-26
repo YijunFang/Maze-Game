@@ -62,6 +62,7 @@ public class MainPanel extends JPanel {
 	private TimerPanel timerPanel;
 	private JPanel coinPanel;
 	private int coinNumber;
+	private int difficulty;
 
 	private boolean globalPaint = false;
 	// LOAD IMAGE
@@ -424,6 +425,9 @@ public class MainPanel extends JPanel {
 		saveFlag = false;
 		gameRunning = false;
 		
+//		here
+		System.out.println(difficulty);
+		
 		JPanel endScreen = new JPanel();
 		
 		endScreen = new JPanel();
@@ -476,7 +480,7 @@ public class MainPanel extends JPanel {
 		endScreenConstraints.gridy = 0;
 		ScorePanel.add(showCoin, endScreenConstraints);
 		
-		JLabel showTime = new JLabel(resultTime, JLabel.CENTER);
+		JLabel showTime = new JLabel("COIN: "+resultTime, JLabel.CENTER);
 		showTime.setFont(new Font("Courier New", Font.BOLD, 25));
 		endScreenConstraints.weightx = 0.5;
 		endScreenConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -752,6 +756,7 @@ public class MainPanel extends JPanel {
 	}
 
 	private void deleteGame() {
+		difficulty = 0;
 		kfm.removeKeyEventDispatcher(ked);
 		if (currGame != null) {
 			currGame.stop();
@@ -909,6 +914,7 @@ public class MainPanel extends JPanel {
 				System.out.println(text +" null");
 
 			if (text.equals("New Game")) {
+				
 				addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -940,6 +946,7 @@ public class MainPanel extends JPanel {
 					public void actionPerformed(ActionEvent e) {
 						if (noticBox == null || noticBox.getComponentCount() == 0) {
 							startNewGame(Difficulty.EASY);
+							difficulty = 1;
 							debug();
 						}
 					}
@@ -952,6 +959,7 @@ public class MainPanel extends JPanel {
 					public void actionPerformed(ActionEvent e) {
 						if (noticBox == null || noticBox.getComponentCount() == 0) {
 							startNewGame(Difficulty.MEDIUM);
+							difficulty = 2;
 							debug();
 						}
 					}
@@ -963,6 +971,7 @@ public class MainPanel extends JPanel {
 					public void actionPerformed(ActionEvent e) {
 						if (noticBox == null || noticBox.getComponentCount() == 0) {
 							startNewGame(Difficulty.HARD);
+							difficulty = 3;
 							debug();
 						}
 					}
