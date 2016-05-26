@@ -29,7 +29,7 @@ public class coinPanel extends JPanel {
 	}
 
 	public String format() {
-		return String.format("%d", numOfCoin);
+		return String.format("COIN: "+ "%d", numOfCoin);
 	}
 
 	public void updateCoin(int numOfCoin) {
