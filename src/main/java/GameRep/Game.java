@@ -79,6 +79,7 @@ public class Game extends JPanel {
     public static void main(String[] args) throws InterruptedException {
         JFrame frame = new JFrame("Maze");
         final Game game = new Game();
+        
         KeyEventDispatcher ked = new KeyEventDispatcher() {
             @Override
             public boolean dispatchKeyEvent(KeyEvent ke) {
@@ -87,16 +88,16 @@ public class Game extends JPanel {
                     case KeyEvent.KEY_PRESSED:
                         switch (ke.getKeyCode()) {
                             case KeyEvent.VK_W:
-                                game.keyPressedUp();System.out.println("coin = "+game.getNumCoins());
+                                game.keyPressedUp();
                                 break;
                             case KeyEvent.VK_A:
-                            	 game.keyPressedLeft();System.out.println("coin = "+game.getNumCoins());
+                            	 game.keyPressedLeft();
                                 break;
                             case KeyEvent.VK_S:
-                            	 game.keyPressedDown();System.out.println("coin = "+game.getNumCoins());
+                            	 game.keyPressedDown();
                                 break;
                             case KeyEvent.VK_D:
-                            	 game.keyPressedRight();System.out.println("coin = "+game.getNumCoins());
+                            	 game.keyPressedRight();
                                 break;
                         }
                         break;
@@ -105,6 +106,8 @@ public class Game extends JPanel {
                 }
             }
         };
+        KeyboardFocusManager kfm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+        kfm.addKeyEventDispatcher(ked);
         
         frame.add(game);
         frame.setSize(frameSize, frameSize);
@@ -150,7 +153,7 @@ public class Game extends JPanel {
                 }
             }
         }
-        hintCoinActivated();
+        //hintCoinActivated();
         repaint();
     }
     /**
@@ -179,6 +182,7 @@ public class Game extends JPanel {
         if (gs == null) return; //If game state is not initialised yet, don't paint anything
         super.paint(g);
         if (gameWon) {
+        	System.out.println("gameWon "+gameWon);
 //        	change here
 //        	renderEndGame(g);
 //			reset everything?
@@ -390,12 +394,14 @@ public class Game extends JPanel {
             public void actionPerformed (ActionEvent evt) {
                 hintTimer.stop();
                 displayHint = false;
+                repaint();
             }
         };
         displayHint = true;
         hintTimer.addActionListener(hintTimerListener);
         hintTimer.start();
         System.out.println("Derp");
+        repaint();
     }
     
     /**
@@ -438,6 +444,7 @@ public class Game extends JPanel {
         CoordinatePair goal = gs.getGoalPosition();
         if (gs.getPlayerPosition().equals(goal)) {
             this.gameWon = true;
+            System.out.println("here");
             repaint();
         }
     }

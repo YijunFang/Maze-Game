@@ -7,40 +7,34 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class coinPanel extends JPanel {
-	
+
 	private int numOfCoin = 0;
-	
-	private JLabel label = new JLabel( format(), JLabel.CENTER);
-	
+
+	private JLabel label = new JLabel(format(), JLabel.CENTER);
+
 	public coinPanel() {
 		super();
 		setupLabel();
 	}
 
-
-
-	/**
-	 * @param numOfCoin 
-	 */
-	public void saveCoinNumber(int numOfCoin) {
-		//pass to save in buffer
+	public int getCoinNumber() {
+		// pass to save in buffer
+		return numOfCoin;
 	}
-	
+
 	private void setupLabel() {
 		label.setFont(new Font("Arial", Font.BOLD, 15));
 		this.setLayout(new GridLayout(1, 1));
 		this.add(label);
 	}
-	
-	public String format() {	
-		return String.format("%02d", numOfCoin);
+
+	public String format() {
+		return String.format("%d", numOfCoin);
 	}
-	
-	public void updateCoin( int numOfCoin ) {
+
+	public void updateCoin(int numOfCoin) {
 		this.numOfCoin = numOfCoin;
-		
 		label.setText(format());
 	}
-	
 
 }
