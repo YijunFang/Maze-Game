@@ -1054,7 +1054,7 @@ public class MainPanel extends JPanel {
 
 						closeNoticeBox();
 						saveFlag = true;
-						// kfm.removeKeyEventDispatcher(ked);
+						 kfm.removeKeyEventDispatcher(ked);
 						gameRunning = false;
 						cardLayout.show(parentPanel, "mainMenu");
 						debug();
