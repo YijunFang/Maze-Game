@@ -47,6 +47,7 @@ public class Game extends JPanel {
     private double playerLocationX;
     private double playerLocationY;
     private int moveAmount = 1;
+    private int renderShift = 0; //shift rendering by a certain amount of pixels to prevent clipping
     
     //game state
     private GameState gs;
@@ -155,6 +156,7 @@ public class Game extends JPanel {
         }
         //hintCoinActivated();
         moveAmount = (int) (playerSize/20);
+        renderShift = (int) (centreShift * 1.5);
         repaint();
     }
     /**
@@ -181,7 +183,10 @@ public class Game extends JPanel {
         if (isPaused) return; //If the game is paused, don't paint anything
         if (gs == null) return; //If game state is not initialised yet, don't paint anything
         super.paint(g);
-        renderGame(g);
+        Image gameImage = new BufferedImage (frameSize, frameSize, BufferedImage.TYPE_INT_ARGB);
+        renderGame(gameImage.getGraphics());
+        
+        g.drawImage(gameImage, 0, 0, null);
     }
     
     /**
@@ -228,35 +233,39 @@ public class Game extends JPanel {
                     
                     //Draw square borders (i.e. walls)
                     if (s.isBorderedOn(SquareSide.UP)) {
-                        mazeImageGraphic.draw(new Line2D.Double(pixelX, pixelY, pixelX + squareLength, pixelY));
+                        //mazeImageGraphic.draw(new Line2D.Double(pixelX, pixelY, pixelX + squareLength, pixelY));
                         int imgYCoordinate = (int) (pixelY - wallImageSize/2);
                         
                         for (int imglocation = (int) pixelX - wallImageSize/2; imglocation < pixelX + squareLength; imglocation += wallImageSize) {
-                            mazeImageGraphic.drawImage(wall, imglocation, imgYCoordinate, wallImageSize, wallImageSize, null, null);
+                            mazeImageGraphic.drawImage(wall, imglocation + renderShift, 
+                                    imgYCoordinate + renderShift, wallImageSize, wallImageSize, null, null);
                         }
                     }
                     if (s.isBorderedOn(SquareSide.RIGHT)) {
-                        mazeImageGraphic.draw(new Line2D.Double(pixelX + squareLength, pixelY, pixelX + squareLength, pixelY + squareLength));
+                        //mazeImageGraphic.draw(new Line2D.Double(pixelX + squareLength, pixelY, pixelX + squareLength, pixelY + squareLength));
                         int imgXCoordinate = (int) (pixelX - wallImageSize/2 + squareLength);
                         
                         for (int imglocation = (int) pixelY - wallImageSize/2; imglocation < pixelY + squareLength; imglocation += wallImageSize) {
-                            mazeImageGraphic.drawImage(wall, imgXCoordinate, imglocation, wallImageSize, wallImageSize, null, null);
+                            mazeImageGraphic.drawImage(wall, imgXCoordinate + renderShift, 
+                                    imglocation + renderShift, wallImageSize, wallImageSize, null, null);
                         }
                     }
                     if (s.isBorderedOn(SquareSide.DOWN)) {
-                        mazeImageGraphic.draw(new Line2D.Double(pixelX, pixelY + squareLength, pixelX + squareLength, pixelY + squareLength));
+                        //mazeImageGraphic.draw(new Line2D.Double(pixelX, pixelY + squareLength, pixelX + squareLength, pixelY + squareLength));
                         int imgYCoordinate = (int) (pixelY - wallImageSize/2 + squareLength);
                         
                         for (int imglocation = (int) pixelX - wallImageSize/2; imglocation < pixelX + squareLength; imglocation += wallImageSize) {
-                            mazeImageGraphic.drawImage(wall, imglocation, imgYCoordinate, wallImageSize, wallImageSize, null, null);
+                            mazeImageGraphic.drawImage(wall, imglocation + renderShift,
+                                    imgYCoordinate + renderShift, wallImageSize, wallImageSize, null, null);
                         }
                     }
                     if (s.isBorderedOn(SquareSide.LEFT)) {
-                        mazeImageGraphic.draw(new Line2D.Double(pixelX, pixelY, pixelX, pixelY + squareLength));
+                        //mazeImageGraphic.draw(new Line2D.Double(pixelX, pixelY, pixelX, pixelY + squareLength));
                         int imgXCoordinate = (int) (pixelX - wallImageSize/2);
                         
                         for (int imglocation = (int) pixelY - wallImageSize/2; imglocation < pixelY + squareLength; imglocation += wallImageSize) {
-                            mazeImageGraphic.drawImage(wall, imgXCoordinate, imglocation, wallImageSize, wallImageSize, null, null);
+                            mazeImageGraphic.drawImage(wall, imgXCoordinate + renderShift,
+                                    imglocation + renderShift, wallImageSize, wallImageSize, null, null);
                         }
                     }
                 }
@@ -280,7 +289,8 @@ public class Game extends JPanel {
                 double pixelX = cp.across * squareLength;
                 double pixelY = cp.down   * squareLength;
                 
-                hintImageGraphics.drawImage(hintCoinImage, (int)(pixelX + centreShift), (int)(pixelY + centreShift),
+                hintImageGraphics.drawImage(hintCoinImage, (int)(pixelX + centreShift) + renderShift, 
+                        (int)(pixelY + centreShift) + renderShift,
                         (int)(playerSize), (int) playerSize, null, null);
             }
         }
@@ -292,7 +302,7 @@ public class Game extends JPanel {
         CoordinatePair goal = gs.getGoalPosition();
         double goalPixelX = goal.across * squareLength;
         double goalPixelY = goal.down   * squareLength;
-        g2d.drawImage(goalImage, (int)(goalPixelX + centreShift * 1.5), (int)(goalPixelY + centreShift), 
+        g2d.drawImage(goalImage, (int)(goalPixelX + centreShift * 1.5) + renderShift, (int)(goalPixelY + centreShift) + renderShift, 
                 (int)(playerSize * 0.8), (int)(playerSize * 1.1), null, null);
         
         //draw zombie (player)
@@ -302,7 +312,8 @@ public class Game extends JPanel {
             playerLocationY = playerLoc.down * squareLength;
             playerPlaced = true;
         }
-        g2d.drawImage(player, (int) (playerLocationX + centreShift), (int) (playerLocationY + centreShift), 
+        g2d.drawImage(player, (int) (playerLocationX + centreShift) + renderShift, 
+                (int) (playerLocationY + centreShift) + renderShift, 
                 (int) playerSize, (int) playerSize, null, null);
         
         //draw hint squares if needed to be displayed) 
@@ -313,7 +324,8 @@ public class Game extends JPanel {
             } else {
                 for (CoordinatePair cp : hintPathList) {
                     Rectangle2D hintSquare = new Rectangle2D.Double(
-                            cp.across * squareLength, cp.down * squareLength, squareLength, squareLength);
+                            cp.across * squareLength + renderShift, cp.down * squareLength + renderShift, 
+                            squareLength, squareLength);
                     g2d.fill(hintSquare);
                 }
             }
