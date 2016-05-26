@@ -1052,8 +1052,11 @@ public class MainPanel extends JPanel {
 				addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						if (noticBox == null || noticBox.getComponentCount() == 0)
-							currGame.hintCoinActivated();
+						if (noticBox == null || noticBox.getComponentCount() == 0) {
+							if (currGame.getNumCoins() > 0) {
+								currGame.hintCoinActivated();
+							}
+						}
 					}
 				});
 
@@ -1104,7 +1107,7 @@ public class MainPanel extends JPanel {
 				if (oldImage != null) {
 					Image newNewgame = oldImage.getScaledInstance(buttonWidth, buttonHight,
 							java.awt.Image.SCALE_SMOOTH);
-					g.drawImage(newNewgame, -5, 0, null);
+					g.drawImage(newNewgame, 0, 0, null);
 
 				}
 //			}
