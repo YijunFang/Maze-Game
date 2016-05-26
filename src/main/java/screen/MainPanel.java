@@ -399,9 +399,9 @@ public class MainPanel extends JPanel {
 
 		component.add(new Button("How To Play", this, "howtoplay.png", 595, 70));
 		component.add(new Button("Resume", this, "continue.png", 595, 70));
-		component.add(new Button("Save", this, null, 595, 70));
+		component.add(new Button("Save", this, "save.png", 595, 70));
 		component.add(new Button("Give Up", this, "giveup.png", 595, 70));
-		component.add(new Button("Return to Main Menu", this, "mainmenu.png", 595, 70));
+		component.add(new Button("Return to Main Menu", this, "returntomainmenu.png", 595, 70));
 
 		GroupLayout gl_pauseScreen = new GroupLayout(pauseScreen);
 		gl_pauseScreen.setHorizontalGroup(gl_pauseScreen.createParallelGroup(Alignment.LEADING)
