@@ -9,8 +9,8 @@ public enum Difficulty {
     SIMPLE(5, 1, 5, 5),
     //EASY(10, 2, 5, 4),
     EASY(3, 1, 5, 3),
-    MEDIUM(15, 3, 5, 3),
-    HARD(20, 4, 5, 2);
+    MEDIUM(15, 3, 5, 5),
+    HARD(20, 4, 5, 6);
 
     private int sideLength;
     private int numberOfCoins;

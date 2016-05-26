@@ -37,6 +37,10 @@ public class Game extends JPanel {
     private static final String groundImg = "greengrass.png";
     private static final String hintImg   = "ender_eye.png";
     private static final String goalImg   = "villager.png";
+    private static final String arrowUp   = "arrowup.png";
+    private static final String arrowDown = "arrowdown.png";
+    private static final String arrowLeft = "arrowleft.png";
+    private static final String arrowRight= "arrowright.png";
     private BufferedImage mazeImage = null;
     private BufferedImage hintImage = null;
     
@@ -208,6 +212,10 @@ public class Game extends JPanel {
         Image ground        = getImage(groundImg);
         Image hintCoinImage = getImage(hintImg);
         Image goalImage     = getImage(goalImg);
+        Image hintUp        = getImage(arrowUp);
+        Image hintDown      = getImage(arrowDown);
+        Image hintLeft      = getImage(arrowLeft);
+        Image hintRight     = getImage(arrowRight);
         
         //Maze will be a pre-generated image to remove the need to rerender the maze everytime the player moves
         if (mazeImage == null) {
@@ -322,11 +330,28 @@ public class Game extends JPanel {
             if (hintPathList == null) {
                 System.out.println("No hint path list exists.");
             } else {
-                for (CoordinatePair cp : hintPathList) {
-                    Rectangle2D hintSquare = new Rectangle2D.Double(
-                            cp.across * squareLength + renderShift, cp.down * squareLength + renderShift, 
-                            squareLength, squareLength);
-                    g2d.fill(hintSquare);
+                //for (CoordinatePair cp : hintPathList) {
+                for (int i = 1; i < hintPathList.size(); i++) {
+                    CoordinatePair cp = hintPathList.get(i);
+                    CoordinatePair previous = hintPathList.get(i - 1);
+                    Image currarrow = null;
+                    if (previous.across == cp.across - 1) {
+                        // arrow should face right
+                        currarrow = hintRight;
+                    } else if (previous.across == cp.across + 1) {
+                        // arrow should face left
+                        currarrow = hintLeft;
+                    } else if (previous.down == cp.down - 1) {
+                        // arrow should face down
+                        currarrow = hintDown;
+                    } else if (previous.down == cp.down + 1) {
+                        // arrow should face up
+                        currarrow = hintUp;
+                    }
+                    g2d.drawImage(currarrow,
+                            (int)(cp.across * squareLength + renderShift),
+                            (int)(cp.down * squareLength + renderShift),
+                            (int)squareLength, (int)squareLength, null, null);
                 }
             }
         }
