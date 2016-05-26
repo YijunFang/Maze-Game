@@ -294,31 +294,39 @@ public class MainPanel extends JPanel {
 		grid.setLayout(new GridLayout(0, 2));
 		grid.setOpaque(false);
 
-		JLabel intro = new JLabel("<html><p>You're a zombie and it has been a few days since you have had some delicious villager brain</p></html>");
+		JLabel intro = new JLabel("<html><p>You're a zombie and it has been a week since you have had some delicious villager brain</p></html>");
 		intro.setFont(new Font("Courier New", Font.BOLD, 18));
 		intro.setForeground(Color.white);
 		grid.add(intro);
+		
 		ImageIcon zombie = new ImageIcon(getClass().getResource("zombiebrain.png"));
 		grid.add(new JLabel(zombie));
 		
 		JLabel goal= new JLabel("<html><p>Trouble is, the villager's hiding somewhere in the maze and you have got to use your puzzle solving skills to get to him</p></html>");
+		goal.setFont(new Font("Courier New", Font.BOLD, 18));
+		goal.setForeground(Color.white);
 		grid.add(goal);
+		
 		ImageIcon villager = new ImageIcon(getClass().getResource("villagerhelp.png"));
 		grid.add(new JLabel(villager));
-		grid.add(new JLabel(
-				"<html><p>Use the W key to move up, the A key to move left, the S key to move down and and D key to move right</p></html>"));
+		
+		JLabel controlText = new JLabel(
+				"<html><p>Use the W key to move up, the A key to move left, the S key to move down and and D key to move right</p></html>");
+		controlText.setFont(new Font("Courier New", Font.BOLD, 18));
+		controlText.setForeground(Color.white);
+		grid.add(controlText);
+		
 		ImageIcon controls = new ImageIcon(getClass().getResource("controls.png"));
 		grid.add(new JLabel(controls));
-		grid.add(new JLabel(
-				"<html><p>If you come across an eye of ender, you can use it to show some portion of the correct path</p></html>"));
+		
+		JLabel enderText = new JLabel("<html><p>If you come across an eye of ender, you can use it to show some portion of the correct path</p></html>");
+		enderText.setFont(new Font("Courier New", Font.BOLD, 18));
+		enderText.setForeground(Color.white);
+		grid.add(enderText);
+		
 		ImageIcon eye = new ImageIcon(getClass().getResource("eyeofenderhelp.png"));
 		grid.add(new JLabel(eye));
-		// grid.add(new JLabel("<html><p>If you come across a pickaxe, use it to
-		// break through a wall to get closer to that yummy brain</p></html>"));
-		// ImageIcon axe = new ImageIcon
-		// (getClass().getResource("pickaxe.png"));
-		// grid.add(new JLabel(axe));
-		// grid.setOpaque(false);
+
 		mainTextArea.setVisible(true);
 		mainTextArea.add(grid);
 		mainTextArea.setForeground(Color.WHITE);
