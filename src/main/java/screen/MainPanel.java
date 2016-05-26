@@ -23,20 +23,17 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Common.Difficulty;
 import GameRep.Game;
-import jdk.nashorn.internal.ir.Flags;
 import screen.TimerPanel;
 
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -1110,9 +1107,9 @@ public class MainPanel extends JPanel {
 					Image newNewgame = oldImage.getScaledInstance(buttonWidth, buttonHight,
 							java.awt.Image.SCALE_SMOOTH);
 					// System.out.println(buttonWidth+" "+ buttonHight);
-					boolean flag = false;
-					while ((flag = g.drawImage(newNewgame, -5, 0, null)) != true)
-						System.out.println(flag);
+//					boolean flag = false;
+					while (g.drawImage(newNewgame, -5, 0, null) != true);
+//						System.out.println(flag);
 					// System.out.println(flag);
 				}
 				// System.out.println(this.getText());
