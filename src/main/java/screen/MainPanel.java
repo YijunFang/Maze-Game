@@ -726,11 +726,6 @@ public class MainPanel extends JPanel {
 	 * @return Maze Game Panel
 	 */
 	private JPanel createMazeScreen() {
-<<<<<<< HEAD
-		//initialises number of coins to 0
-		coinNumber = 0;
-=======
->>>>>>> 33ede6d7e74fe25894bbcab507bd5e53da3b02d8
 
 		//creates new maze panel and paint background with graphic
 		JPanel mazePanel = new JPanel() {
@@ -888,7 +883,6 @@ public class MainPanel extends JPanel {
 			if(time != -1){
 				
 				ked = formKeyEventDispatcher();
-				checkGameWon = false;
 
 				kfm.addKeyEventDispatcher(ked);
 
@@ -1063,14 +1057,8 @@ public class MainPanel extends JPanel {
 
 		JLabel title = new JLabel("Give Up Game?", JLabel.CENTER);
 		title.setBorder(new EmptyBorder(10, 10, 10, 10));
-<<<<<<< HEAD
-		title.setFont(new Font("Courier New", Font.BOLD, 15));
-		//notice.getContentPane().add(title);
-		gameDialog.add(title);
-=======
 		title.setFont(new Font("Arial", Font.BOLD, 15));
 		notice.getContentPane().add(title);
->>>>>>> 33ede6d7e74fe25894bbcab507bd5e53da3b02d8
 
 		JPanel component = new JPanel();
 		component.setOpaque(false);
