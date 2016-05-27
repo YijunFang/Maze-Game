@@ -155,7 +155,7 @@ public class TimerPanel extends JPanel {
 			while (true) {
 				if (!stopped) {
 					long elapsed = getCurrTime() - programStart - pauseCount;
-					label.setText(format(elapsed));
+					label.setText("  "+format(elapsed));
 				}
 
 				try {
@@ -182,7 +182,7 @@ public class TimerPanel extends JPanel {
 		minute = (int) (elapsed % 60);
 		elapsed = elapsed / 60;
 
-		return String.format("  %02d:%02d", minute, second);
+		return String.format("%02d:%02d", minute, second);
 
 	}
 }
