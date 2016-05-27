@@ -829,6 +829,7 @@ public class MainPanel extends JPanel {
 
 		cardLayout.show(this, "mazeScreen");
 
+		timerPanel.clearTimer();
 		timerPanel.startTimer();
 	}
 
