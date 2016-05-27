@@ -18,17 +18,27 @@ public class TimerPanel extends JPanel {
 
 	private JLabel label = new JLabel(INITIAL_LABEL_TEXT, JLabel.CENTER);
 
-	// CONSTRUCTOR
+	/**
+	 * Constructor for the timerPanel
+	 * @throws HeadlessException
+	 */
 	public TimerPanel() throws HeadlessException {
 		super();
 		setupLabel();
 		thread.start();
 	}
 
+	/**
+	 * Gets the current time of the game
+	 * @return the current time
+	 */
 	private long getCurrTime() {
 		return System.currentTimeMillis() / 1000;
 	}
 
+	/**
+	 * Starts the timer
+	 */
 	public void startTimer() {
 		if (thread.stopped) {
 			pauseCount += (getCurrTime() - pauseStart);
@@ -36,18 +46,28 @@ public class TimerPanel extends JPanel {
 		}
 	}
 	
+	/**
+	 * Sets the start time for the timer
+	 * @param prevTime the previous time that is being set to the start time
+	 */
 	public void setStartTime(long prevTime) {
 		
 		pauseStart = prevTime;
 		pauseCount = 0;
 	}
 	
-
+	/**
+	 * Returns the time of the current game to be saved
+	 * @return currentTime - startTime - pausedTime
+	 */
 	public long toSaveTime(){
 		
 		return getCurrTime() - programStart - pauseCount;
 	}
 	
+	/**
+	 * Pauses the timer
+	 */
 	public void pauseTimer() {
 		if (!thread.stopped) { // timmer not stop yet
 			pauseStart = getCurrTime();
@@ -56,6 +76,10 @@ public class TimerPanel extends JPanel {
 
 	}
 
+	/**
+	 * Saves the JLabel which contains the current elapsed time
+	 * @return JLavel containing current elapsed time
+	 */
 	public JLabel saveTimer() {
 		thread.stopped = true;
 		long elapsed = getCurrTime() - programStart - pauseCount;
@@ -64,12 +88,20 @@ public class TimerPanel extends JPanel {
 
 	}
 
+	/**
+	 * Calculates the total time
+	 * @return total time 
+	 */
 	public String totalTime() {
 		thread.stopped = true;
 		long elapsed = getCurrTime() - programStart - pauseCount;
 		return format(elapsed);
 	}
 
+	/**
+	 * Calculates the total time in seconds
+	 * @return total time in seconds
+	 */
 	public int totalTimeSecond() {
 
 		thread.stopped = true;
@@ -88,6 +120,9 @@ public class TimerPanel extends JPanel {
 
 	}
 
+	/**
+	 * Resets the timer to 0
+	 */
 	public void clearTimer() {
 		pauseStart = programStart;
 		pauseCount = 0;
@@ -95,6 +130,9 @@ public class TimerPanel extends JPanel {
 		label.setText(INITIAL_LABEL_TEXT);
 	}
 
+	/**
+	 * Sets up the format for the timer
+	 */
 	private void setupLabel() {
 		label.setFont(new Font("Arial", Font.BOLD, 15));
 		this.setLayout(new GridLayout(1, 1));
@@ -105,10 +143,16 @@ public class TimerPanel extends JPanel {
 
 		public boolean stopped = true;
 
+		/**
+		 * Constructor for CountingThread
+		 */
 		private CountingThread() {
 			setDaemon(true);
 		}
 
+		/**
+		 * Runs the timer
+		 */
 		@Override
 		public void run() {
 			while (true) {
@@ -127,7 +171,11 @@ public class TimerPanel extends JPanel {
 		}
 	}
 
-	// reset time
+	/**
+	 * Converts time in seconds to 00:00:00
+	 * @param elapsed current time elapsed in seconds
+	 * @return time in format 00:00:00
+	 */
 	public String format(long elapsed) {
 		int hour, minute, second;
 
