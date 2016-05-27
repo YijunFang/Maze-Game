@@ -985,11 +985,26 @@ public class MainPanel extends JPanel {
 		notice.setLocationRelativeTo(null);
 		notice.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		notice.setVisible(true);
+		
+		JPanel gameDialog = new JPanel() {
+			@Override
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(new ImageIcon("spruceplankbig.png").getImage(), -200, -50, null);
+			}
+		};
+		
+		gameDialog.setLayout(new GridLayout(2, 1));
+		//gameDialog.setBorder(new EmptyBorder(50, 50, 50, 50));
+		gameDialog.setVisible(true);
+		gameDialog.setForeground(Color.WHITE);
 
 		JLabel title = new JLabel("Do You Want To Save Game", JLabel.CENTER);
 		title.setFont(new Font("Arial", Font.BOLD, 25));
 		title.setBorder(new EmptyBorder(10, 10, 10, 10));
-		notice.getContentPane().add(title);
+		title.setForeground(Color.WHITE);
+		//notice.getContentPane().add(title);
+		gameDialog.add(title);
 
 		JPanel component = new JPanel();
 		component.setOpaque(false);
@@ -999,10 +1014,11 @@ public class MainPanel extends JPanel {
 		component.add(new Button("Save Game", this, "dialogueYes.png", notice.getWidth()/2 , notice.getHeight()/2 ));
 		component.add(new Button("Don't Save", this, "dialogueNo.png", notice.getWidth()/2, notice.getHeight()/2));
 //		component.add(new Button("Resume", this, null, notice.getWidth()/2, notice.getHeight()/2));
+		gameDialog.add(component);
 		
-		
-		notice.getContentPane().add(component);
-		notice.getContentPane().setLayout(new GridLayout(2, 1));
+		notice.add(gameDialog);
+		//notice.getContentPane().add(component);
+		//notice.getContentPane().setLayout(new GridLayout(2, 1));
 
 		return notice;
 
