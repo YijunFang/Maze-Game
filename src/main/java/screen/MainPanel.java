@@ -52,7 +52,6 @@ public class MainPanel extends JPanel {
 	private CardLayout mazeLayout;
 
 	//various boolean conditions used by GUI
-	private boolean checkGameWon = false;
 	private boolean gameRunning = false;
 	private boolean saveFlag = false;
 
@@ -60,10 +59,8 @@ public class MainPanel extends JPanel {
 	private JFrame noticBox;
 	private TimerPanel timerPanel;
 	private JPanel coinPanel;
-	private int coinNumber;
 	private int difficulty;
 
-	private boolean globalPaint = false;
 	// LOAD IMAGE
 
 	/**
@@ -147,7 +144,6 @@ public class MainPanel extends JPanel {
 		if (currGame.isGameWon() == true) {
 //			System.out.println("enter here?");
 			//sets GameWon boolean to be true
-			checkGameWon = true;
 			//retrieves the total time taken to finish the maze
 			String resultTime = timerPanel.totalTime();
 			//resets the timer
@@ -731,7 +727,6 @@ public class MainPanel extends JPanel {
 	 * @return
 	 */
 	private JPanel createMazeScreen() {
-		coinNumber = 0;
 
 		JPanel mazePanel = new JPanel() {
 			public void paintComponent(Graphics g) {
@@ -840,7 +835,6 @@ public class MainPanel extends JPanel {
 		currGame = new Game();
 
 		ked = formKeyEventDispatcher();
-		checkGameWon = false;
 		// currGame.setKeyDetect(ked);
 
 		kfm.addKeyEventDispatcher(ked);
@@ -1028,7 +1022,7 @@ public class MainPanel extends JPanel {
 
 	}
 
-	private void debug() {
+	private void debug() {/*
 		String info = "--------------------\n";
 		info += "gameRunning = " + gameRunning + "\n";
 		info += "saveFlag = " + saveFlag + "\n";
@@ -1038,6 +1032,7 @@ public class MainPanel extends JPanel {
 		}
 
 //		System.out.println(info);
+ **/
 
 	}
 
@@ -1065,7 +1060,6 @@ public class MainPanel extends JPanel {
 			} else {
 				try {
 					oldImage = getImage(imgName);
-					globalPaint = true;
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
