@@ -25,7 +25,6 @@ import javax.swing.border.EmptyBorder;
 
 import Common.Difficulty;
 import GameRep.Game;
-import javafx.scene.layout.Pane;
 import screen.TimerPanel;
 
 import java.awt.KeyEventDispatcher;
@@ -53,7 +52,6 @@ public class MainPanel extends JPanel {
 	private CardLayout mazeLayout;
 
 	//various boolean conditions used by GUI
-	private boolean checkGameWon = false;
 	private boolean gameRunning = false;
 	private boolean saveFlag = false;
 
@@ -61,10 +59,8 @@ public class MainPanel extends JPanel {
 	private JFrame noticBox;
 	private TimerPanel timerPanel;
 	private JPanel coinPanel;
-	private int coinNumber;
 	private int difficulty;
 
-	private boolean globalPaint = false;
 	// LOAD IMAGE
 
 	/**
@@ -148,7 +144,6 @@ public class MainPanel extends JPanel {
 		if (currGame.isGameWon() == true) {
 //			System.out.println("enter here?");
 			//sets GameWon boolean to be true
-			checkGameWon = true;
 			//retrieves the total time taken to finish the maze
 			String resultTime = timerPanel.totalTime();
 			//resets the timer
@@ -365,7 +360,6 @@ public class MainPanel extends JPanel {
 		
 		//sets layout of content Panel to Box Layout and sets color and padding properties
 		mainTextArea.setLayout(new BoxLayout(mainTextArea, BoxLayout.Y_AXIS));
-		mainTextArea.setBackground(Color.GRAY);
 		mainTextArea.setBorder(new EmptyBorder(50, 50, 50, 50));
 		mainTextArea.setVisible(true);
 		mainTextArea.setForeground(Color.WHITE);
@@ -419,7 +413,7 @@ public class MainPanel extends JPanel {
 	
 	/**
 	 * Sets JLabel text properties to standard font and color properties
-	 * @param text
+	 * @param text the help text on the help screen
 	 * @return help text JLabel
 	 */
 	private JLabel helpTextProperties (JLabel text) {
@@ -635,7 +629,7 @@ public class MainPanel extends JPanel {
 	 */
 	private int determineDifficulty() {
 		if (difficulty == 1) {
-			return 60;
+			return 600;
 		} else if (difficulty == 2) {
 			return 3600;
 		} else {
@@ -728,12 +722,17 @@ public class MainPanel extends JPanel {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * Create actual maze green screen
+	 * @return Maze Game Panel
 	 */
 	private JPanel createMazeScreen() {
+<<<<<<< HEAD
+		//initialises number of coins to 0
 		coinNumber = 0;
+=======
+>>>>>>> 33ede6d7e74fe25894bbcab507bd5e53da3b02d8
 
+		//creates new maze panel and paint background with graphic
 		JPanel mazePanel = new JPanel() {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
@@ -743,12 +742,14 @@ public class MainPanel extends JPanel {
 
 		// mazePanel.setBorder(new EmptyBorder(1, 2, 0, 0));
 
+		//creates new panel for the side menu and paints background with graphic
 		JPanel component = new JPanel() {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				g.drawImage(new ImageIcon("sidebackground.jpg").getImage(), -10, 0, null);
 			}
 		};
+		//sets layout of component to Grid Layout and 
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(6, 1, 10, 10));
 		component.setSize(new Dimension(200, 800));
@@ -841,7 +842,6 @@ public class MainPanel extends JPanel {
 		currGame = new Game();
 
 		ked = formKeyEventDispatcher();
-		checkGameWon = false;
 		// currGame.setKeyDetect(ked);
 
 		kfm.addKeyEventDispatcher(ked);
@@ -879,6 +879,34 @@ public class MainPanel extends JPanel {
 	 * Continues a saved game if present, otherwise prompts to create a new game
 	 */
 	private void continueGame() {
+		
+
+		if(currGame == null){
+			currGame = new Game();
+			long time = currGame.load();
+			
+			if(time != -1){
+				
+				ked = formKeyEventDispatcher();
+				checkGameWon = false;
+
+				kfm.addKeyEventDispatcher(ked);
+
+				currGame.setOpaque(true);
+				maze.add("currGame", currGame);
+
+				saveFlag = false;
+				gameRunning = true;
+
+				cardLayout.show(this, "mazeScreen");
+				
+				timerPanel.setStartTime(time);
+				
+				timerPanel.startTimer();
+				
+			}
+			currGame = null;
+		}
 		
 		if (saveFlag == false) {
 			cardLayout.show(this, "newGame");
@@ -918,13 +946,20 @@ public class MainPanel extends JPanel {
      */
 	public JFrame askNewGame() {
 
-		JFrame notice = new JFrame("New Game")  {
+		JFrame notice = new JFrame("New Game");
+		
+		JPanel gameDialog = new JPanel() {
 			@Override
-			public void paintComponents(Graphics g) {
-				super.paintComponents(g);
-				g.drawImage(new ImageIcon("helpboxback.png").getImage(), -200, -50, null);
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(new ImageIcon("dirt.png").getImage(), -200, -50, null);
 			}
 		};
+		
+		gameDialog.setLayout(new GridLayout(2, 1));
+		gameDialog.setBorder(new EmptyBorder(50, 50, 50, 50));
+		gameDialog.setVisible(true);
+		gameDialog.setForeground(Color.WHITE);
 		
 		notice.setUndecorated(true);
 		notice.pack();
@@ -938,17 +973,19 @@ public class MainPanel extends JPanel {
 		JLabel title = new JLabel("<html><p>Are you sure? This will delete your saved game</p></html>", JLabel.CENTER);
 		title.setFont(new Font("Arial", Font.BOLD, 25));
 		title.setBorder(new EmptyBorder(10, 10, 10, 10));
-		notice.getContentPane().add(title);
+		//notice.getContentPane().add(title);
+		gameDialog.add(title);
 
 		JPanel component = new JPanel();
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(1, 2));
 		component.add(new Button("Sure", this, null,  notice.getWidth()/3, notice.getWidth()/2));
 		component.add(new Button("Continue Saved Game", this, null,  notice.getWidth()/3, notice.getWidth()/2));
+		gameDialog.add(component);
+//		notice.getContentPane().add(component);
+//		notice.getContentPane().setLayout(new GridLayout(2, 1));
 
-		notice.getContentPane().add(component);
-		notice.getContentPane().setLayout(new GridLayout(2, 1));
-
+		notice.add(gameDialog);
 		return notice;
 
 	}
@@ -1010,26 +1047,45 @@ public class MainPanel extends JPanel {
 		notice.setLocationRelativeTo(null);
 		notice.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		notice.setVisible(true);
+		
+		JPanel gameDialog = new JPanel() {
+			@Override
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(new ImageIcon("helpboxback.png").getImage(), -200, -50, null);
+			}
+		};
+		
+		gameDialog.setLayout(new GridLayout(2, 1));
+		gameDialog.setBorder(new EmptyBorder(50, 50, 50, 50));
+		gameDialog.setVisible(true);
+		gameDialog.setForeground(Color.WHITE);
 
 		JLabel title = new JLabel("Give Up Game?", JLabel.CENTER);
 		title.setBorder(new EmptyBorder(10, 10, 10, 10));
+<<<<<<< HEAD
+		title.setFont(new Font("Courier New", Font.BOLD, 15));
+		//notice.getContentPane().add(title);
+		gameDialog.add(title);
+=======
 		title.setFont(new Font("Arial", Font.BOLD, 15));
 		notice.getContentPane().add(title);
+>>>>>>> 33ede6d7e74fe25894bbcab507bd5e53da3b02d8
 
 		JPanel component = new JPanel();
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(1, 2));
 		component.add(new Button("Yes", this, null,  notice.getWidth()/3, notice.getWidth()/2));
 		component.add(new Button("Resume", this, null, notice.getWidth()/3, notice.getWidth()/2));
-
-		notice.getContentPane().add(component);
-		notice.getContentPane().setLayout(new GridLayout(2, 1));
-
+		gameDialog.add(component);
+//		notice.getContentPane().add(component);
+//		notice.getContentPane().setLayout(new GridLayout(2, 1));
+		notice.add(gameDialog);
 		return notice;
 
 	}
 
-	private void debug() {
+	private void debug() {/*
 		String info = "--------------------\n";
 		info += "gameRunning = " + gameRunning + "\n";
 		info += "saveFlag = " + saveFlag + "\n";
@@ -1039,6 +1095,7 @@ public class MainPanel extends JPanel {
 		}
 
 //		System.out.println(info);
+ **/
 
 	}
 
@@ -1066,7 +1123,6 @@ public class MainPanel extends JPanel {
 			} else {
 				try {
 					oldImage = getImage(imgName);
-					globalPaint = true;
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
