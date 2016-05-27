@@ -43,3 +43,6 @@ local.properties
 
 # Submission
 submit/
+
+# saves
+savegame

@@ -198,7 +198,7 @@ public class GameState {
             oofs.flush();
             oofs.close();
         } catch (Exception e) {
-            throw new RuntimeException("Bad file output stream");
+            throw new RuntimeException("Bad file output stream: " + e);
         }
     }
 
@@ -214,7 +214,7 @@ public class GameState {
             oifs.close();
             return gs;
         } catch (Exception e) {
-            throw new RuntimeException("Bad file input stream");
+            throw new RuntimeException("Bad file input stream: " + e);
         }
     }
 }
