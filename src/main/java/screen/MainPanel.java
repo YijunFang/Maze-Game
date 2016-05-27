@@ -1054,6 +1054,7 @@ public class MainPanel extends JPanel {
 						if (noticBox == null || noticBox.getComponentCount() == 0) {
 							startNewGame(Difficulty.EASY);
 							difficulty = 1;
+							checkState();
 							debug();
 						}
 					}
@@ -1067,6 +1068,7 @@ public class MainPanel extends JPanel {
 						if (noticBox == null || noticBox.getComponentCount() == 0) {
 							startNewGame(Difficulty.MEDIUM);
 							difficulty = 2;
+							checkState();
 							debug();
 						}
 					}
@@ -1079,6 +1081,7 @@ public class MainPanel extends JPanel {
 						if (noticBox == null || noticBox.getComponentCount() == 0) {
 							startNewGame(Difficulty.HARD);
 							difficulty = 3;
+							checkState();
 							debug();
 						}
 					}
@@ -1203,7 +1206,7 @@ public class MainPanel extends JPanel {
 
 						closeNoticeBox();
 						saveFlag = true;
-						 kfm.removeKeyEventDispatcher(ked);
+						kfm.removeKeyEventDispatcher(ked);
 						gameRunning = false;
 						cardLayout.show(parentPanel, "mainMenu");
 						debug();
