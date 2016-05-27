@@ -1,14 +1,8 @@
 package screen;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Graphics;
+import java.awt.*;
 
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.UIManager;
+import javax.swing.*;
 
 @SuppressWarnings("serial")
 public class Amazing extends JFrame {
@@ -27,8 +21,6 @@ public class Amazing extends JFrame {
 
 		setTitle("Mazecraft");
 
-		// setupBorder(this);
-
 		setMinimumSize(new Dimension(1000, 800));
 
 		setResizable(false);
@@ -46,26 +38,12 @@ public class Amazing extends JFrame {
 			}
 		};
 
-		// parentPanel.setOpaque(false);
-
 		add(parentPanel);
-
-		// parentPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
 		setLocationRelativeTo(null);
 
 		this.setVisible(true);
 
-	}
-
-	/**
-	 * Sets up border for container
-	 * @param container
-	 */
-	private void setupBorder(JFrame container) {
-		JPanel contentPane = new JPanel(new BorderLayout());
-		contentPane.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
-		container.setContentPane(contentPane);
 	}
 
 	public static void main(String[] args) {

@@ -973,8 +973,10 @@ public class MainPanel extends JPanel {
 		JPanel component = new JPanel();
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(1, 2));
-		component.add(new Button("Sure", this, null,  notice.getWidth()/3, notice.getWidth()/2));
-		component.add(new Button("Continue Saved Game", this, null,  notice.getWidth()/3, notice.getWidth()/2));
+
+		component.add(new Button("Sure", this, "dialogueSure.png",  notice.getWidth()/3, notice.getHeight()/2));
+		component.add(new Button("Continue Saved Game", this, null,  notice.getWidth()/3, notice.getHeight()/2));
+
 		gameDialog.add(component);
 //		notice.getContentPane().add(component);
 //		notice.getContentPane().setLayout(new GridLayout(2, 1));
@@ -1011,12 +1013,11 @@ public class MainPanel extends JPanel {
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(1, 2));
 		
-		//button sizes are: 133 150 for all these dialog box
-		component.add(new Button("Save Game", this, "mainpanelSave.png", notice.getWidth()/3, notice.getWidth()/2));
-		component.add(new Button("Don't Save", this, null, notice.getWidth()/3, notice.getWidth()/2));
-		component.add(new Button("Resume", this, null, notice.getWidth()/3, notice.getWidth()/2));
+		//button sizes are: 200 150 for all these dialog box
+		component.add(new Button("Save Game", this, null, notice.getWidth()/2 , notice.getHeight()/2 ));
+		component.add(new Button("Don't Save", this, null, notice.getWidth()/2, notice.getHeight()/2));
+//		component.add(new Button("Resume", this, null, notice.getWidth()/2, notice.getHeight()/2));
 		
-//		System.out.println(notice.getWidth()/3+" "+ notice.getHeight()/2);
 		
 		notice.getContentPane().add(component);
 		notice.getContentPane().setLayout(new GridLayout(2, 1));
@@ -1063,8 +1064,9 @@ public class MainPanel extends JPanel {
 		JPanel component = new JPanel();
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(1, 2));
-		component.add(new Button("Yes", this, null,  notice.getWidth()/3, notice.getWidth()/2));
-		component.add(new Button("Resume", this, null, notice.getWidth()/3, notice.getWidth()/2));
+
+		component.add(new Button("Yes", this, null,  notice.getWidth()/2, notice.getHeight()/2));
+		component.add(new Button("Resume", this, null, notice.getWidth()/2, notice.getHeight()/2));
 		gameDialog.add(component);
 //		notice.getContentPane().add(component);
 //		notice.getContentPane().setLayout(new GridLayout(2, 1));
