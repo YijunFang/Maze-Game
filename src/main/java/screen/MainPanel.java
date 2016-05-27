@@ -25,7 +25,6 @@ import javax.swing.border.EmptyBorder;
 
 import Common.Difficulty;
 import GameRep.Game;
-import javafx.scene.layout.Pane;
 import screen.TimerPanel;
 
 import java.awt.KeyEventDispatcher;
@@ -419,7 +418,7 @@ public class MainPanel extends JPanel {
 	
 	/**
 	 * Sets JLabel text properties to standard font and color properties
-	 * @param text
+	 * @param text the help text on the help screen
 	 * @return help text JLabel
 	 */
 	private JLabel helpTextProperties (JLabel text) {
