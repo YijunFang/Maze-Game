@@ -576,6 +576,7 @@ public class MainPanel extends JPanel {
 		
 		//calculates the score to be shown
 		int scoreCalc = initial - (timeInt)*10 + coinsInt;
+		scoreCalc = (scoreCalc < 0) ? 0 : scoreCalc;
 		
 		//creates new label for the score and places in the second row
 		JLabel showScore = new JLabel(("Your Score is:" + scoreCalc + "!"), JLabel.CENTER);
