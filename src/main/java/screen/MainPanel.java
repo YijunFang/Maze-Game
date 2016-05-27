@@ -328,9 +328,9 @@ public class MainPanel extends JPanel {
 	
 		//creates a new box panel for the button and sets various properties
 		JPanel box = new JPanel();
-		box.setLayout(new BoxLayout(box, BoxLayout.X_AXIS));
+		box.setLayout(new GridLayout(0,1));
 		box.setOpaque(false);
-		box.add(new Button("OK", this, null, 300, 15));
+		box.add(new Button("OK", this, "continue.png", 595, 70));
 
 		//adds the box button layout to the Content panel
 		mainTextArea.add(box);
