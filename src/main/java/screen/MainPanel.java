@@ -366,32 +366,30 @@ public class MainPanel extends JPanel {
 
 		//creates new Grid Layout panel and sets transparent background
 		JPanel grid = new JPanel();
+		grid.setBorder(new EmptyBorder(50, 50, 50, 50));
 		grid.setLayout(new GridLayout(0, 2));
 		grid.setOpaque(false);
 
-		//adds first set of instructions and accompanying image, sets properties to standard help text properties and adds to Grid panel
+		//adds set of instructions and accompanying image, sets properties to standard help text properties and adds to Grid panel
 		JLabel introText = new JLabel("<html><p>You're a zombie and it has been a week since you have had some delicious villager brain</p></html>");
-		grid.add(helpTextProperties(introText));
-		
-		
-		
-		ImageIcon zombie = new ImageIcon(getClass().getResource("zombiebrain.png"));
-		grid.add(new JLabel(zombie));
+		grid.add(helpTextProperties(introText));	
+		JLabel zombie = helpImgProperties("zombiebrain.png");
+		grid.add(zombie);
 		
 		JLabel goalText = new JLabel("<html><p>Trouble is, the villager's hiding somewhere in the maze and you have got to use your puzzle solving skills to get to him</p></html>");
 		grid.add(helpTextProperties(goalText));
-		ImageIcon villager = new ImageIcon(getClass().getResource("villagerhelp.png"));
-		grid.add(new JLabel(villager));	
+		JLabel villager = helpImgProperties("villagerhelp.png");
+		grid.add(villager);
 		
 		JLabel controlText = new JLabel("<html><p>Use the W key to move up, the A key to move left, the S key to move down and and D key to move right</p></html>");
 		grid.add(helpTextProperties(controlText));
-		ImageIcon controls = new ImageIcon(getClass().getResource("controls.png"));
-		grid.add(new JLabel(controls));
+		JLabel controls = helpImgProperties("controls.png");
+		grid.add(controls);
 		
 		JLabel enderText = new JLabel("<html><p>If you come across an eye of ender, you can use it to show some portion of the correct path</p></html>");
 		grid.add(helpTextProperties(enderText));
-		ImageIcon eye = new ImageIcon(getClass().getResource("eyeofenderhelp.png"));
-		grid.add(new JLabel(eye));
+		JLabel eye = helpImgProperties("eyeofenderhelp.png");
+		grid.add(eye);
 
 		//adds the grid to the mainPanel
 		mainTextArea.add(grid);
@@ -421,6 +419,18 @@ public class MainPanel extends JPanel {
 		text.setForeground(Color.white);
 		
 		return text;
+	}
+	
+	private JLabel helpImgProperties (String imgFile) {
+		JLabel img = new JLabel() {
+			@Override
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(new ImageIcon(imgFile).getImage(), 140, 50, null);
+			}
+		};
+		
+		return img;
 	}
 
 	/**
