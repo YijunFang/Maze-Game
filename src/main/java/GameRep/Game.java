@@ -187,10 +187,7 @@ public class Game extends JPanel {
         if (isPaused) return; //If the game is paused, don't paint anything
         if (gs == null) return; //If game state is not initialised yet, don't paint anything
         super.paint(g);
-        Image gameImage = new BufferedImage (frameSize, frameSize, BufferedImage.TYPE_INT_ARGB);
-        renderGame(gameImage.getGraphics());
-        
-        g.drawImage(gameImage, 0, 0, null);
+        renderGame(g);
     }
     
     /**
@@ -378,7 +375,7 @@ public class Game extends JPanel {
         try {
             img = ImageIO.read(new File(fileName));
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Image " + fileName + " could not be loaded");
         }
         return img;
     }
@@ -476,39 +473,6 @@ public class Game extends JPanel {
         }
     }
 
-
-//    Change here
-    /*
-    private KeyEventDispatcher formKeyEventDispatcher() {
-        KeyEventDispatcher ked = new KeyEventDispatcher() {
-            @Override
-            public boolean dispatchKeyEvent(KeyEvent ke) {
-                synchronized (Game.class) {
-                    switch (ke.getID()) {
-                    case KeyEvent.KEY_PRESSED:
-                        switch (ke.getKeyCode()) {
-                            case KeyEvent.VK_W:
-                                keyPressedUp();
-                                break;
-                            case KeyEvent.VK_A:
-                                keyPressedLeft();
-                                break;
-                            case KeyEvent.VK_S:
-                                keyPressedDown();
-                                break;
-                            case KeyEvent.VK_D:
-                                keyPressedRight();
-                                break;
-                        }
-                        break;
-                    }
-                    return false;
-                }
-            }
-        };
-        return ked;
-	}
-*/
     /**
      * Enables the use of computer keyboard to control the game
      */
@@ -586,7 +550,7 @@ public class Game extends JPanel {
             ActionListener moveAction = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (newPlayerLocationX > playerLocationX - centreShift/2) {
+                    if (newPlayerLocationX > playerLocationX) {
                         //Character has moved sufficiently, so stop movement process
                         moveTimer.stop();
                         repaintTimer.stop();
@@ -628,7 +592,7 @@ public class Game extends JPanel {
             ActionListener moveAction = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (newPlayerLocationY > playerLocationY - centreShift/2) {
+                    if (newPlayerLocationY > playerLocationY) {
                         moveTimer.stop();
                         repaintTimer.stop();
                         //enableKeyPressDetect();
