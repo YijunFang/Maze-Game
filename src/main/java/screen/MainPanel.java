@@ -807,6 +807,10 @@ public class MainPanel extends JPanel {
 	KeyEventDispatcher ked = null;
 	KeyboardFocusManager kfm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 
+	/**
+	 * Starts a new game based on the given difficulty
+	 * @param difficulty a Difficulty enum representing the difficulty of the new game
+     */
 	private void startNewGame(Difficulty difficulty) {
 		// if there is a saved game, delete it
 		deleteGame();
@@ -833,6 +837,9 @@ public class MainPanel extends JPanel {
 		timerPanel.startTimer();
 	}
 
+	/**
+	 * Closes any visible notice boxes
+	 */
 	private void closeNoticeBox() {
 		if (noticBox == null)
 			return;
@@ -845,6 +852,9 @@ public class MainPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * Continues a saved game if present, otherwise prompts to create a new game
+	 */
 	private void continueGame() {
 		if (saveFlag == false) {
 			cardLayout.show(this, "newGame");
@@ -863,6 +873,9 @@ public class MainPanel extends JPanel {
 			return;
 	}
 
+	/**
+	 * Deletes a currently running or saved game
+	 */
 	private void deleteGame() {
 		difficulty = 0;
 		kfm.removeKeyEventDispatcher(ked);
@@ -875,6 +888,10 @@ public class MainPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * Prompts the user to delete their saved game
+	 * @return a dialog box acting as the prompt
+     */
 	public JFrame askNewGame() {
 
 		JFrame notice = new JFrame("New Game");
@@ -905,6 +922,10 @@ public class MainPanel extends JPanel {
 
 	}
 
+	/**
+	 * Prompts the user to save their game before returning to the main menu
+	 * @return a dialog box acting as the prompt
+     */
 	public JFrame askSaveGame() {
 
 		JFrame notice = new JFrame("Game Not Saved");
@@ -942,6 +963,10 @@ public class MainPanel extends JPanel {
 
 	}
 
+	/**
+	 * Prompts the user if they really want to give up
+	 * @return a dialog box acting as the prompt
+     */
 	public JFrame askGiveUp() {
 
 		JFrame notice = new JFrame("Give Up");
