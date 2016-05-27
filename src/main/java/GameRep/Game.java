@@ -190,12 +190,12 @@ public class Game extends JPanel {
      * save method stores the game into two files, one for the game state itself and one for storing the time elapsed
      * @param time The time elapsed since the start of the game.
      */
-    public void save(int time) {
+    public void save(long time) {
         try {
             FileOutputStream gameout = new FileOutputStream("savegame"); //save the game
             GameState.save(gs, gameout);
             FileWriter timeout = new FileWriter("savegametime");
-            timeout.write(Integer.toString(time));
+            timeout.write(Long.toString(time));
             timeout.close();
         } catch (IOException e) {
             System.out.println("Unable to save the game.");
@@ -207,9 +207,9 @@ public class Game extends JPanel {
      * load method loads the game from an existing game state stored in a file
      * @return The game state's time elapsed since start if load was successful, and -1 otherwise.
      */
-    public int load() {
+    public long load() {
         GameState loadedGameState = null;
-        int time = -1;
+        long time = -1;
         try {
             FileInputStream gamein = new FileInputStream("savegame");
             loadedGameState = GameState.load(gamein);
@@ -218,7 +218,7 @@ public class Game extends JPanel {
             BufferedReader brTime = new BufferedReader(timein);
             String timeString = brTime.readLine();
             brTime.close();
-            time = Integer.parseInt(timeString);
+            time = Long.parseLong(timeString);
             
         } catch (IOException e) {
             System.out.println("No save game exists.");
