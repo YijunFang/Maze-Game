@@ -33,10 +33,21 @@ public class TimerPanel extends JPanel {
 		if (thread.stopped) {
 			pauseCount += (getCurrTime() - pauseStart);
 			thread.stopped = false;
-			// System.out.println("counting");
 		}
 	}
+	
+	public void setStartTime(long prevTime) {
+		
+		pauseStart = prevTime;
+		pauseCount = 0;
+	}
+	
 
+	public long toSaveTime(){
+		
+		return getCurrTime() - programStart - pauseCount;
+	}
+	
 	public void pauseTimer() {
 		if (!thread.stopped) { // timmer not stop yet
 			pauseStart = getCurrTime();

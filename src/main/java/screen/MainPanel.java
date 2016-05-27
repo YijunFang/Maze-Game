@@ -861,6 +861,38 @@ public class MainPanel extends JPanel {
 	 * Continues a saved game if present, otherwise prompts to create a new game
 	 */
 	private void continueGame() {
+		
+		if(currGame == null){
+			currGame = new Game();
+			long time = currGame.load();
+			
+			if(time != -1){
+				
+				ked = formKeyEventDispatcher();
+				checkGameWon = false;
+
+				kfm.addKeyEventDispatcher(ked);
+
+				currGame.setOpaque(true);
+				maze.add("currGame", currGame);
+
+				saveFlag = false;
+				gameRunning = true;
+
+				cardLayout.show(this, "mazeScreen");
+				
+				timerPanel.setStartTime(time);
+				
+				timerPanel.startTimer();
+				
+			}
+			currGame = null;
+		}
+		
+
+		
+		
+		
 		if (saveFlag == false) {
 			cardLayout.show(this, "newGame");
 			return;
@@ -1160,24 +1192,12 @@ public class MainPanel extends JPanel {
 					}
 				});
 
-			} else if (text.equals("Restart") || text.equals("Replay")) {
-				addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						// currGame.restart();
-						// cardLayout.show(parentPanel, "mazeScreen");
-						// debug();
-					}
-				});
-
 			} else if (text.equals("Continue") || text.equals("Continue Saved Game")) {
 				addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						if (noticBox == null || noticBox.getComponentCount() == 0) {
-							// timerPanel.startTimer();
-							// gameRunning = true;
-							// closeNoticeBox();
+
 							continueGame();
 							debug();
 						}
@@ -1220,9 +1240,7 @@ public class MainPanel extends JPanel {
 							// timer pause and save in buffer
 							timerPanel.pauseTimer();
 							saveFlag = true;
-							// JOptionPane.showMessageDialog(parentPanel, "GAME
-							// SAVED!", "Save Game",
-							// JOptionPane.INFORMATION_MESSAGE);
+							currGame.save(timerPanel.toSaveTime());
 							kfm.removeKeyEventDispatcher(ked);
 							gameRunning = false;
 							cardLayout.show(parentPanel, "mainMenu");
@@ -1239,12 +1257,9 @@ public class MainPanel extends JPanel {
 						// timer pause and save in buffer
 						timerPanel.pauseTimer();
 
-						// JOptionPane.showMessageDialog(parentPanel, "GAME
-						// SAVED!", "Save Game",
-						// JOptionPane.INFORMATION_MESSAGE);
-
 						closeNoticeBox();
 						saveFlag = true;
+						currGame.save(timerPanel.toSaveTime());
 						kfm.removeKeyEventDispatcher(ked);
 						gameRunning = false;
 						cardLayout.show(parentPanel, "mainMenu");
