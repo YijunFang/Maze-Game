@@ -52,6 +52,7 @@ public class Game extends JPanel {
     private double playerLocationY;
     private int moveAmount = 1;
     private int renderShift = 0; //shift rendering by a certain amount of pixels to prevent clipping
+    Timer hintTimer = null;
     
     //game state
     private GameState gs;
@@ -384,8 +385,12 @@ public class Game extends JPanel {
      *
      */
     public void hintCoinActivated() {
+        if (displayHint) {
+            hintTimer.stop();
+            displayHint = false;
+        }
         hintPathList = gs.getHintCoordinateList();
-        final Timer hintTimer = new Timer (5000, null);
+        hintTimer = new Timer (5000, null);
         ActionListener hintTimerListener = new ActionListener() {
             @Override
             public void actionPerformed (ActionEvent evt) {
@@ -398,7 +403,6 @@ public class Game extends JPanel {
         displayHint = true;
         hintTimer.addActionListener(hintTimerListener);
         hintTimer.start();
-        System.out.println("Derp");
         repaint();
     }
     
