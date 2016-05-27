@@ -330,7 +330,7 @@ public class MainPanel extends JPanel {
 		JPanel box = new JPanel();
 		box.setLayout(new GridLayout(0,1));
 		box.setOpaque(false);
-		box.add(new Button("OK", this, "continue.png", 595, 70));
+		box.add(new Button("OK", this, "continue.png", 800, 100));
 
 		//adds the box button layout to the Content panel
 		mainTextArea.add(box);
@@ -658,17 +658,17 @@ public class MainPanel extends JPanel {
 		component.setSize(new Dimension(200, 800));
 		// component.add(new Button("Help", this,null, 595, 75));
 		
-		component.add(new Button("Hint", this, "mainpanelHint.png", 220, 120));
-		component.add(new Button("Pause", this, "mainpanelPause.png", 220, 120));
-		component.add(new Button("Main Menu", this, "mainpanelMainMenu.png", 220, 120));
-		component.add(new Button("", this, "mainpanelTransparent.png", 220, 120));
+		component.add(new Button("Hint", this, "mainpanelHint.png", 210, 120));
+		component.add(new Button("Pause", this, "mainpanelPause.png", 210, 120));
+		component.add(new Button("Main Menu", this, "mainpanelMainMenu.png", 210, 120));
+		component.add(new Button("", this, "mainpanelTransparent.png", 210, 120));
 
 		// shows timer
 		timerPanel = new TimerPanel() {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				Image oldImg = new ImageIcon("timelabelbackground.png").getImage();
-				Image newNewgame = oldImg.getScaledInstance(220, 120, java.awt.Image.SCALE_SMOOTH);
+				Image newNewgame = oldImg.getScaledInstance(210, 120, java.awt.Image.SCALE_SMOOTH);
 				while ((g.drawImage(newNewgame, 0, 0, null)) != true)
 					;
 			}
@@ -681,7 +681,7 @@ public class MainPanel extends JPanel {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				Image oldImg = new ImageIcon("coinlabelbackground.png").getImage();
-				Image newNewgame = oldImg.getScaledInstance(220, 120, java.awt.Image.SCALE_SMOOTH);
+				Image newNewgame = oldImg.getScaledInstance(210, 120, java.awt.Image.SCALE_SMOOTH);
 				while ((g.drawImage(newNewgame, 0, 0, null)) != true)
 					;
 			}
@@ -997,7 +997,7 @@ public class MainPanel extends JPanel {
 			super(text);
 			
 			//set standard button properties
-			setFont(new Font("Arial", Font.BOLD, 15));
+//			setFont(new Font("Arial", Font.BOLD, 15));
 			Dimension d = new Dimension(width, height);
 			setSize(d);
 			setOpaque(false);
