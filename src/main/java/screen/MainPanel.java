@@ -581,8 +581,8 @@ public class MainPanel extends JPanel {
 		
 		//parses time string to split seconds, minutes and hours as integers
 		String[] timeSplit = resultTime.split(":");
-		int minutes = Integer.parseInt(timeSplit[1]);
-		int seconds = Integer.parseInt(timeSplit[2]);
+		int minutes = Integer.parseInt(timeSplit[0]);
+		int seconds = Integer.parseInt(timeSplit[1]);
 		
 		//parses coin string to get the number of coins as an integer
 		int coinsInt = Integer.parseInt(resultCoin);
