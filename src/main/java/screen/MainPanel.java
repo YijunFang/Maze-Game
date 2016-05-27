@@ -669,6 +669,7 @@ public class MainPanel extends JPanel {
 		ScorePanel.setOpaque(false);
 		ScorePanel.setLayout(new GridLayout(1, 2));
 
+		/*
 		//Creates labels for the number of coins and time, sets font and adds to the grid
 		JLabel showCoin = new JLabel(resultScore, JLabel.CENTER);
 		showCoin.setFont(new Font("Courier New", Font.BOLD, 25));
@@ -676,6 +677,7 @@ public class MainPanel extends JPanel {
 		JLabel showTime = new JLabel(resultTime, JLabel.CENTER);
 		showTime.setFont(new Font("Courier New", Font.BOLD, 25));
 		ScorePanel.add(showTime);
+		*/
 		
 		//sets layout of the End Game panel to the Group Layout and adds the respective layouts
 		GroupLayout gl_endScreen = new GroupLayout(endScreen);
@@ -1052,6 +1054,7 @@ public class MainPanel extends JPanel {
 						if (noticBox == null || noticBox.getComponentCount() == 0) {
 							startNewGame(Difficulty.EASY);
 							difficulty = 1;
+							checkState();
 							debug();
 						}
 					}
@@ -1065,6 +1068,7 @@ public class MainPanel extends JPanel {
 						if (noticBox == null || noticBox.getComponentCount() == 0) {
 							startNewGame(Difficulty.MEDIUM);
 							difficulty = 2;
+							checkState();
 							debug();
 						}
 					}
@@ -1077,6 +1081,7 @@ public class MainPanel extends JPanel {
 						if (noticBox == null || noticBox.getComponentCount() == 0) {
 							startNewGame(Difficulty.HARD);
 							difficulty = 3;
+							checkState();
 							debug();
 						}
 					}
@@ -1201,7 +1206,7 @@ public class MainPanel extends JPanel {
 
 						closeNoticeBox();
 						saveFlag = true;
-						 kfm.removeKeyEventDispatcher(ked);
+						kfm.removeKeyEventDispatcher(ked);
 						gameRunning = false;
 						cardLayout.show(parentPanel, "mainMenu");
 						debug();
@@ -1251,6 +1256,7 @@ public class MainPanel extends JPanel {
 						if (noticBox == null || noticBox.getComponentCount() == 0) {
 							if (currGame.getNumCoins() > 0) {
 								currGame.hintCoinActivated();
+								checkState();
 							}
 						}
 					}
