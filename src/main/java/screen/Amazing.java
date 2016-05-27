@@ -15,6 +15,9 @@ public class Amazing extends JFrame {
 
 	private MainPanel parentPanel;
 
+	/**
+	 * Constructor
+	 */
 	public Amazing() {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -22,7 +25,7 @@ public class Amazing extends JFrame {
 			e.printStackTrace();
 		}
 
-		//setTitle("Mazecraft");
+		setTitle("Mazecraft");
 
 		// setupBorder(this);
 
@@ -55,6 +58,10 @@ public class Amazing extends JFrame {
 
 	}
 
+	/**
+	 * Sets up border for container
+	 * @param container
+	 */
 	private void setupBorder(JFrame container) {
 		JPanel contentPane = new JPanel(new BorderLayout());
 		contentPane.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));

@@ -52,7 +52,6 @@ public class MainPanel extends JPanel {
 	private CardLayout mazeLayout;
 
 	//various boolean conditions used by GUI
-	private boolean checkGameWon = false;
 	private boolean gameRunning = false;
 	private boolean saveFlag = false;
 
@@ -60,10 +59,8 @@ public class MainPanel extends JPanel {
 	private JFrame noticBox;
 	private TimerPanel timerPanel;
 	private JPanel coinPanel;
-	private int coinNumber;
 	private int difficulty;
 
-	private boolean globalPaint = false;
 	// LOAD IMAGE
 
 	/**
@@ -147,7 +144,6 @@ public class MainPanel extends JPanel {
 		if (currGame.isGameWon() == true) {
 //			System.out.println("enter here?");
 			//sets GameWon boolean to be true
-			checkGameWon = true;
 			//retrieves the total time taken to finish the maze
 			String resultTime = timerPanel.totalTime();
 			//resets the timer
@@ -253,7 +249,7 @@ public class MainPanel extends JPanel {
 		titlePanel.setOpaque(false);
 
 //		JLabel title = new JLabel("Select Level", JLabel.CENTER);
-//		title.setFont(new Font("Courier New", Font.BOLD, 50));
+//		title.setFont(new Font("Arial", Font.BOLD, 50));
 //		title.setSize(new Dimension(150, 60));
 
 		//creates the buttons on the Main Menu screen and adds to a Grid Layout Panel called component
@@ -304,7 +300,7 @@ public class MainPanel extends JPanel {
 //		titlePanel.setOpaque(false);
 //
 //		JLabel title = new JLabel("Select Level", JLabel.CENTER);
-//		title.setFont(new Font("Courier New", Font.BOLD, 50));
+//		title.setFont(new Font("Arial", Font.BOLD, 50));
 //		title.setSize(new Dimension(150, 60));
 //
 //		JPanel component = new JPanel();
@@ -417,11 +413,11 @@ public class MainPanel extends JPanel {
 	
 	/**
 	 * Sets JLabel text properties to standard font and color properties
-	 * @param text
+	 * @param text the help text on the help screen
 	 * @return help text JLabel
 	 */
 	private JLabel helpTextProperties (JLabel text) {
-		text.setFont(new Font("Courier New", Font.BOLD, 18));
+		text.setFont(new Font("Arial", Font.BOLD, 18));
 		text.setForeground(Color.white);
 		
 		return text;
@@ -519,7 +515,7 @@ public class MainPanel extends JPanel {
 		titlePanel.setOpaque(false);
 
 //		JLabel title = new JLabel("YOU WIN", JLabel.CENTER);
-//		title.setFont(new Font("Courier New", Font.BOLD, 30));
+//		title.setFont(new Font("Arial", Font.BOLD, 30));
 //		title.setSize(new Dimension(150, 60));
 
 		//creates new Grid Layout panel for the buttons on the end screen and sets transparency properties
@@ -540,8 +536,8 @@ public class MainPanel extends JPanel {
 		GridBagConstraints endScreenConstraints = new GridBagConstraints();
 
 		//creates a new Label for the number of coins and places in the first cell, first row
-		JLabel showCoin = new JLabel("COINS: " + resultCoin, JLabel.CENTER);
-		showCoin.setFont(new Font("Courier New", Font.BOLD, 25));
+		JLabel showCoin = new JLabel("Eyes of Ender: " + resultCoin, JLabel.CENTER);
+		showCoin.setFont(new Font("Arial", Font.BOLD, 25));
 		endScreenConstraints.weightx = 0.5;
 		endScreenConstraints.fill = GridBagConstraints.HORIZONTAL;
 		endScreenConstraints.gridx = 0;
@@ -549,8 +545,24 @@ public class MainPanel extends JPanel {
 		ScorePanel.add(showCoin, endScreenConstraints);
 		
 		//creates a new label for the time and places in the second cell, first row
+//		Image eyeold = new ImageIcon("ender_eye.png").getImage();
+//		Image newNewgame = eyeold.getScaledInstance(50, 50,java.awt.Image.SCALE_SMOOTH);
+//		
+//		JPanel imgEye = new JPanel(){
+//			public void paintComponent(Graphics g) {
+//				super.paintComponent(g);
+//				g.drawImage(newNewgame, 0, 0, null);
+//			}
+//		};
+		
 		JLabel showTime = new JLabel(resultTime, JLabel.CENTER);
-		showTime.setFont(new Font("Courier New", Font.BOLD, 25));
+		
+//		JPanel cointhing =  new JPanel();
+//		cointhing.setOpaque(false);
+//		cointhing.add(imgEye, JPanel.LEFT_ALIGNMENT);
+//		cointhing.add(showTime, JPanel.RIGHT_ALIGNMENT);
+		
+		showTime.setFont(new Font("Arial", Font.BOLD, 25));
 		endScreenConstraints.weightx = 0.5;
 		endScreenConstraints.fill = GridBagConstraints.HORIZONTAL;
 		endScreenConstraints.gridx = 1;
@@ -579,7 +591,7 @@ public class MainPanel extends JPanel {
 		
 		//creates new label for the score and places in the second row
 		JLabel showScore = new JLabel(("Your Score is:" + scoreCalc + "!"), JLabel.CENTER);
-		showScore.setFont(new Font("Courier New", Font.BOLD, 32));
+		showScore.setFont(new Font("Arial", Font.BOLD, 32));
 		endScreenConstraints.weightx = 0.5;
 		endScreenConstraints.fill = GridBagConstraints.HORIZONTAL;
 		endScreenConstraints.gridwidth = 2;
@@ -656,7 +668,7 @@ public class MainPanel extends JPanel {
 		titlePanel.setOpaque(false);
 
 //		JLabel title = new JLabel("YOU LOSE", JLabel.CENTER);
-//		title.setFont(new Font("Courier New", Font.BOLD, 30));
+//		title.setFont(new Font("Arial", Font.BOLD, 30));
 //		title.setSize(new Dimension(150, 60));
 
 		//creates new Grid Layout panel for the buttons on the end screen and sets transparency properties
@@ -676,10 +688,10 @@ public class MainPanel extends JPanel {
 		/*
 		//Creates labels for the number of coins and time, sets font and adds to the grid
 		JLabel showCoin = new JLabel(resultScore, JLabel.CENTER);
-		showCoin.setFont(new Font("Courier New", Font.BOLD, 25));
+		showCoin.setFont(new Font("Arial", Font.BOLD, 25));
 		ScorePanel.add(showCoin);
 		JLabel showTime = new JLabel(resultTime, JLabel.CENTER);
-		showTime.setFont(new Font("Courier New", Font.BOLD, 25));
+		showTime.setFont(new Font("Arial", Font.BOLD, 25));
 		ScorePanel.add(showTime);
 		*/
 		
@@ -714,8 +726,11 @@ public class MainPanel extends JPanel {
 	 * @return Maze Game Panel
 	 */
 	private JPanel createMazeScreen() {
+<<<<<<< HEAD
 		//initialises number of coins to 0
 		coinNumber = 0;
+=======
+>>>>>>> 33ede6d7e74fe25894bbcab507bd5e53da3b02d8
 
 		//creates new maze panel and paint background with graphic
 		JPanel mazePanel = new JPanel() {
@@ -749,7 +764,7 @@ public class MainPanel extends JPanel {
 		timerPanel = new TimerPanel() {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				Image oldImg = new ImageIcon("mainpanelBlank.png").getImage();
+				Image oldImg = new ImageIcon("timelabelbackground.png").getImage();
 				Image newNewgame = oldImg.getScaledInstance(220, 120, java.awt.Image.SCALE_SMOOTH);
 				while ((g.drawImage(newNewgame, 0, 0, null)) != true)
 					;
@@ -761,7 +776,7 @@ public class MainPanel extends JPanel {
 		coinPanel = new coinPanel() {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				Image oldImg = new ImageIcon("mainpanelBlank.png").getImage();
+				Image oldImg = new ImageIcon("coinlabelbackground.png").getImage();
 				Image newNewgame = oldImg.getScaledInstance(220, 120, java.awt.Image.SCALE_SMOOTH);
 				while ((g.drawImage(newNewgame, 0, 0, null)) != true)
 					;
@@ -827,7 +842,6 @@ public class MainPanel extends JPanel {
 		currGame = new Game();
 
 		ked = formKeyEventDispatcher();
-		checkGameWon = false;
 		// currGame.setKeyDetect(ked);
 
 		kfm.addKeyEventDispatcher(ked);
@@ -957,7 +971,7 @@ public class MainPanel extends JPanel {
 		notice.setVisible(true);
 
 		JLabel title = new JLabel("<html><p>Are you sure? This will delete your saved game</p></html>", JLabel.CENTER);
-		title.setFont(new Font("Courier New", Font.BOLD, 15));
+		title.setFont(new Font("Arial", Font.BOLD, 25));
 		title.setBorder(new EmptyBorder(10, 10, 10, 10));
 		//notice.getContentPane().add(title);
 		gameDialog.add(title);
@@ -995,7 +1009,7 @@ public class MainPanel extends JPanel {
 		notice.setVisible(true);
 
 		JLabel title = new JLabel("Save Game?", JLabel.CENTER);
-		title.setFont(new Font("Courier New", Font.BOLD, 15));
+		title.setFont(new Font("Arial", Font.BOLD, 25));
 		title.setBorder(new EmptyBorder(10, 10, 10, 10));
 		notice.getContentPane().add(title);
 
@@ -1049,9 +1063,14 @@ public class MainPanel extends JPanel {
 
 		JLabel title = new JLabel("Give Up Game?", JLabel.CENTER);
 		title.setBorder(new EmptyBorder(10, 10, 10, 10));
+<<<<<<< HEAD
 		title.setFont(new Font("Courier New", Font.BOLD, 15));
 		//notice.getContentPane().add(title);
 		gameDialog.add(title);
+=======
+		title.setFont(new Font("Arial", Font.BOLD, 15));
+		notice.getContentPane().add(title);
+>>>>>>> 33ede6d7e74fe25894bbcab507bd5e53da3b02d8
 
 		JPanel component = new JPanel();
 		component.setOpaque(false);
@@ -1066,7 +1085,7 @@ public class MainPanel extends JPanel {
 
 	}
 
-	private void debug() {
+	private void debug() {/*
 		String info = "--------------------\n";
 		info += "gameRunning = " + gameRunning + "\n";
 		info += "saveFlag = " + saveFlag + "\n";
@@ -1076,6 +1095,7 @@ public class MainPanel extends JPanel {
 		}
 
 //		System.out.println(info);
+ **/
 
 	}
 
@@ -1089,7 +1109,7 @@ public class MainPanel extends JPanel {
 
 			super(text);
 			 
-			setFont(new Font("Courier New", Font.BOLD, 15));
+			setFont(new Font("Arial", Font.BOLD, 15));
 			Dimension d = new Dimension(width, height);
 			setSize(d);
 			setOpaque(false);
@@ -1103,7 +1123,6 @@ public class MainPanel extends JPanel {
 			} else {
 				try {
 					oldImage = getImage(imgName);
-					globalPaint = true;
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
