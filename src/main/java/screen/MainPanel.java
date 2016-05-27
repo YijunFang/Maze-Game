@@ -863,8 +863,9 @@ public class MainPanel extends JPanel {
 		
 		if(currGame == null){
 			currGame = new Game();
+			long time = currGame.load();
 			
-			if(currGame.load() != -1){
+			if(time != -1){
 				
 				ked = formKeyEventDispatcher();
 				checkGameWon = false;
@@ -879,7 +880,7 @@ public class MainPanel extends JPanel {
 
 				cardLayout.show(this, "mazeScreen");
 				
-				timerPanel.setStartTime(currGame.load());
+				timerPanel.setStartTime(time);
 				
 				timerPanel.startTimer();
 				
