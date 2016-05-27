@@ -571,7 +571,6 @@ public class MainPanel extends JPanel {
 		
 		//parses time string to split seconds, minutes and hours as integers
 		String[] timeSplit = resultTime.split(":");
-		int hours = Integer.parseInt(timeSplit[0]);
 		int minutes = Integer.parseInt(timeSplit[1]);
 		int seconds = Integer.parseInt(timeSplit[2]);
 		
@@ -579,7 +578,7 @@ public class MainPanel extends JPanel {
 		int coinsInt = Integer.parseInt(resultCoin);
 		
 		//converts the time into the number of seconds taken to complete game
-		int timeInt = (hours*60*60) + (minutes*60) + (seconds);
+		int timeInt = (minutes*60) + (seconds);
 		//long scoreCalc = Math.round(((Math.exp(-timeInt))+coinsInt)*10)*10;
 		
 		//determines base score for different difficulties
