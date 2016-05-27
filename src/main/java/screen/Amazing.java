@@ -22,7 +22,7 @@ public class Amazing extends JFrame {
 			e.printStackTrace();
 		}
 
-		setTitle("Mazecraft");
+		//setTitle("Mazecraft");
 
 		// setupBorder(this);
 
