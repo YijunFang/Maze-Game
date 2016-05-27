@@ -669,6 +669,7 @@ public class MainPanel extends JPanel {
 		ScorePanel.setOpaque(false);
 		ScorePanel.setLayout(new GridLayout(1, 2));
 
+		/*
 		//Creates labels for the number of coins and time, sets font and adds to the grid
 		JLabel showCoin = new JLabel(resultScore, JLabel.CENTER);
 		showCoin.setFont(new Font("Courier New", Font.BOLD, 25));
@@ -676,6 +677,7 @@ public class MainPanel extends JPanel {
 		JLabel showTime = new JLabel(resultTime, JLabel.CENTER);
 		showTime.setFont(new Font("Courier New", Font.BOLD, 25));
 		ScorePanel.add(showTime);
+		*/
 		
 		//sets layout of the End Game panel to the Group Layout and adds the respective layouts
 		GroupLayout gl_endScreen = new GroupLayout(endScreen);
