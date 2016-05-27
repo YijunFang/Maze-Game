@@ -12,10 +12,13 @@ import java.awt.event.KeyEvent;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -183,31 +186,50 @@ public class Game extends JPanel {
         hintPathList = null;
     }
     
-    public void save() {
+    /**
+     * save method stores the game into two files, one for the game state itself and one for storing the time elapsed
+     * @param time The time elapsed since the start of the game.
+     */
+    public void save(int time) {
         try {
-            FileOutputStream out = new FileOutputStream("savegame");
-            GameState.save(gs, out);
-        } catch (FileNotFoundException e) {
+            FileOutputStream gameout = new FileOutputStream("savegame"); //save the game
+            GameState.save(gs, gameout);
+            FileWriter timeout = new FileWriter("savegametime");
+            timeout.write(Integer.toString(time));
+            timeout.close();
+        } catch (IOException e) {
             System.out.println("Unable to save the game.");
             e.printStackTrace();
         }
     }
     
-    public boolean load() {
+    /**
+     * load method loads the game from an existing game state stored in a file
+     * @return The game state's time elapsed since start if load was successful, and -1 otherwise.
+     */
+    public int load() {
         GameState loadedGameState = null;
+        int time = -1;
         try {
-            FileInputStream in = new FileInputStream("savegame");
-            loadedGameState = GameState.load(in);
-        } catch (FileNotFoundException e) {
+            FileInputStream gamein = new FileInputStream("savegame");
+            loadedGameState = GameState.load(gamein);
+            
+            FileReader timein = new FileReader("savegametime");
+            BufferedReader brTime = new BufferedReader(timein);
+            String timeString = brTime.readLine();
+            brTime.close();
+            time = Integer.parseInt(timeString);
+            
+        } catch (IOException e) {
             System.out.println("No save game exists.");
-            return false;
+            return -1;
         }
         
-        if (loadedGameState != null) {
+        if (loadedGameState != null && time >= 0) {
             start(loadedGameState);
-            return true;
+            return time;
         } else {
-            return false;
+            return -1;
         }
     }
     
