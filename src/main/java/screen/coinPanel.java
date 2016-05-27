@@ -1,5 +1,6 @@
 package screen;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 
@@ -33,7 +34,8 @@ public class coinPanel extends JPanel {
 	 * Sets up the label of the coin panel
 	 */
 	private void setupLabel() {
-		label.setFont(new Font("Arial", Font.BOLD, 15));
+		label.setFont(new Font("Arial", Font.BOLD, 30));
+		label.setForeground(Color.WHITE);
 		this.setLayout(new GridLayout(1, 1));
 		this.add(label);
 	}

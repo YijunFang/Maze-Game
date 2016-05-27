@@ -134,7 +134,8 @@ public class TimerPanel extends JPanel {
 	 * Sets up the format for the timer
 	 */
 	private void setupLabel() {
-		label.setFont(new Font("Arial", Font.BOLD, 15));
+		label.setFont(new Font("Arial", Font.BOLD, 30));
+		label.setForeground(Color.WHITE);
 		this.setLayout(new GridLayout(1, 1));
 		this.add(label);
 	}

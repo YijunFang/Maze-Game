@@ -81,22 +81,22 @@ public class MainPanel extends JPanel {
 		createMainMenu();
 		add(mainMenu, "mainMenu");
 		cardLayout.show(this, "mainMenu");
-//		System.out.println("+");
+		System.out.println("+");
 
 		//creates the New Game Screen and adds the screen to the Card Layout
 		createNewGame();
 		add("newGame", newGame);
-//		System.out.println("+");
+		System.out.println("+");
 
 		//creates the Game Screen and adds the screen to the Card Layout
 		mazeScreen = createMazeScreen();
 		add("mazeScreen", mazeScreen);
-//		System.out.println("+");
+		System.out.println("+");
 
 		//creates the Pause Screen and adds the screen to the Card Layout
 		createPauseScreen();
 		add("pauseScreen", pauseScreen);
-//		System.out.println("+");
+		System.out.println("+");
 
 	}
 
@@ -492,7 +492,7 @@ public class MainPanel extends JPanel {
 		saveFlag = false;
 		gameRunning = false;
 		
-		System.out.println(difficulty);
+//		System.out.println(difficulty);
 		
 		//creates new panel for the End Screen and sets transparency, padding and size properties
 		JPanel endScreen = new JPanel();
@@ -736,17 +736,18 @@ public class MainPanel extends JPanel {
 		component.setLayout(new GridLayout(6, 1, 10, 10));
 		component.setSize(new Dimension(200, 800));
 		// component.add(new Button("Help", this,null, 595, 75));
-		component.add(new Button("Save", this, null, 200, 120));
-		component.add(new Button("Hint", this, null, 200, 120));
-		component.add(new Button("Pause", this, null, 200, 120));
-		component.add(new Button("Main Menu", this, null, 200, 120));
+		
+		component.add(new Button("Hint", this, "mainpanelHint.png", 220, 120));
+		component.add(new Button("Pause", this, "mainpanelPause.png", 220, 120));
+		component.add(new Button("Main Menu", this, "mainpanelMainMenu.png", 220, 120));
+		component.add(new Button("", this, "mainpanelTransparent.png", 220, 120));
 
 		// timer here!!
 		timerPanel = new TimerPanel() {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				Image oldImg = new ImageIcon("labelbackground.png").getImage();
-				Image newNewgame = oldImg.getScaledInstance(300, 120, java.awt.Image.SCALE_SMOOTH);
+				Image oldImg = new ImageIcon("mainpanelBlank.png").getImage();
+				Image newNewgame = oldImg.getScaledInstance(220, 120, java.awt.Image.SCALE_SMOOTH);
 				while ((g.drawImage(newNewgame, 0, 0, null)) != true)
 					;
 			}
@@ -757,8 +758,8 @@ public class MainPanel extends JPanel {
 		coinPanel = new coinPanel() {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				Image oldImg = new ImageIcon("labelbackground.png").getImage();
-				Image newNewgame = oldImg.getScaledInstance(300, 120, java.awt.Image.SCALE_SMOOTH);
+				Image oldImg = new ImageIcon("mainpanelBlank.png").getImage();
+				Image newNewgame = oldImg.getScaledInstance(220, 120, java.awt.Image.SCALE_SMOOTH);
 				while ((g.drawImage(newNewgame, 0, 0, null)) != true)
 					;
 			}
@@ -862,37 +863,6 @@ public class MainPanel extends JPanel {
 	 */
 	private void continueGame() {
 		
-		if(currGame == null){
-			currGame = new Game();
-			long time = currGame.load();
-			
-			if(time != -1){
-				
-				ked = formKeyEventDispatcher();
-				checkGameWon = false;
-
-				kfm.addKeyEventDispatcher(ked);
-
-				currGame.setOpaque(true);
-				maze.add("currGame", currGame);
-
-				saveFlag = false;
-				gameRunning = true;
-
-				cardLayout.show(this, "mazeScreen");
-				
-				timerPanel.setStartTime(time);
-				
-				timerPanel.startTimer();
-				
-			}
-			currGame = null;
-		}
-		
-
-		
-		
-		
 		if (saveFlag == false) {
 			cardLayout.show(this, "newGame");
 			return;
@@ -994,11 +964,11 @@ public class MainPanel extends JPanel {
 		component.setLayout(new GridLayout(1, 2));
 		
 		//button sizes are: 133 150 for all these dialog box
-		component.add(new Button("Save Game", this, null, notice.getWidth()/3, notice.getWidth()/2));
+		component.add(new Button("Save Game", this, "mainpanelSave.png", notice.getWidth()/3, notice.getWidth()/2));
 		component.add(new Button("Don't Save", this, null, notice.getWidth()/3, notice.getWidth()/2));
 		component.add(new Button("Resume", this, null, notice.getWidth()/3, notice.getWidth()/2));
 		
-		System.out.println(notice.getWidth()/3+" "+ notice.getHeight()/2);
+//		System.out.println(notice.getWidth()/3+" "+ notice.getHeight()/2);
 		
 		notice.getContentPane().add(component);
 		notice.getContentPane().setLayout(new GridLayout(2, 1));
@@ -1051,7 +1021,7 @@ public class MainPanel extends JPanel {
 
 		}
 
-		System.out.println(info);
+//		System.out.println(info);
 
 	}
 
@@ -1088,8 +1058,8 @@ public class MainPanel extends JPanel {
 			buttonWidth = width;
 			buttonHight = height;
 
-			if (oldImage == null)
-				System.out.println(text +" null");
+//			if (oldImage == null)
+//				System.out.println(text +" null");
 
 			if (text.equals("New Game")) {
 				
@@ -1240,10 +1210,10 @@ public class MainPanel extends JPanel {
 							// timer pause and save in buffer
 							timerPanel.pauseTimer();
 							saveFlag = true;
-							currGame.save(timerPanel.toSaveTime());
 							kfm.removeKeyEventDispatcher(ked);
-							gameRunning = false;
 							cardLayout.show(parentPanel, "mainMenu");
+//							currGame.save(timerPanel.toSaveTime());
+							gameRunning = false;
 							debug();
 						}
 					}
@@ -1259,10 +1229,10 @@ public class MainPanel extends JPanel {
 
 						closeNoticeBox();
 						saveFlag = true;
-						currGame.save(timerPanel.toSaveTime());
 						kfm.removeKeyEventDispatcher(ked);
-						gameRunning = false;
 						cardLayout.show(parentPanel, "mainMenu");
+//						currGame.save(timerPanel.toSaveTime());
+						gameRunning = false;
 						debug();
 
 					}
@@ -1299,6 +1269,7 @@ public class MainPanel extends JPanel {
 				addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
+						
 						System.exit(0);
 					}
 				});
@@ -1350,8 +1321,6 @@ public class MainPanel extends JPanel {
 					}
 				});
 
-			} else {
-				System.out.println(text + "button not implemented yet! FIX");
 			}
 
 		}
