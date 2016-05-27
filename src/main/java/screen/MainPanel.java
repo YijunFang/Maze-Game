@@ -1253,6 +1253,7 @@ public class MainPanel extends JPanel {
 						if (noticBox == null || noticBox.getComponentCount() == 0) {
 							if (currGame.getNumCoins() > 0) {
 								currGame.hintCoinActivated();
+								checkState();
 							}
 						}
 					}
