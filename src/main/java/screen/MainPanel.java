@@ -421,7 +421,7 @@ public class MainPanel extends JPanel {
 		return text;
 	}
 	
-	private JLabel helpImgProperties (String imgFile) {
+	private JLabel helpImgProperties (final String imgFile) {
 		JLabel img = new JLabel() {
 			@Override
 			public void paintComponent(Graphics g) {
