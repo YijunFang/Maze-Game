@@ -533,7 +533,7 @@ public class Game extends JPanel {
         CoordinatePair goal = gs.getGoalPosition();
         if (gs.getPlayerPosition().equals(goal)) {
             this.gameWon = true;
-            System.out.println("here");
+//            System.out.println("here");
             repaint();
         }
     }

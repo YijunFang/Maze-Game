@@ -81,22 +81,22 @@ public class MainPanel extends JPanel {
 		createMainMenu();
 		add(mainMenu, "mainMenu");
 		cardLayout.show(this, "mainMenu");
-		System.out.println("+");
+//		System.out.println("+");
 
 		//creates the New Game Screen and adds the screen to the Card Layout
 		createNewGame();
 		add("newGame", newGame);
-		System.out.println("+");
+//		System.out.println("+");
 
 		//creates the Game Screen and adds the screen to the Card Layout
 		mazeScreen = createMazeScreen();
 		add("mazeScreen", mazeScreen);
-		System.out.println("+");
+//		System.out.println("+");
 
 		//creates the Pause Screen and adds the screen to the Card Layout
 		createPauseScreen();
 		add("pauseScreen", pauseScreen);
-		System.out.println("+");
+//		System.out.println("+");
 
 	}
 
@@ -585,7 +585,7 @@ public class MainPanel extends JPanel {
 		endScreenConstraints.gridwidth = 2;
 		endScreenConstraints.gridx = 0;
 		endScreenConstraints.gridy = 1;
-		ScorePanel.add(showScore, endScreenConstraints);
+		ScorePanel.add(showScore,endScreenConstraints ); 
 		
 		//sets layout of the End Game panel to the Group Layout and adds the respective layouts
 		GroupLayout gl_endScreen = new GroupLayout(endScreen);
