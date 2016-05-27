@@ -353,6 +353,11 @@ public class MainPanel extends JPanel {
 		return text;
 	}
 	
+	/**
+	 * Sets JLabel graphics properties for the images on the help screen
+	 * @param imgFile
+	 * @return
+	 */
 	private JLabel helpImgProperties (final String imgFile) {
 		JLabel img = new JLabel() {
 			@Override
@@ -479,6 +484,7 @@ public class MainPanel extends JPanel {
 		endScreenConstraints.gridy = 0;
 		ScorePanel.add(showCoin, endScreenConstraints);
 		
+		//shows time on the end screen
 		JLabel showTime = new JLabel(resultTime, JLabel.CENTER);
 		
 		showTime.setFont(new Font("Arial", Font.BOLD, 25));
@@ -639,8 +645,6 @@ public class MainPanel extends JPanel {
 			}
 		};
 
-		// mazePanel.setBorder(new EmptyBorder(1, 2, 0, 0));
-
 		//creates new panel for the side menu and paints background with graphic
 		JPanel component = new JPanel() {
 			public void paintComponent(Graphics g) {
@@ -659,7 +663,7 @@ public class MainPanel extends JPanel {
 		component.add(new Button("Main Menu", this, "mainpanelMainMenu.png", 220, 120));
 		component.add(new Button("", this, "mainpanelTransparent.png", 220, 120));
 
-		// timer here!!
+		// shows timer
 		timerPanel = new TimerPanel() {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
@@ -672,6 +676,7 @@ public class MainPanel extends JPanel {
 		timerPanel.setOpaque(false);
 		component.add(timerPanel);
 
+		//shows eyes of enders
 		coinPanel = new coinPanel() {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
@@ -684,6 +689,7 @@ public class MainPanel extends JPanel {
 		coinPanel.setOpaque(false);
 		component.add(coinPanel);
 
+		//creates maze
 		maze = new JPanel();
 		maze.setSize(new Dimension(800, 800));
 		mazeLayout = new CardLayout();
@@ -703,6 +709,14 @@ public class MainPanel extends JPanel {
 		return mazePanel;
 	}
 
+	/**
+	 * Adds component to the mazegame screen
+	 * @param jPanel
+	 * @param comp
+	 * @param gridbag
+	 * @param c
+	 * @return
+	 */
 	private JPanel addComponent(JPanel jPanel, JComponent comp, GridBagLayout gridbag, GridBagConstraints c) {
 		gridbag.setConstraints(comp, c);
 		jPanel.add(comp);
@@ -710,6 +724,17 @@ public class MainPanel extends JPanel {
 		return jPanel;
 	}
 
+	/**
+	 * sets grid bag constraints for maze game screen
+	 * @param gridx
+	 * @param gridy
+	 * @param gridheight
+	 * @param gridwidth
+	 * @param weightx
+	 * @param weighty
+	 * @param fill
+	 * @return
+	 */
 	private GridBagConstraints setGridBagConstraints(int gridx, int gridy, int gridheight, int gridwidth,
 			double weightx, double weighty, int fill) {
 		GridBagConstraints c = new GridBagConstraints();
@@ -807,20 +832,8 @@ public class MainPanel extends JPanel {
      */
 	public JFrame askNewGame() {
 
+		//create new dialog box for confirming deletion of saved game
 		JFrame notice = new JFrame("New Game");
-		
-		JPanel gameDialog = new JPanel() {
-			@Override
-			public void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				g.drawImage(new ImageIcon("spruceplankbig.png").getImage(), -200, -50, null);
-			}
-		};
-		
-		gameDialog.setLayout(new GridLayout(2, 1));
-		gameDialog.setVisible(true);
-		gameDialog.setForeground(Color.WHITE);
-		
 		notice.setUndecorated(true);
 		notice.pack();
 		notice.setResizable(false);
@@ -829,13 +842,27 @@ public class MainPanel extends JPanel {
 		notice.setLocationRelativeTo(null);
 		notice.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		notice.setVisible(true);
+		
+		//creation of panel that will be contained by dialog box
+		JPanel gameDialog = new JPanel() {
+			@Override
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(new ImageIcon("spruceplankbig.png").getImage(), -200, -50, null);
+			}
+		};
+		gameDialog.setLayout(new GridLayout(2, 1));
+		gameDialog.setVisible(true);
+		gameDialog.setForeground(Color.WHITE);
 
+		//text prompt
 		JLabel title = new JLabel("<html><p>Are you sure? This will delete your saved game</p></html>", JLabel.CENTER);
 		title.setFont(new Font("Arial", Font.BOLD, 25));
 		title.setBorder(new EmptyBorder(10, 10, 10, 10));
 		title.setForeground(Color.white);
 		gameDialog.add(title);
 
+		//panel for buttons
 		JPanel component = new JPanel();
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(1, 2));
@@ -856,6 +883,7 @@ public class MainPanel extends JPanel {
      */
 	public JFrame askSaveGame() {
 
+		//new frame for save game dialog
 		JFrame notice = new JFrame("Game Not Saved");
 		notice.setUndecorated(true);
 		
@@ -868,6 +896,7 @@ public class MainPanel extends JPanel {
 		notice.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		notice.setVisible(true);
 		
+		//new panel for the save game dialog
 		JPanel gameDialog = new JPanel() {
 			@Override
 			public void paintComponent(Graphics g) {
@@ -880,11 +909,11 @@ public class MainPanel extends JPanel {
 		gameDialog.setVisible(true);
 		gameDialog.setForeground(Color.WHITE);
 
+		//text for save game dialog
 		JLabel title = new JLabel("Do You Want To Save Game", JLabel.CENTER);
 		title.setFont(new Font("Arial", Font.BOLD, 25));
 		title.setBorder(new EmptyBorder(10, 10, 10, 10));
 		title.setForeground(Color.WHITE);
-		//notice.getContentPane().add(title);
 		gameDialog.add(title);
 
 		JPanel component = new JPanel();
@@ -908,8 +937,8 @@ public class MainPanel extends JPanel {
      */
 	public JFrame askGiveUp() {
 
+		//new frame for give up confirmation dialog
 		JFrame notice = new JFrame("Give Up");
-		
 		notice.setUndecorated(true);
 		notice.pack();
 		notice.setResizable(false);
@@ -919,6 +948,7 @@ public class MainPanel extends JPanel {
 		notice.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		notice.setVisible(true);
 		
+		//new panel for content of frame
 		JPanel gameDialog = new JPanel() {
 			@Override
 			public void paintComponent(Graphics g) {
@@ -931,12 +961,14 @@ public class MainPanel extends JPanel {
 		gameDialog.setVisible(true);
 		gameDialog.setForeground(Color.WHITE);
 
+		//content for the panel
 		JLabel title = new JLabel("Give Up Game?", JLabel.CENTER);
 		title.setBorder(new EmptyBorder(10, 10, 10, 10));
 		title.setFont(new Font("Arial", Font.BOLD, 15));
 		title.setForeground(Color.white);
 		gameDialog.add(title);
 
+		//buttons for the panel
 		JPanel component = new JPanel();
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(1, 2));
@@ -949,6 +981,11 @@ public class MainPanel extends JPanel {
 
 	}
 
+	/**
+	 * 
+	 * Button class
+	 *
+	 */
 	public class Button extends JButton {
 
 		private Image oldImage = null;
@@ -958,7 +995,8 @@ public class MainPanel extends JPanel {
 		public Button(String text, final JPanel parentPanel, String imgName, int width, int height) {
 
 			super(text);
-			 
+			
+			//set standard button properties
 			setFont(new Font("Arial", Font.BOLD, 15));
 			Dimension d = new Dimension(width, height);
 			setSize(d);
@@ -966,9 +1004,8 @@ public class MainPanel extends JPanel {
 			setContentAreaFilled(false);
 			setBorderPainted(false);
 			
-
+			
 			if (imgName == null) {
-//				globalPaint = false;
 				oldImage = null;
 
 			} else {
@@ -982,6 +1019,7 @@ public class MainPanel extends JPanel {
 			buttonWidth = width;
 			buttonHight = height;
 
+			//different behaviours for different buttons
 			if (text.equals("New Game")) {
 				
 				addActionListener(new ActionListener() {
