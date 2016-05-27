@@ -353,7 +353,7 @@ public class MainPanel extends JPanel {
 			@Override
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(new ImageIcon("helpboxback.png").getImage(), -200, -50, null);
+				g.drawImage(new ImageIcon("spruceplankbig.png").getImage(), 0, 0, null);
 			}
 		};
 		
@@ -918,7 +918,7 @@ public class MainPanel extends JPanel {
 			@Override
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(new ImageIcon("dirt.png").getImage(), -200, -50, null);
+				g.drawImage(new ImageIcon("spruceplankbig.png").getImage(), -200, -50, null);
 			}
 		};
 		
@@ -939,6 +939,7 @@ public class MainPanel extends JPanel {
 		JLabel title = new JLabel("<html><p>Are you sure? This will delete your saved game</p></html>", JLabel.CENTER);
 		title.setFont(new Font("Arial", Font.BOLD, 25));
 		title.setBorder(new EmptyBorder(10, 10, 10, 10));
+		title.setForeground(Color.white);
 		//notice.getContentPane().add(title);
 		gameDialog.add(title);
 
@@ -1019,7 +1020,7 @@ public class MainPanel extends JPanel {
 			@Override
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.drawImage(new ImageIcon("helpboxback.png").getImage(), -200, -50, null);
+				g.drawImage(new ImageIcon("spruceplankbig.png").getImage(), -200, -50, null);
 			}
 		};
 		
@@ -1031,6 +1032,7 @@ public class MainPanel extends JPanel {
 		JLabel title = new JLabel("Give Up Game?", JLabel.CENTER);
 		title.setBorder(new EmptyBorder(10, 10, 10, 10));
 		title.setFont(new Font("Arial", Font.BOLD, 15));
+		title.setForeground(Color.white);
 		//notice.getContentPane().add(title);
 		gameDialog.add(title);
 
@@ -1078,6 +1080,7 @@ public class MainPanel extends JPanel {
 			setOpaque(false);
 			setContentAreaFilled(false);
 			setBorderPainted(false);
+			
 
 			if (imgName == null) {
 //				globalPaint = false;
