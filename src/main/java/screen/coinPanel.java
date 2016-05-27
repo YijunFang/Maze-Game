@@ -29,7 +29,7 @@ public class coinPanel extends JPanel {
 	}
 
 	public String format() {
-		return String.format( "Eyes of Ender: %d", numOfCoin);
+		return String.format( "%d", numOfCoin);
 	}
 	
 	public int getNumCoins() {
