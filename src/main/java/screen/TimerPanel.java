@@ -107,15 +107,11 @@ public class TimerPanel extends JPanel {
 		thread.stopped = true;
 		long elapsed = getCurrTime() - programStart - pauseCount;
 
-		int hour, minute, second;
+		int  second;
 
 		second = (int) (elapsed % 60);
 		elapsed = elapsed / 60;
 
-		minute = (int) (elapsed % 60);
-		elapsed = elapsed / 60;
-
-		hour = (int) (elapsed % 60);
 		return second;
 
 	}
@@ -173,12 +169,12 @@ public class TimerPanel extends JPanel {
 	}
 
 	/**
-	 * Converts time in seconds to 00:00:00
+	 * Converts time in seconds to 00:00
 	 * @param elapsed current time elapsed in seconds
-	 * @return time in format 00:00:00
+	 * @return time in format 00:00
 	 */
 	public String format(long elapsed) {
-		int hour, minute, second;
+		int  minute, second;
 
 		second = (int) (elapsed % 60);
 		elapsed = elapsed / 60;
@@ -186,8 +182,7 @@ public class TimerPanel extends JPanel {
 		minute = (int) (elapsed % 60);
 		elapsed = elapsed / 60;
 
-		hour = (int) (elapsed % 60);
-		return String.format("%02d:%02d:%02d", hour, minute, second);
+		return String.format("  %02d:%02d", minute, second);
 
 	}
 }
