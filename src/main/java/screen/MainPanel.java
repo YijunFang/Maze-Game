@@ -875,35 +875,7 @@ public class MainPanel extends JPanel {
 	 */
 	private void continueGame() {
 		
-
-		if(currGame == null){
-			currGame = new Game();
-			long time = currGame.load();
-			
-			if(time != -1){
-				
-				ked = formKeyEventDispatcher();
-
-				kfm.addKeyEventDispatcher(ked);
-
-				currGame.setOpaque(true);
-				maze.add("currGame", currGame);
-
-				saveFlag = false;
-				gameRunning = true;
-
-				cardLayout.show(this, "mazeScreen");
-				
-				timerPanel.setStartTime(time);
-				
-				timerPanel.startTimer();
-				
-			}
-			currGame = null;
-		}
-		
 		if (saveFlag == false) {
-			cardLayout.show(this, "newGame");
 			return;
 		}
 		if (maze.getComponentCount() != 0) {
@@ -974,8 +946,8 @@ public class MainPanel extends JPanel {
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(1, 2));
 
-		component.add(new Button("Sure", this, "dialogueSure.png",  notice.getWidth()/3, notice.getHeight()/2));
-		component.add(new Button("Continue Saved Game", this, null,  notice.getWidth()/3, notice.getHeight()/2));
+		component.add(new Button("Sure", this, "dialogueYes.png",  notice.getWidth()/2, notice.getHeight()/2));
+		component.add(new Button("NO", this, "dialogueNo.png",  notice.getWidth()/2, notice.getHeight()/2));
 
 		gameDialog.add(component);
 //		notice.getContentPane().add(component);
@@ -1004,7 +976,7 @@ public class MainPanel extends JPanel {
 		notice.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		notice.setVisible(true);
 
-		JLabel title = new JLabel("Save Game?", JLabel.CENTER);
+		JLabel title = new JLabel("Do You Want To Save Game", JLabel.CENTER);
 		title.setFont(new Font("Arial", Font.BOLD, 25));
 		title.setBorder(new EmptyBorder(10, 10, 10, 10));
 		notice.getContentPane().add(title);
@@ -1014,8 +986,8 @@ public class MainPanel extends JPanel {
 		component.setLayout(new GridLayout(1, 2));
 		
 		//button sizes are: 200 150 for all these dialog box
-		component.add(new Button("Save Game", this, null, notice.getWidth()/2 , notice.getHeight()/2 ));
-		component.add(new Button("Don't Save", this, null, notice.getWidth()/2, notice.getHeight()/2));
+		component.add(new Button("Save Game", this, "dialogueYes.png", notice.getWidth()/2 , notice.getHeight()/2 ));
+		component.add(new Button("Don't Save", this, "dialogueNo.png", notice.getWidth()/2, notice.getHeight()/2));
 //		component.add(new Button("Resume", this, null, notice.getWidth()/2, notice.getHeight()/2));
 		
 		
@@ -1052,7 +1024,7 @@ public class MainPanel extends JPanel {
 		};
 		
 		gameDialog.setLayout(new GridLayout(2, 1));
-		gameDialog.setBorder(new EmptyBorder(50, 50, 50, 50));
+//		gameDialog.setBorder(new EmptyBorder(50, 50, 50, 50));
 		gameDialog.setVisible(true);
 		gameDialog.setForeground(Color.WHITE);
 
@@ -1066,8 +1038,8 @@ public class MainPanel extends JPanel {
 		component.setOpaque(false);
 		component.setLayout(new GridLayout(1, 2));
 
-		component.add(new Button("Yes", this, null,  notice.getWidth()/2, notice.getHeight()/2));
-		component.add(new Button("Resume", this, null, notice.getWidth()/2, notice.getHeight()/2));
+		component.add(new Button("Yes", this, "dialogueYes.png",  notice.getWidth()/2, notice.getHeight()/2));
+		component.add(new Button("Resume", this, "dialogueNo.png", notice.getWidth()/2, notice.getHeight()/2));
 		gameDialog.add(component);
 //		notice.getContentPane().add(component);
 //		notice.getContentPane().setLayout(new GridLayout(2, 1));
@@ -1382,6 +1354,14 @@ public class MainPanel extends JPanel {
 					public void actionPerformed(ActionEvent e) {
 						closeNoticeBox();
 						// System.out.println(parentPanel.getComponentZOrder(newGame));
+					}
+				});
+
+			}else if (text.equals("NO")) {
+				addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						closeNoticeBox();
 					}
 				});
 
