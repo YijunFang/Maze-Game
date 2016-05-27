@@ -13,6 +13,9 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -52,7 +55,7 @@ public class Game extends JPanel {
     private double playerLocationY;
     private int moveAmount = 1;
     private int renderShift = 0; //shift rendering by a certain amount of pixels to prevent clipping
-    Timer hintTimer = null;
+    Timer hintTimer = null; //timer for rendering the hint path
     
     //game state
     private GameState gs;
@@ -111,19 +114,34 @@ public class Game extends JPanel {
     }
     
     /**
-     * Sets the side length of the maze depending on diff.
-     * Initialises rendering information (maze size, player size, centre shift).
-     * Initialises the maze representation (maze, hint coins list).
-     * Repaints the maze using the new representation and initialization.
+     * Starts the maze game with a new game state. Used to start
+     * a completely new game.
      * @param diff the requested level of difficulty
      */
-    public void start(Difficulty diff) {
-        setSize(frameSize, frameSize);
+    public void start (Difficulty diff) {
         gs = new GameState(diff);
-        
-        //Get maze length
         mazeLength = diff.getSideLength();
-        
+        initialiseStart();
+    }
+    
+    /**
+     * Starts the maze game with an existing loaded game state.
+     * Used to start a pre-existing game (such as one loaded from
+     * a save file).
+     * @param loadedGameState The game state to load into the game.
+     */
+    private void start (GameState loadedGameState) {
+        gs = loadedGameState;
+        mazeLength = gs.getDifficultyLevel().getSideLength();
+        initialiseStart();
+    }
+    
+    /**
+     * Initialises and sets up the game
+     */
+    private void initialiseStart() {
+        setSize(frameSize, frameSize);
+
         //Initialise rendering information
         squareLength = frameSize/mazeLength * 0.95;
         playerSize = squareLength * 0.6;
@@ -151,6 +169,7 @@ public class Game extends JPanel {
     }
     /**
      * Stop resets the data in the Game object to ensure that none of it gets reused in the next iteration of the game
+     * Game should NOT be run unless start() method is called again.
      */
     public void stop() {
         mazeImage = null;
@@ -162,6 +181,34 @@ public class Game extends JPanel {
         displayHint = false;
         hintCoinList = null;
         hintPathList = null;
+    }
+    
+    public void save() {
+        try {
+            FileOutputStream out = new FileOutputStream("savegame");
+            GameState.save(gs, out);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to save the game.");
+            e.printStackTrace();
+        }
+    }
+    
+    public boolean load() {
+        GameState loadedGameState = null;
+        try {
+            FileInputStream in = new FileInputStream("savegame");
+            loadedGameState = GameState.load(in);
+        } catch (FileNotFoundException e) {
+            System.out.println("No save game exists.");
+            return false;
+        }
+        
+        if (loadedGameState != null) {
+            start(loadedGameState);
+            return true;
+        } else {
+            return false;
+        }
     }
     
     /**
