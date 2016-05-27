@@ -186,6 +186,11 @@ public class GameState {
         return copy;
     }
 
+    /**
+     * Writes a GameState to an output stream.
+     * @param gs the GameState to save
+     * @param ofs the output stream to use
+     */
     public static void save(GameState gs, FileOutputStream ofs) {
         try {
             ObjectOutputStream oofs = new ObjectOutputStream(ofs);
@@ -197,6 +202,11 @@ public class GameState {
         }
     }
 
+    /**
+     * Reads a GameState from an input stream
+     * @param ifs the input stream to use
+     * @return the GameState object read from the input stream
+     */
     public static GameState load(FileInputStream ifs) {
         try {
             ObjectInputStream oifs = new ObjectInputStream(ifs);
