@@ -40,3 +40,6 @@ local.properties
 # Javadocs
 /doc/javadoc/*
 !/doc/javadoc/README.md
+
+# Submission
+submit/
