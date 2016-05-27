@@ -353,12 +353,13 @@ public class MainPanel extends JPanel {
 		help.setVisible(true);
 
 		//creates a new Panel for the content of the screen
-		JPanel mainTextArea = new JPanel(); //{
-//			public void paintComponent(Graphics g) {
-//				super.paintComponent(g);
-//				g.drawImage(new ImageIcon("background.png").getImage(), -200, -50, null);
-//			}
-//		};
+		JPanel mainTextArea = new JPanel() {
+			@Override
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(new ImageIcon("helpboxback.png").getImage(), -200, -50, null);
+			}
+		};
 		
 		
 		//sets layout of content Panel to Box Layout and sets color and padding properties
@@ -376,6 +377,9 @@ public class MainPanel extends JPanel {
 		//adds first set of instructions and accompanying image, sets properties to standard help text properties and adds to Grid panel
 		JLabel introText = new JLabel("<html><p>You're a zombie and it has been a week since you have had some delicious villager brain</p></html>");
 		grid.add(helpTextProperties(introText));
+		
+		
+		
 		ImageIcon zombie = new ImageIcon(getClass().getResource("zombiebrain.png"));
 		grid.add(new JLabel(zombie));
 		
@@ -613,11 +617,11 @@ public class MainPanel extends JPanel {
 	 */
 	private int determineDifficulty() {
 		if (difficulty == 1) {
-			return 500;
+			return 60;
 		} else if (difficulty == 2) {
-			return 1000;
+			return 3600;
 		} else {
-			return 2000;
+			return 80000;
 		}
 	}
 
@@ -894,7 +898,14 @@ public class MainPanel extends JPanel {
      */
 	public JFrame askNewGame() {
 
-		JFrame notice = new JFrame("New Game");
+		JFrame notice = new JFrame("New Game")  {
+			@Override
+			public void paintComponents(Graphics g) {
+				super.paintComponents(g);
+				g.drawImage(new ImageIcon("helpboxback.png").getImage(), -200, -50, null);
+			}
+		};
+		
 		notice.setUndecorated(true);
 		notice.pack();
 		notice.setResizable(false);
@@ -970,6 +981,7 @@ public class MainPanel extends JPanel {
 	public JFrame askGiveUp() {
 
 		JFrame notice = new JFrame("Give Up");
+		
 		notice.setUndecorated(true);
 		notice.pack();
 		notice.setResizable(false);

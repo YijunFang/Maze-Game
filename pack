@@ -1,0 +1,6 @@
+#!/bin/sh
+
+mkdir -p submit
+zip -r ass3.zip *.jpg *.png doc src run compile
+mv ass3.zip submit/
+
