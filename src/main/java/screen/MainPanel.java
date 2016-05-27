@@ -360,7 +360,7 @@ public class MainPanel extends JPanel {
 		
 		//sets layout of content Panel to Box Layout and sets color and padding properties
 		mainTextArea.setLayout(new BoxLayout(mainTextArea, BoxLayout.Y_AXIS));
-		mainTextArea.setBorder(new EmptyBorder(50, 50, 50, 50));
+		//mainTextArea.setBorder(new EmptyBorder(50, 50, 50, 50));
 		mainTextArea.setVisible(true);
 		mainTextArea.setForeground(Color.WHITE);
 
@@ -951,7 +951,7 @@ public class MainPanel extends JPanel {
 		};
 		
 		gameDialog.setLayout(new GridLayout(2, 1));
-		gameDialog.setBorder(new EmptyBorder(50, 50, 50, 50));
+		//gameDialog.setBorder(new EmptyBorder(50, 50, 50, 50));
 		gameDialog.setVisible(true);
 		gameDialog.setForeground(Color.WHITE);
 		
@@ -1059,7 +1059,8 @@ public class MainPanel extends JPanel {
 		JLabel title = new JLabel("Give Up Game?", JLabel.CENTER);
 		title.setBorder(new EmptyBorder(10, 10, 10, 10));
 		title.setFont(new Font("Arial", Font.BOLD, 15));
-		notice.getContentPane().add(title);
+		//notice.getContentPane().add(title);
+		gameDialog.add(title);
 
 		JPanel component = new JPanel();
 		component.setOpaque(false);
