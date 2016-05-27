@@ -234,6 +234,24 @@ public class Game extends JPanel {
     }
     
     /**
+     * deleteSave will delete the save files if they exist
+     */
+    public void deleteSave() {
+        try {
+            File saveFile = new File ("savegame");
+            File timeFile = new File ("savegametime");
+            saveFile.delete();
+            timeFile.delete();
+        } catch (SecurityException e) {
+            System.out.println("Unable to delete save file due to insufficient permissions");
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("Unable to delete save file.");
+            e.printStackTrace();
+        }
+    }
+    
+    /**
      * Paint renders the 2D graphics onto the screen
      * @param g the canvas that the maze is being painted onto
      */
