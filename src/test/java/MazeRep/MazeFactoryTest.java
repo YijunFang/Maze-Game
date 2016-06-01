@@ -1,5 +1,6 @@
 package MazeRep;
 
+import Common.Content;
 import org.junit.Before;
 import org.junit.Test;
 

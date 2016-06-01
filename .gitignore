@@ -1,3 +1,5 @@
+.DS_STORE
+
 *.class
 
 # Mobile Tools for Java (J2ME)
@@ -38,3 +40,9 @@ local.properties
 # Javadocs
 /doc/javadoc/*
 !/doc/javadoc/README.md
+
+# Submission
+submit/
+
+# saves
+savegame

@@ -185,7 +185,7 @@ public class AdjacencyListGraph<T> implements Graph<T> {
     @Override
     public List<Node<T>> getShortestPath(Node<T> from, Node<T> to) {
         // TODO: pathfinding algorithm
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -216,6 +216,6 @@ public class AdjacencyListGraph<T> implements Graph<T> {
     @Override
     public Graph<T> clone() {
         // TODO: clone
-        return null;
+        throw new UnsupportedOperationException();
     }
 }

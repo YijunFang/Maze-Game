@@ -1,0 +1,7 @@
+#!/bin/sh
+
+mkdir -p bin/
+find src/main -type f -name "*.java" -print | xargs javac -cp bin -d bin
+cp *.jpg bin
+cp *.png bin
+

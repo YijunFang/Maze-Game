@@ -1,5 +1,7 @@
 package MazeRep;
 
+import Common.CoordinatePair;
+
 import java.util.List;
 
 /**
@@ -63,6 +65,14 @@ public interface Maze<T> {
      * @return an ordered list of {@link MazeRep.Node}s representing the shortest path if it exists, otherwise null
      */
     List<Node<T>> getShortestPath(Node<T> from, Node<T> to);
+
+    /**
+     * Returns true if the given {@link MazeRep.Node}s are adjacent to each other.
+     * @param node1 the first {@link MazeRep.Node}
+     * @param node2 the second {@link MazeRep.Node}
+     * @return true if the given {@link MazeRep.Node}s are adjacent to each other
+     */
+    boolean areAdjacent(Node<T> node1, Node<T> node2);
 
     /**
      * Returns a string representation of this Maze.

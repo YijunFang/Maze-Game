@@ -1,4 +1,4 @@
-package MazeRep;
+package Common;
 
 /**
  * Values representing the content in an individual square in the maze.
@@ -22,9 +22,9 @@ public enum Content {
     }
 
     /**
-     * Returns an integer representation of this Content value.
+     * Returns an integer representation of this Common.Content value.
      *
-     * @return an integer representation of this Content value
+     * @return an integer representation of this Common.Content value
      */
     public int toInt() {
         return this.val;
